@@ -16,6 +16,10 @@ class User(AbstractUser):
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,
         primary_key=True, editable=False)
+    sector = models.CharField(max_length = 4, choices = SECTOR,
+        default = '0-NO')
+    parent = models.ForeignKey(User, on_delete = models.SET_NULL,
+        blank = True, null = True, related_name = 'member_parent')
 
     class Meta:
         verbose_name = 'Iscritto'

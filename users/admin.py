@@ -6,4 +6,4 @@ admin.site.register(User, UserAdmin)
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('user_id', )
+    list_display = ('user_id', 'sector', 'parent', )
