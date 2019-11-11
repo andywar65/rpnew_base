@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from .choices import *
 
 class User(AbstractUser):
     def save(self, *args, **kwargs):
