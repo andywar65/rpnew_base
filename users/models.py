@@ -15,3 +15,7 @@ class User(AbstractUser):
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,
         primary_key=True, editable=False)
+
+    class Meta:
+        verbose_name = 'Iscritto'
+        verbose_name_plural = 'Iscritti'
