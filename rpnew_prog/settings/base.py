@@ -95,9 +95,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL = 'users.Utente'
+AUTH_USER_MODEL = 'users.User'
 
 GRAPPELLI_ADMIN_TITLE = 'Amministrazione RP'
-
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
