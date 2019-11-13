@@ -103,3 +103,13 @@ class Member(models.Model):
     class Meta:
         verbose_name = 'Iscritto'
         verbose_name_plural = 'Iscritti'
+
+class MemberPayment(models.Model):
+    member = models.ForeignKey(Member, on_delete = models.CASCADE,
+        blank = True, null = True,related_name='member_payments')
+    date = models.DateField( blank=True, null=True, verbose_name = 'Data')
+    amount = models.FloatField( default = 0.00, verbose_name = 'Importo')
+
+    class Meta:
+        verbose_name = 'Pagamento'
+        verbose_name_plural = 'Pagamenti'
