@@ -4,7 +4,7 @@ from .models import Member
 
 class ChangeMemberForm(ModelForm):
     parent = forms.ModelChoiceField(label="Genitore", required = False,
-        queryset = Member.objects.filter(parent = None),
+        queryset = Member.objects.filter(parent = None, user__is_active = True),
         help_text = 'Solo se minore')
     class Meta:
         model = Member

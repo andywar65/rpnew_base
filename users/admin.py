@@ -21,7 +21,7 @@ class MemberAdmin(admin.ModelAdmin):
     inlines = [ MemberPaymentInline, ]
 
     def get_queryset(self, request):
-        qs = super().get_queryset(request)
+        qs = super().get_queryset(request).filter(user__is_active = True)
         if not request.user.has_perm('users.add_user'):
             return qs.filter(Q(pk=request.user.pk) | Q(parent=request.user.pk))
         else:

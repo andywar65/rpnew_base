@@ -13,13 +13,18 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)
-        try:
-            memb = Member.objects.get(user_id = self.id)
-            return
-        except:
-            memb = Member.objects.create(user = self, )
-            memb.save()
-            return
+        if self.is_active:
+            try:
+                memb = Member.objects.get(user_id = self.id)
+                return
+            except:
+                memb = Member.objects.create(user = self, )
+                memb.save()
+                return
+        else:
+            children = Member.objects.filter(parent = self.id)
+            if children:
+                children.update(parent = None)
 
 class CourseSchedule(models.Model):
     full = models.CharField(max_length = 32, verbose_name = 'Giorno e ora',)
