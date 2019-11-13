@@ -48,6 +48,13 @@ class MemberAdmin(admin.ModelAdmin):
         else:
             return ()
 
+    def get_inline_instances(self, request, member):
+        if member.sector == '0-NO':
+            return ()
+        else:
+            inline_instances = super().get_inline_instances(request, member)
+            return inline_instances
+
     def get_fieldsets(self, request, member):
         if member.parent:
             fieldsets = (
