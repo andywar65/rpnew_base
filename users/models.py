@@ -66,14 +66,11 @@ class Member(models.Model):
     course = models.ManyToManyField('CourseSchedule',
         blank = True, verbose_name = 'Orari scelti', )
     course_alt = models.CharField(max_length = 100,
-        blank = True, null = True, verbose_name = 'Testo',
-        help_text = "Se si è selezionato 'Altro'",)
+        blank = True, null = True, verbose_name = 'Altro orario',)
     course_membership = models.CharField(max_length = 4, choices = COURSE,
-        default = 'INTF', verbose_name = 'Federazione / Ente sportivo',
-        help_text = 'Compilare se si segue un corso',)
+        default = 'INTF', verbose_name = 'Federazione / Ente sportivo',)
     no_course_membership = models.CharField(max_length = 4, choices = NO_COURSE,
-        default = 'FID', verbose_name = 'Federazione / Ente sportivo',
-        help_text = 'Compilare se NON si segue un corso',)
+        default = 'FID', verbose_name = 'Federazione / Ente sportivo',)
     sign_up = models.FileField(
         upload_to = user_directory_path,
         blank = True, null = True, verbose_name = 'Richiesta di tesseramento',

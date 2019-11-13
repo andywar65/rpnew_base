@@ -16,6 +16,17 @@ class ChangeMemberForm(ModelForm):
                 'Se è minore segue un corso!',
                 code='juvenile_follows_course',
             ))
+        try:
+            course = cd.get('course')
+            course_alt = cd.get('course_alt')
+            for sched in course:
+                if sched.full == 'Altro' and course_alt == None:
+                    self.add_error('course_alt', forms.ValidationError(
+                        'Scrivi qualcosa!',
+                        code='describe_course_alternative',
+                    ))
+        except:
+            pass
 
     class Meta:
         model = Member
