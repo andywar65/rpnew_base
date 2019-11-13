@@ -23,5 +23,6 @@ urlpatterns = [
     path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name="base.html")),
-    path('favicon.ico', RedirectView.as_view(url=settings.STATIC_ROOT + 'images/favicon.ico'))
+    path('favicon.ico',
+        RedirectView.as_view(url=settings.STATIC_ROOT + 'images/favicon.ico'))
 ]

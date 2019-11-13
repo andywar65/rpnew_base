@@ -6,6 +6,6 @@ admin.site.register(User, UserAdmin)
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('get_full_name', 'sector', 'parent', )
+    list_display = ('get_full_name', 'sector', 'parent', 'mc_state', 'settled')
     search_fields = ('user__first_name', 'user__last_name',
-        'user__username', )#'fiscal_code', 'address'
+        'user__username', 'fiscal_code', 'address')
