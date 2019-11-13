@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Q
 from django.contrib.auth.admin import UserAdmin
 from .models import User, Member, CourseSchedule, MemberPayment
 
@@ -32,6 +33,20 @@ class MemberAdmin(admin.ModelAdmin):
             'settled')}),
         )
     inlines = [ MemberPaymentInline, ]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if not request.user.has_perm('users.add_user'):
+            return qs.filter(Q(pk=request.user.pk) | Q(parent=request.user.pk))
+        else:
+            return qs
+
+    def get_readonly_fields(self, request, obj):
+        if not request.user.has_perm('users.add_user'):
+            return ('sector', 'parent', 'membership', 'mc_expiry', 'mc_state',
+                'settled')
+        else:
+            return ()
 
 @admin.register(CourseSchedule)
 class CourseScheduleAdmin(admin.ModelAdmin):
