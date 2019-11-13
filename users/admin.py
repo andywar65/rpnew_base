@@ -15,6 +15,22 @@ class MemberAdmin(admin.ModelAdmin):
     list_filter = ('mc_state', 'settled')
     search_fields = ('user__first_name', 'user__last_name',
         'user__username', 'fiscal_code', 'address')
+    fieldsets = (
+        ('', {'fields':('sector', 'parent')}),
+        ('Anagrafica', {'classes': ('grp-collapse grp-closed',),
+            'fields':('gender', 'date_of_birth', 'place_of_birth',
+            'nationality', 'fiscal_code')}),
+        ('Contatti', {'classes': ('grp-collapse grp-closed',),
+            'fields':('address', 'phone', 'email_2')}),
+        ('Corso/Tesseramento', {'classes': ('grp-collapse grp-closed',),
+            'fields':('course', 'course_alt', 'course_membership',
+            'no_course_membership')}),
+        ('Uploads', {'classes': ('grp-collapse grp-closed',),
+            'fields':('sign_up', 'privacy', 'med_cert',)}),
+        ('Amministrazione', {'classes': ('grp-collapse grp-closed',),
+            'fields':('membership', 'mc_expiry', 'mc_state',
+            'settled')}),
+        )
     inlines = [ MemberPaymentInline, ]
 
 @admin.register(CourseSchedule)
