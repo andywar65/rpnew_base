@@ -55,11 +55,20 @@ class MemberAdmin(admin.ModelAdmin):
             readonly.extend(['gender', 'date_of_birth', 'place_of_birth',
                 'nationality', 'course', 'course_alt', 'course_membership',
                 'no_course_membership', 'sign_up', 'privacy', 'med_cert',])
+            if request.user.has_perm('users.add_user'):
+                readonly.extend(['membership', 'mc_expiry',
+                    'mc_state', 'settled'])
         elif member.sector == '1-YC':
             readonly.append('no_course_membership')
         elif member.sector == '2-NC':
             readonly.extend(['course', 'course_alt', 'course_membership', ])
         return readonly
+
+    #def get_inline_instances(self, request, member):
+        #if member.sector == '0-NO':
+            #return ()
+        #else:
+            #return super().get_inline_instances(request, member)
 
 @admin.register(CourseSchedule)
 class CourseScheduleAdmin(admin.ModelAdmin):
