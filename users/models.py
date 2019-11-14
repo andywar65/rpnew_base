@@ -47,7 +47,7 @@ class Member(models.Model):
         blank = True, null = True, related_name = 'member_parent',
         verbose_name = 'Genitore')
     gender = models.CharField(max_length = 1, choices = GENDER,
-        default = 'M', null=True, verbose_name = 'Sesso', )
+        blank = True, null=True, verbose_name = 'Sesso', )
     date_of_birth = models.DateField( blank=True, null=True,
         verbose_name = 'Data di nascita',)
     place_of_birth = models.CharField(max_length = 50,
@@ -68,9 +68,11 @@ class Member(models.Model):
     course_alt = models.CharField(max_length = 100,
         blank = True, null = True, verbose_name = 'Altro orario',)
     course_membership = models.CharField(max_length = 4, choices = COURSE,
-        default = 'INTF', verbose_name = 'Federazione / Ente sportivo',)
+        blank = True, null = True, verbose_name = 'Federazione / Ente sportivo',
+        help_text = 'Solo se si segue un corso')
     no_course_membership = models.CharField(max_length = 4, choices = NO_COURSE,
-        default = 'FID', verbose_name = 'Federazione / Ente sportivo',)
+        blank = True, null = True, verbose_name = 'Federazione / Ente sportivo',
+        help_text = 'Solo se non si segue un corso')
     sign_up = models.FileField(
         upload_to = user_directory_path,
         blank = True, null = True, verbose_name = 'Richiesta di tesseramento',
