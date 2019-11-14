@@ -11,6 +11,10 @@ class User(AbstractUser):
         full_name = '%s %s' % (self.last_name, self.first_name)
         return full_name.strip()
 
+    def get_full_name(self):
+        full_name = '%s %s' % (self.last_name, self.first_name)
+        return full_name.strip()
+
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)
         if self.is_active:

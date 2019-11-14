@@ -18,6 +18,7 @@ class MemberAdmin(admin.ModelAdmin):
     list_filter = ('mc_state', 'settled')
     search_fields = ('user__first_name', 'user__last_name',
         'user__username', 'fiscal_code', 'address')
+    ordering = ('user__last_name', 'user__first_name', )
     fieldsets = (
         ('', {'fields':('sector', 'parent')}),
         ('Anagrafica', {'classes': ('grp-collapse grp-closed',),
