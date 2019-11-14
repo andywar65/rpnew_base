@@ -18,6 +18,22 @@ class MemberAdmin(admin.ModelAdmin):
     list_filter = ('mc_state', 'settled')
     search_fields = ('user__first_name', 'user__last_name',
         'user__username', 'fiscal_code', 'address')
+    fieldsets = (
+        ('', {'fields':('sector', 'parent')}),
+        ('Anagrafica', {'classes': ('grp-collapse grp-closed',),
+            'fields':('gender', 'date_of_birth', 'place_of_birth',
+            'nationality', 'fiscal_code')}),
+        ('Contatti', {'classes': ('grp-collapse grp-closed',),
+            'fields':('address', 'phone', 'email_2', )}),
+        ('Corso/Tesseramento', {'classes': ('grp-collapse grp-closed',),
+            'fields':('course', 'course_alt', 'course_membership',
+            'no_course_membership')}),
+        ('Uploads', {'classes': ('grp-collapse grp-closed',),
+            'fields':('sign_up', 'privacy', 'med_cert',)}),
+        ('Amministrazione', {'classes': ('grp-collapse grp-closed',),
+            'fields':('membership', 'mc_expiry', 'mc_state',
+            'settled')}),
+        )
     inlines = [ MemberPaymentInline, ]
 
     def get_queryset(self, request):
@@ -28,79 +44,22 @@ class MemberAdmin(admin.ModelAdmin):
             return qs
 
     def get_readonly_fields(self, request, member):
+        readonly = []
         if not request.user.has_perm('users.add_user'):
-            return ('sector', 'parent', 'membership', 'mc_expiry', 'mc_state',
-                'settled')
-        else:
-            return ()
-
-    def get_inline_instances(self, request, member):
-        if member.sector == '0-NO':
-            return ()
-        else:
-            inline_instances = super().get_inline_instances(request, member)
-            return inline_instances
-
-    def get_fieldsets(self, request, member):
+            readonly = ['sector', 'parent', 'membership', 'mc_expiry',
+                'mc_state', 'settled']
         if member.parent:
-            fieldsets = (
-                ('', {'fields':('sector', 'parent')}),
-                ('Anagrafica', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('gender', 'date_of_birth', 'place_of_birth',
-                    'nationality', 'fiscal_code')}),
-                ('Corso/Tesseramento', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('course', 'course_alt', 'course_membership',)}),
-                ('Uploads', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('sign_up', 'privacy', 'med_cert',)}),
-                ('Amministrazione', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('membership', 'mc_expiry', 'mc_state',
-                    'settled')}),
-                )
-            return fieldsets
-        if member.sector == '0-NO':
-            fieldsets = (
-                ('', {'fields':('sector', 'parent')}),
-                ('Contatti', {'classes': ('grp-collapse grp-open',),
-                    'fields':('address', 'phone', 'email_2', 'fiscal_code')}),
-                )
-            return fieldsets
+            readonly.extend(['address', 'phone', 'email_2',
+                'no_course_membership'])
+        elif member.sector == '0-NO':
+            readonly.extend(['gender', 'date_of_birth', 'place_of_birth',
+                'nationality', 'course', 'course_alt', 'course_membership',
+                'no_course_membership', 'sign_up', 'privacy', 'med_cert',])
         elif member.sector == '1-YC':
-            fieldsets = (
-                ('', {'fields':('sector', 'parent')}),
-                ('Anagrafica', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('gender', 'date_of_birth', 'place_of_birth',
-                    'nationality', 'fiscal_code')}),
-                ('Contatti', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('address', 'phone', 'email_2')}),
-                ('Corso/Tesseramento', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('course', 'course_alt', 'course_membership',
-                    )}),
-                ('Uploads', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('sign_up', 'privacy', 'med_cert',)}),
-                ('Amministrazione', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('membership', 'mc_expiry', 'mc_state',
-                    'settled')}),
-                )
-            return fieldsets
+            readonly.append('no_course_membership')
         elif member.sector == '2-NC':
-            fieldsets = (
-                ('', {'fields':('sector', 'parent')}),
-                ('Anagrafica', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('gender', 'date_of_birth', 'place_of_birth',
-                    'nationality', 'fiscal_code')}),
-                ('Contatti', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('address', 'phone', 'email_2')}),
-                ('', {'fields':('no_course_membership', )}),
-                ('Uploads', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('sign_up', 'privacy', 'med_cert',)}),
-                ('Amministrazione', {'classes': ('grp-collapse grp-closed',),
-                    'fields':('membership', 'mc_expiry', 'mc_state',
-                    'settled')}),
-                )
-            return fieldsets
-        else:
-            fieldsets = super().get_fieldsets(request, member)
-            return fieldsets
+            readonly.extend(['course', 'course_alt', 'course_membership', ])
+        return readonly
 
 @admin.register(CourseSchedule)
 class CourseScheduleAdmin(admin.ModelAdmin):
