@@ -19,6 +19,7 @@ class MemberAdmin(admin.ModelAdmin):
     search_fields = ('user__first_name', 'user__last_name',
         'user__username', 'fiscal_code', 'address')
     ordering = ('user__last_name', 'user__first_name', )
+    actions = ['test_action']
     fieldsets = (
         ('', {'fields':('sector', 'parent')}),
         ('Anagrafica', {'classes': ('grp-collapse grp-closed',),
@@ -36,6 +37,13 @@ class MemberAdmin(admin.ModelAdmin):
             'settled')}),
         )
     inlines = [ MemberPaymentInline, ]
+
+    def test_action(self, request, queryset):
+        if not request.user.has_perm('users.add_user'):
+            print('No permission!')
+        else:
+            print('Action tested')
+    test_action.short_description = 'Test action'
 
     def get_queryset(self, request):
         qs = super().get_queryset(request).filter(user__is_active = True)
@@ -64,12 +72,6 @@ class MemberAdmin(admin.ModelAdmin):
         elif member.sector == '2-NC':
             readonly.extend(['course', 'course_alt', 'course_membership', ])
         return readonly
-
-    #def get_inline_instances(self, request, member):
-        #if member.sector == '0-NO':
-            #return ()
-        #else:
-            #return super().get_inline_instances(request, member)
 
 @admin.register(CourseSchedule)
 class CourseScheduleAdmin(admin.ModelAdmin):
