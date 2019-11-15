@@ -1,0 +1,4 @@
+Django>=2.2,<2.3
+django-grappelli>=2.13<2.14
+django-dateutil>=2.8,<2.9
+psycopg2>=2.8,<2.9

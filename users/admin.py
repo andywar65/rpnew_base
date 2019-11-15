@@ -1,4 +1,5 @@
 from datetime import date
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib import admin
 from django.core.mail import send_mail, get_connection
@@ -50,11 +51,18 @@ class MemberAdmin(admin.ModelAdmin):
                     if member.med_cert:
                         member.mc_state = '1-VF'
                         member.save()
-                if member.mc_state == '2-RE':
+                elif member.mc_state == '2-RE':
+                    if member.mc_expiry<date.today() + relativedelta(months=1):
+                        member.mc_state = '6-IS'
+                        member.save()
+                    elif member.mc_expiry<date.today():
+                        member.mc_state = '3-SV'
+                        member.save()
+                elif member.mc_state == '6-IS':
                     if member.mc_expiry<date.today():
                         member.mc_state = '3-SV'
                         member.save()
-                if member.mc_state == '4-SI':
+                elif member.mc_state == '4-SI':
                     member.med_cert = None
                     member.mc_expiry = None
                     member.mc_state = '5-NI'
