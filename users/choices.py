@@ -25,6 +25,7 @@ MC_STATE = [
     ('3-SV', 'Scaduto, da verificare'),
     ('4-SI', 'Scaduto, inviare notifica'),
     ('5-NI', 'Scaduto, notifica inviata'),
+    ('6-IS', 'In scadenza'),
     ]
 
 SETTLED = [
@@ -44,6 +45,8 @@ MC_STATE_DICT = {
         'scaduto, inviare notifica'),
     '5-NI': format_html('<span style="color: red;">{}</span>',
         'scaduto, notifica inviata'),
+    '6-IS': format_html('<span style="color: red;">{}</span>',
+        'in scadenza'),
     }
 
 SETTLED_DICT = {'YES': 'In regola con i pagamenti, grazie!',

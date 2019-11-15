@@ -1,4 +1,7 @@
+from datetime import date
+from django.conf import settings
 from django.contrib import admin
+from django.core.mail import send_mail, get_connection
 from django.db.models import Q
 from django.contrib.auth.admin import UserAdmin
 from .models import User, Member, CourseSchedule, MemberPayment
@@ -19,7 +22,7 @@ class MemberAdmin(admin.ModelAdmin):
     search_fields = ('user__first_name', 'user__last_name',
         'user__username', 'fiscal_code', 'address')
     ordering = ('user__last_name', 'user__first_name', )
-    actions = ['test_action']
+    actions = ['control_mc']
     fieldsets = (
         ('', {'fields':('sector', 'parent')}),
         ('Anagrafica', {'classes': ('grp-collapse grp-closed',),
@@ -38,12 +41,42 @@ class MemberAdmin(admin.ModelAdmin):
         )
     inlines = [ MemberPaymentInline, ]
 
-    def test_action(self, request, queryset):
+    def control_mc(self, request, queryset):
         if not request.user.has_perm('users.add_user'):
-            print('No permission!')
+            return
         else:
-            print('Action tested')
-    test_action.short_description = 'Test action'
+            for member in queryset:
+                if member.mc_state == '0-NF' or member.mc_state == '5-NI':
+                    if member.med_cert:
+                        member.mc_state = '1-VF'
+                        member.save()
+                if member.mc_state == '2-RE':
+                    if member.mc_expiry<date.today():
+                        member.mc_state = '3-SV'
+                        member.save()
+                if member.mc_state == '4-SI':
+                    member.med_cert = None
+                    member.mc_expiry = None
+                    member.mc_state = '5-NI'
+                    member.save()
+                    if member.parent:
+                        mail_to = member.parent.email
+                    else:
+                        mail_to = member.user.email
+                    message = 'Buongiorno \n'
+                    message += f'Il CM/CMA di {member.get_full_name()} '
+                    message += 'risulta scaduto o inesistente. \n'
+                    message += 'Si prega di rimediare al più presto. Grazie. \n'
+                    message += 'Lo staff di RP'
+                    con = get_connection(settings.EMAIL_BACKEND)
+                    send_mail(
+                        'Verifica CM/CMA',
+                        message,
+                        'no-reply@rifondazionepodistica.it',
+                        [mail_to, ] ,
+                        connection = con,
+                    )
+    control_mc.short_description = 'Gestisci CM/CMA'
 
     def get_queryset(self, request):
         qs = super().get_queryset(request).filter(user__is_active = True)
