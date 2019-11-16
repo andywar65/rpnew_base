@@ -23,7 +23,7 @@ class MemberAdmin(admin.ModelAdmin):
     search_fields = ('user__first_name', 'user__last_name',
         'user__username', 'fiscal_code', 'address')
     ordering = ('user__last_name', 'user__first_name', )
-    actions = ['control_mc', 'reset_all']
+    actions = ['control_mc', 'reset_all', 'control_pay']
     fieldsets = (
         ('', {'fields':('sector', 'parent')}),
         ('Anagrafica', {'classes': ('grp-collapse grp-closed',),
@@ -47,6 +47,8 @@ class MemberAdmin(admin.ModelAdmin):
             return
         else:
             for member in queryset:
+                if member.sector == '0-NO':
+                    continue
                 if member.mc_state == '0-NF' or member.mc_state == '5-NI':
                     if member.med_cert:
                         member.mc_state = '1-VF'
@@ -89,10 +91,33 @@ class MemberAdmin(admin.ModelAdmin):
     def reset_all(self, request, queryset):
         if not request.user.has_perm('users.add_user'):
             return
-        queryset.update(sign_up='', privacy='', settled='',)
+        queryset.update(sign_up='', privacy='', settled='', total_amount=0.00)
         for member in queryset:
             MemberPayment.objects.filter(member_id = member.pk).delete()
     reset_all.short_description = 'Resetta i dati'
+
+    def control_pay(self, request, queryset):
+        if not request.user.has_perm('users.add_user'):
+            return
+        for member in queryset:
+            if member.sector == '0-NO' or member.settled == 'YES':
+                continue
+            elif member.total_amount == 0.00:
+                member.settled = 'VI'
+                member.save()
+            else:
+                paid = 0.00
+                payments = MemberPayment.objects.filter(member_id = member.pk)
+                for payment in payments:
+                    paid += payment.amount
+                if paid >= member.total_amount:
+                    member.settled = 'YES'
+                    member.save()
+                else:
+                    member.settled = 'NO'
+                    member.save()
+
+    control_pay.short_description = 'Controlla i pagamenti'
 
     def get_queryset(self, request):
         qs = super().get_queryset(request).filter(user__is_active = True)
