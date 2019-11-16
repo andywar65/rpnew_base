@@ -23,7 +23,7 @@ class MemberAdmin(admin.ModelAdmin):
     search_fields = ('user__first_name', 'user__last_name',
         'user__username', 'fiscal_code', 'address')
     ordering = ('user__last_name', 'user__first_name', )
-    actions = ['control_mc']
+    actions = ['control_mc', 'reset_all']
     fieldsets = (
         ('', {'fields':('sector', 'parent')}),
         ('Anagrafica', {'classes': ('grp-collapse grp-closed',),
@@ -85,6 +85,14 @@ class MemberAdmin(admin.ModelAdmin):
                         connection = con,
                     )
     control_mc.short_description = 'Gestisci CM/CMA'
+
+    def reset_all(self, request, queryset):
+        if not request.user.has_perm('users.add_user'):
+            return
+        queryset.update(sign_up='', privacy='', settled='',)
+        for member in queryset:
+            MemberPayment.objects.filter(member_id = member.pk).delete()
+    reset_all.short_description = 'Resetta i dati'
 
     def get_queryset(self, request):
         qs = super().get_queryset(request).filter(user__is_active = True)
