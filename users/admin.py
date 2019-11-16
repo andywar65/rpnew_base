@@ -37,7 +37,7 @@ class MemberAdmin(admin.ModelAdmin):
         ('Uploads', {'classes': ('grp-collapse grp-closed',),
             'fields':('sign_up', 'privacy', 'med_cert',)}),
         ('Amministrazione', {'classes': ('grp-collapse grp-closed',),
-            'fields':('membership', 'mc_expiry', 'mc_state',
+            'fields':('membership', 'mc_expiry', 'mc_state', 'total_amount',
             'settled')}),
         )
     inlines = [ MemberPaymentInline, ]
@@ -105,7 +105,7 @@ class MemberAdmin(admin.ModelAdmin):
         readonly = []
         if not request.user.has_perm('users.add_user'):
             readonly = ['sector', 'parent', 'membership', 'mc_expiry',
-                'mc_state', 'settled']
+                'mc_state', 'settled', 'total_amount', ]
         if member.parent:
             readonly.extend(['address', 'phone', 'email_2',
                 'no_course_membership'])
@@ -115,7 +115,7 @@ class MemberAdmin(admin.ModelAdmin):
                 'no_course_membership', 'sign_up', 'privacy', 'med_cert',])
             if request.user.has_perm('users.add_user'):
                 readonly.extend(['membership', 'mc_expiry',
-                    'mc_state', 'settled'])
+                    'mc_state', 'settled', 'total_amount', ])
         elif member.sector == '1-YC':
             readonly.append('no_course_membership')
         elif member.sector == '2-NC':

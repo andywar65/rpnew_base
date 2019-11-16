@@ -29,6 +29,7 @@ MC_STATE = [
     ]
 
 SETTLED = [
+    ('VI', 'Verifica importo totale'),
     ('YES', 'A posto'),
     ('NO', 'No!'),
     ]
@@ -49,7 +50,9 @@ MC_STATE_DICT = {
         'in scadenza'),
     }
 
-SETTLED_DICT = {'YES': 'In regola con i pagamenti, grazie!',
+SETTLED_DICT = {
+    'VI': 'Verifica importo totale',
+    'YES': 'In regola con i pagamenti, grazie!',
     'NO': format_html('<span style="color: red;">{}</span>',
         'Non in regola con i pagamenti!'),
     None: 'Nessun dato sui pagamenti',
