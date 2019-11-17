@@ -9,14 +9,29 @@
     <link rel="shortcut icon" type='image/x-icon' href="{% static 'images/favicon.ico' %}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
-    <link href="{% static 'css/sticky-footer.css' %}" rel="stylesheet">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <link href="{% static 'css/sticky-footer-navbar.css' %}" rel="stylesheet">
     <title>{% block title %}Rifondazione Podistica{% endblock %}</title>
   </head>
   <body class="d-flex flex-column h-100">
     {% include 'navbar.html' %}
     <main role="main" class="flex-shrink-0">
-      <div class="container" style="padding-top: 60px;">
+      <div class="container">
         {% block content %}
           <h1>Hello, world of runners!</h1>
         {% endblock %}
