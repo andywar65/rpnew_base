@@ -5,7 +5,8 @@ from django.contrib import admin
 from django.core.mail import send_mail, get_connection
 from django.db.models import Q
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Member, CourseSchedule, MemberPayment
+from .models import (User, Member, CourseSchedule, MemberPayment, Applicant,
+    ApplicantChild)
 from .forms import ChangeMemberForm
 
 class UserAdmin(UserAdmin):
@@ -13,6 +14,16 @@ class UserAdmin(UserAdmin):
         'is_active')
 
 admin.site.register(User, UserAdmin)
+
+class ApplicantChildInline(admin.TabularInline):
+    model = ApplicantChild
+    fields = ('first_name', 'last_name', )
+    extra = 1
+
+@admin.register(Applicant)
+class ApplicantAdmin(admin.ModelAdmin):
+    list_display = ('last_name', 'first_name', 'email', 'sector')
+    inlines = [ ApplicantChildInline, ]
 
 class MemberPaymentInline(admin.TabularInline):
     model = MemberPayment

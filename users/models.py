@@ -123,3 +123,33 @@ class MemberPayment(models.Model):
     class Meta:
         verbose_name = 'Pagamento'
         verbose_name_plural = 'Pagamenti'
+
+class Applicant(models.Model):
+    first_name = models.CharField(max_length = 50,
+        verbose_name = 'Nome',)
+    last_name = models.CharField(max_length = 50,
+        verbose_name = 'Cognome',)
+    email = models.EmailField(verbose_name = 'Indirizzo email',)
+    sector = models.CharField(max_length = 4, choices = SECTOR,
+        default = '0-NO', verbose_name = 'Vuoi correre con noi?')
+    privacy = models.BooleanField(default = False, editable=False,
+        verbose_name = "Letto l'informativa sulla privacy?")
+
+    def __str__(self):
+        full_name = '%s %s' % (self.last_name, self.first_name)
+        return full_name.strip()
+
+    class Meta:
+        verbose_name = 'Richiedente'
+        verbose_name_plural = 'Richiedenti'
+
+class ApplicantChild(models.Model):
+    parent = models.ForeignKey(Applicant, on_delete = models.CASCADE,
+        related_name='applicant_children', editable=False)
+    first_name = models.CharField(max_length = 50,
+        verbose_name = 'Nome',)
+    last_name = models.CharField(max_length = 50,
+        verbose_name = 'Cognome',)
+    class Meta:
+        verbose_name = 'Figlio'
+        verbose_name_plural = 'Figli'
