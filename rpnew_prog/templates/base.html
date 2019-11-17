@@ -9,12 +9,20 @@
     <link rel="shortcut icon" type='image/x-icon' href="{% static 'images/favicon.ico' %}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+    
+    <link href="{% static 'css/sticky-footer.css' %}" rel="stylesheet">
+    <title>{% block title %}Rifondazione Podistica{% endblock %}</title>
   </head>
-  <body>
+  <body class="d-flex flex-column h-100">
     {% include 'navbar.html' %}
-    <h1>Hello, world!</h1>
+    <main role="main" class="flex-shrink-0">
+      <div class="container" style="padding-top: 60px;">
+        {% block content %}
+          <h1>Hello, world of runners!</h1>
+        {% endblock %}
+      </div>
+    </main>
+    {% include 'footer.html' %}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
