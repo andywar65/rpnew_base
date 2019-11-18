@@ -40,6 +40,21 @@ class ApplicantAdmin(admin.ModelAdmin):
                 last_name = applicant.last_name, email = applicant.email,
                 password = hash_password, is_staff = True, )
             usr.groups.add(group)
+            member = Member.objects.get(user_id=usr.id)
+            member.sector = applicant.sector
+            member.save()
+            children = ApplicantChild.objects.filter(parent=applicant.id)
+            for child in children:
+                chd_username = child.last_name.lower() + '_' + child.first_name.lower()
+                hash_password = make_password('rifondazionepodistica')
+                chd = User.objects.create(username = chd_username,
+                    first_name = child.first_name,
+                    last_name = child.last_name, email = applicant.email,
+                    password = hash_password, )
+                member = Member.objects.get(user_id=chd.id)
+                member.sector = '1-YC'
+                member.parent = usr
+                member.save()
             mail_to = applicant.email
             message = 'Buongiorno \n'
             message += 'potete loggarvi al sito di RP \n'
