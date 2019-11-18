@@ -2,9 +2,12 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import Group
 from django.core.mail import send_mail, get_connection
 from django.db.models import Q
-from django.contrib.auth.admin import UserAdmin
+
 from .models import (User, Member, CourseSchedule, MemberPayment, Applicant,
     ApplicantChild)
 from .forms import ChangeMemberForm
@@ -24,6 +27,37 @@ class ApplicantChildInline(admin.TabularInline):
 class ApplicantAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'first_name', 'email', 'sector')
     inlines = [ ApplicantChildInline, ]
+    actions = ['applicant_to_user', ]
+
+    def applicant_to_user(self, request, queryset):
+        group = Group.objects.get(name='Gestione iscrizione')
+        for applicant in queryset:
+            username = applicant.last_name.lower() + '_' + applicant.first_name.lower()
+            password = User.objects.make_random_password()
+            hash_password = make_password(password)
+            usr = User.objects.create(username = username,
+                first_name = applicant.first_name,
+                last_name = applicant.last_name, email = applicant.email,
+                password = hash_password, is_staff = True, )
+            usr.groups.add(group)
+            mail_to = applicant.email
+            message = 'Buongiorno \n'
+            message += 'potete loggarvi al sito di RP \n'
+            message += f'con nome utente = {username} \n'
+            message += f'e password = {password} (da cambiare). \n'
+            message += 'Una volta loggati potrete gestire la vostra iscrizione. Grazie. \n'
+            message += 'Lo staff di RP'
+            con = get_connection(settings.EMAIL_BACKEND)
+            send_mail(
+                'Credenziali di accesso',
+                message,
+                'no-reply@rifondazionepodistica.it',
+                [mail_to, ] ,
+                connection = con,
+            )
+            applicant.delete()
+        return
+    applicant_to_user.short_description = 'Crea Utenti'
 
 class MemberPaymentInline(admin.TabularInline):
     model = MemberPayment
