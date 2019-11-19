@@ -40,6 +40,8 @@ MEDIA_URL = '/media/'
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'https://rifondazionepodistica.it'
 
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
 
 try:
     from .local import *
