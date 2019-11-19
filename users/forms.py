@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from .models import Member, User, Applicant
+from .choices import *
 
 class ChangeMemberForm(ModelForm):
     parent = forms.ModelChoiceField(label="Genitore", required = False,
@@ -37,6 +38,11 @@ class RegistrationForm(ModelForm):
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'class': "form-control",
         'placeholder': "you@example.com"}))
+    sector = forms.ChoiceField(choices = SECTOR, widget=forms.Select(attrs={'class': "form-control"}))
+    children_str = forms.CharField(required = False,
+        widget=forms.TextInput(attrs={'class': "form-control",
+        'placeholder': "Nomi e cognomi dei figli da iscrivere, separati da una virgola"}))
+    #privacy = forms.BooleanField(widget=forms.CheckboxInput)
     class Meta:
         model = Applicant
         fields = '__all__'

@@ -135,8 +135,6 @@ class Applicant(models.Model):
     children_str = models.TextField(max_length = 200,
         verbose_name = 'Figli', blank = True, null = True,
         help_text='Nome e cognome dei figli che si intende iscrivere, separati da una virgola.')
-    privacy = models.BooleanField(default = False, editable=False,
-        verbose_name = "Letto l'informativa sulla privacy?")
 
     def __str__(self):
         full_name = '%s %s' % (self.last_name, self.first_name)

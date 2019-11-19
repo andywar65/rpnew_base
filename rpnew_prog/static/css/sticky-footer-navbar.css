@@ -30,6 +30,7 @@ main > .container {
   background-color: #195905;
   padding-top: 3px;
   padding-bottom: 3px;
+  margin-top: 20px;
 }
 
 .footer > .container {

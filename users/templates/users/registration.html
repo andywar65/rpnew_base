@@ -38,16 +38,49 @@
                   Inserisci una email valida.
                 </div>
               </div>
+              <div class="col-md-6 mb-3">
+                <label for="sector">Corri con noi? </label>
+                {{ form.sector }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-9 mb-3">
+                <label for="childen-str">Figli <span class="text-muted">(opzionale)</span></label>
+                {{ form.children_str }}
+              </div>
+            </div>
+            <hr class="mb-4">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="privacy" required>
+              <label class="custom-control-label" for="privacy">Ho letto l'Informativa sulla Privacy</label>
             </div>
 
-    <table>
-
-      <tr>
-        <td>&nbsp;</td>
-        <td><input type="submit" value="Invia"></td>
-      </tr>
-    </table>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Invia</button>
     {% csrf_token %}
   </form>
   {% endif %}
 {% endblock content %}
+{% block extra-js %}
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+  {% endblock extra-js %}
