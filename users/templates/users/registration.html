@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Richiesta iscrizione{%endblock title %}
+{% block extra-head %}
+<link href="{% static 'users/css/form-validation.css' %}" rel="stylesheet">
+{% endblock extra-head %}
+
+{% block content %}
+<h2>Richiesta di iscrizione</h2>
+  {% if submitted %}
+  <p class="success">La tua richiesta è stata inoltrata con successo, grazie!</p>
+  <p>A breve riceverai una mail con le credenziali di accesso. 
+  Non è un processo automatico, per cui può richiedere tempo.</p>
+  {% else %}
+  <form action="" method="post" novalidate>
+    <table>
+      {{ form.as_table }}
+      <tr>
+        <td>&nbsp;</td>
+        <td><input type="submit" value="Invia"></td>
+      </tr>
+    </table>
+    {% csrf_token %}
+  </form>
+  {% endif %}
+{% endblock content %}

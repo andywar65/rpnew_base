@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Member, User
+from .models import Member, User, Applicant
 
 class ChangeMemberForm(ModelForm):
     parent = forms.ModelChoiceField(label="Genitore", required = False,
@@ -30,4 +30,10 @@ class ChangeMemberForm(ModelForm):
 
     class Meta:
         model = Member
+        fields = '__all__'
+
+class RegistrationForm(ModelForm):
+    pass
+    class Meta:
+        model = Applicant
         fields = '__all__'

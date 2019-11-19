@@ -18,10 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
+from users import views as user_views
 
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
+    path('registration/', user_views.registration, name='registration'),
     path('', TemplateView.as_view(template_name="base.html")),
     path('favicon.ico',
         RedirectView.as_view(url=settings.STATIC_ROOT + 'images/favicon.ico'))

@@ -116,7 +116,7 @@ class Member(models.Model):
 
 class MemberPayment(models.Model):
     member = models.ForeignKey(Member, on_delete = models.CASCADE,
-        blank = True, null = True,related_name='member_payments')
+        blank = True, null = True, related_name='member_payments')
     date = models.DateField( blank=True, null=True, verbose_name = 'Data')
     amount = models.FloatField( default = 0.00, verbose_name = 'Importo')
 
@@ -132,6 +132,9 @@ class Applicant(models.Model):
     email = models.EmailField(verbose_name = 'Indirizzo email',)
     sector = models.CharField(max_length = 4, choices = SECTOR,
         default = '0-NO', verbose_name = 'Vuoi correre con noi?')
+    children_str = models.TextField(max_length = 200,
+        verbose_name = 'Figli', blank = True, null = True,
+        help_text='Nome e cognome dei figli che si intende iscrivere, separati da una virgola.')
     privacy = models.BooleanField(default = False, editable=False,
         verbose_name = "Letto l'informativa sulla privacy?")
 
