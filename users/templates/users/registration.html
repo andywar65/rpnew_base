@@ -9,9 +9,12 @@
 {% block content %}
 <h2>Richiesta di iscrizione</h2>
   {% if submitted %}
-  <p class="success">La tua richiesta è stata inoltrata con successo, grazie!</p>
-  <p>A breve riceverai una mail con le credenziali di accesso.
-  Non è un processo automatico, per cui può richiedere tempo.</p>
+  <div class="alert alert-success" role="alert">
+    <p><strong>La tua richiesta è stata inoltrata con successo, grazie!</strong></p>
+    <p>A breve riceverai una mail con le credenziali di accesso.
+    Non è un processo automatico, per cui può richiedere tempo.</p>
+  </div>
+
   {% else %}
   <form action="" method="post" class="needs-validation" novalidate>
             <div class="row">
