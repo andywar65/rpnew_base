@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ModelForm
+from captcha.fields import ReCaptchaField
 from .models import Member, User, Applicant
 from .choices import *
 
@@ -42,7 +43,7 @@ class RegistrationForm(ModelForm):
     children_str = forms.CharField(required = False,
         widget=forms.TextInput(attrs={'class': "form-control",
         'placeholder': "Nomi e cognomi dei figli da iscrivere, separati da una virgola"}))
-    #privacy = forms.BooleanField(widget=forms.CheckboxInput)
+    captcha = ReCaptchaField()
     class Meta:
         model = Applicant
         fields = '__all__'

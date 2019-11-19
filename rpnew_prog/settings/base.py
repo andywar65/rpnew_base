@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -103,3 +104,5 @@ USE_TZ = True
 AUTH_USER_MODEL = 'users.User'
 
 GRAPPELLI_ADMIN_TITLE = 'Amministrazione RP'
+
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
