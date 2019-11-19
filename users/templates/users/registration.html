@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Richiesta iscrizione{%endblock title %}
+{% block title %}Richiesta di iscrizione{%endblock title %}
 {% block extra-head %}
 <link href="{% static 'users/css/form-validation.css' %}" rel="stylesheet">
 {% endblock extra-head %}
@@ -9,12 +10,38 @@
 <h2>Richiesta di iscrizione</h2>
   {% if submitted %}
   <p class="success">La tua richiesta è stata inoltrata con successo, grazie!</p>
-  <p>A breve riceverai una mail con le credenziali di accesso. 
+  <p>A breve riceverai una mail con le credenziali di accesso.
   Non è un processo automatico, per cui può richiedere tempo.</p>
   {% else %}
-  <form action="" method="post" novalidate>
+  <form action="" method="post" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="first-name">Nome</label>
+                {{ form.first_name }}
+                <div class="invalid-feedback">
+                  E' necessario inserire il nome.
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="last-name">Cognome</label>
+                {{ form.last_name }}
+                <div class="invalid-feedback">
+                  E' necessario inserire il cognome.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="email">Email </label>
+                {{ form.email }}
+                <div class="invalid-feedback">
+                  Inserisci una email valida.
+                </div>
+              </div>
+            </div>
+
     <table>
-      {{ form.as_table }}
+
       <tr>
         <td>&nbsp;</td>
         <td><input type="submit" value="Invia"></td>

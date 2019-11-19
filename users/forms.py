@@ -33,7 +33,10 @@ class ChangeMemberForm(ModelForm):
         fields = '__all__'
 
 class RegistrationForm(ModelForm):
-    pass
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'class': "form-control",
+        'placeholder': "you@example.com"}))
     class Meta:
         model = Applicant
         fields = '__all__'
