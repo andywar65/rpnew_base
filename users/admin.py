@@ -35,6 +35,11 @@ class ApplicantAdmin(admin.ModelAdmin):
         group = Group.objects.get(name='Gestione iscrizione')
         for applicant in queryset:
             username = applicant.last_name.lower() + '_' + applicant.first_name.lower()
+            try:
+                User.objects.get(username=username)
+                username += '_2'
+            except:
+                pass
             password = User.objects.make_random_password()
             hash_password = make_password(password)
             usr = User.objects.create(username = username,

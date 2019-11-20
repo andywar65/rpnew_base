@@ -139,7 +139,8 @@ class Applicant(models.Model):
     def get_full_name(self):
         full_name = '%s %s' % (self.last_name, self.first_name)
         return full_name.strip()
-        
+    get_full_name.short_description = 'Nome'
+
     def __str__(self):
         full_name = '%s %s' % (self.last_name, self.first_name)
         return full_name.strip()
