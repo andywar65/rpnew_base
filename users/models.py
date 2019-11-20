@@ -120,6 +120,9 @@ class MemberPayment(models.Model):
     date = models.DateField( blank=True, null=True, verbose_name = 'Data')
     amount = models.FloatField( default = 0.00, verbose_name = 'Importo')
 
+    def __str__(self):
+        return 'Pagamento - %s' % (self.id)
+
     class Meta:
         verbose_name = 'Pagamento'
         verbose_name_plural = 'Pagamenti'
