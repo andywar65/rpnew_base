@@ -16,12 +16,12 @@ body {
 /* LINKS */
 
 a:link, a:visited {
-    color: #447e9b;
+    color: #24890d;
     text-decoration: none;
 }
 
 a:focus, a:hover {
-    color: #036;
+    color: #88a91e;
 }
 
 a:focus {
@@ -650,7 +650,7 @@ div.breadcrumbs {
     padding: 10px 40px;
     border: none;
     font-size: 14px;
-    color: #c4dce8;
+    color: #baeb1d;
     text-align: left;
 }
 
@@ -659,7 +659,7 @@ div.breadcrumbs a {
 }
 
 div.breadcrumbs a:focus, div.breadcrumbs a:hover {
-    color: #c4dce8;
+    color: #baeb1d;
 }
 
 /* ACTION ICONS */
