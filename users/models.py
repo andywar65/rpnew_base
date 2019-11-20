@@ -136,6 +136,10 @@ class Applicant(models.Model):
         verbose_name = 'Figli', blank = True, null = True,
         help_text='Nome e cognome dei figli che si intende iscrivere, separati da una virgola.')
 
+    def get_full_name(self):
+        full_name = '%s %s' % (self.last_name, self.first_name)
+        return full_name.strip()
+        
     def __str__(self):
         full_name = '%s %s' % (self.last_name, self.first_name)
         return full_name.strip()

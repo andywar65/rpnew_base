@@ -25,7 +25,9 @@ class ApplicantChildInline(admin.TabularInline):
 
 @admin.register(Applicant)
 class ApplicantAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name', 'email', 'sector')
+    list_display = ('get_full_name', 'email', 'sector', 'children_str',)
+    ordering = ('last_name', 'first_name', )
+    search = ('last_name', 'first_name', 'children_str',)
     inlines = [ ApplicantChildInline, ]
     actions = ['applicant_to_user', ]
 
