@@ -60,11 +60,11 @@
             <hr class="mb-4">
             <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
             <hr class="mb-4">
-            <div>
-            {{ form.captcha }}
-            </div>
     {% csrf_token %}
   </form>
+  <div>
+  {{ form.captcha }}
+  </div>
   {% endif %}
 {% endblock content %}
 {% block extra-js %}

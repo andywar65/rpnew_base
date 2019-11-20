@@ -90,20 +90,21 @@ class MemberAdmin(admin.ModelAdmin):
     actions = ['control_mc', 'reset_all', 'control_pay']
     fieldsets = (
         ('', {'fields':('sector', 'parent')}),
-        ('Anagrafica', {'classes': ('grp-collapse grp-closed',),
+        ('Anagrafica', {'classes': ('collapse',),
             'fields':('gender', 'date_of_birth', 'place_of_birth',
             'nationality', 'fiscal_code')}),
-        ('Contatti', {'classes': ('grp-collapse grp-closed',),
+        ('Contatti', {'classes': ('collapse',),
             'fields':('address', 'phone', 'email_2', )}),
-        ('Corso/Tesseramento', {'classes': ('grp-collapse grp-closed',),
+        ('Corso/Tesseramento', {'classes': ('collapse',),
             'fields':('course', 'course_alt', 'course_membership',
             'no_course_membership')}),
-        ('Uploads', {'classes': ('grp-collapse grp-closed',),
+        ('Uploads', {'classes': ('collapse',),
             'fields':('sign_up', 'privacy', 'med_cert',)}),
-        ('Amministrazione', {'classes': ('grp-collapse grp-closed',),
+        ('Amministrazione', {'classes': ('collapse',),
             'fields':('membership', 'mc_expiry', 'mc_state', 'total_amount',
             'settled')}),
         )
+        #'grp-collapse grp-closed'
     inlines = [ MemberPaymentInline, ]
 
     def control_mc(self, request, queryset):

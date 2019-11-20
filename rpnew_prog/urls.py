@@ -15,13 +15,16 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path#, include
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from users import views as user_views
 
+admin.site.site_header = 'Amministrazione RP'
+admin.site.site_title = 'Amministrazione RP'
+
 urlpatterns = [
-    path('grappelli/', include('grappelli.urls')),
+    #path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('registration/', user_views.registration, name='registration'),
     path('', TemplateView.as_view(template_name="base.html")),

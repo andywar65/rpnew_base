@@ -25,7 +25,7 @@ APPLICATION_DIR = os.path.dirname(BASE_DIR)
 # Application definition
 
 INSTALLED_APPS = [
-    'grappelli',
+    #'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -103,4 +103,4 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'users.User'
 
-GRAPPELLI_ADMIN_TITLE = 'Amministrazione RP'
+#GRAPPELLI_ADMIN_TITLE = 'Amministrazione RP'
