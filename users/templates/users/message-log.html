@@ -1,13 +1,6 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'contact.html' %}
 
-{% block title %}Contatto{%endblock title %}
-{% block extra-head %}
-<link href="{% static 'users/css/form-validation.css' %}" rel="stylesheet">
-{% endblock extra-head %}
-
-{% block content %}
-<h2>Contatto</h2>
+{% block message %}
   {% if submitted %}
   <div class="alert alert-success" role="alert">
     <p><strong>Il tuo messaggio è stato inoltrato con successo, grazie!</strong></p>
@@ -16,7 +9,7 @@
   </div>
 
   {% else %}
-  <p>Complimenti, sei loggato, scrivi qui sotto il tuo messaggio</p>
+  <p>Complimenti, sei loggato, scrivi qui sotto il tuo messaggio e poi invia.</p>
   <form action="" method="post" class="needs-validation" novalidate>
             <div class="row">
               <div class="col-md-9 mb-3">
@@ -42,28 +35,4 @@
     {% csrf_token %}
   </form>
   {% endif %}
-{% endblock content %}
-{% block extra-js %}
-    <script>
-      // Example starter JavaScript for disabling form submissions if there are invalid fields
-      (function() {
-        'use strict';
-
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
-
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add('was-validated');
-            }, false);
-          });
-        }, false);
-      })();
-    </script>
-  {% endblock extra-js %}
+{% endblock message %}
