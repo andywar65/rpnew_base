@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contatto{%endblock title %}
+{% block extra-head %}
+<link href="{% static 'users/css/form-validation.css' %}" rel="stylesheet">
+{% endblock extra-head %}
+
+{% block content %}
+<h2>Contatto</h2>
+  {% if submitted %}
+  <div class="alert alert-success" role="alert">
+    <p><strong>Il tuo messaggio è stato inoltrato con successo, grazie!</strong></p>
+    <p>A breve riceverai una risposta via mail.
+    Non è un processo automatico, per cui può richiedere tempo.</p>
+  </div>
+
+  {% else %}
+  <p>Complimenti, sei loggato, scrivi qui sotto il tuo messaggio</p>
+  <form action="" method="post" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-9 mb-3">
+                <label for="subject">Soggetto</label>
+                {{ form.subject }}
+                <div class="invalid-feedback">
+                  E' necessario inserire il soggetto.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-9 mb-3">
+                <label for="message">Messaggio </label>
+                {{ form.body }}
+                <div class="invalid-feedback">
+                  E' necessario inserire il messaggio.
+                </div>
+              </div>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
+            <hr class="mb-4">
+    {% csrf_token %}
+  </form>
+  {% endif %}
+{% endblock content %}
+{% block extra-js %}
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+  {% endblock extra-js %}

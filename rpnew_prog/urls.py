@@ -27,6 +27,7 @@ urlpatterns = [
     #path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('registration/', user_views.registration, name='registration'),
+    path('contacts/', user_views.contacts, name='contacts'),
     path('', TemplateView.as_view(template_name="base.html")),
     path('privacy/', TemplateView.as_view(template_name="privacy.html")),
     path('favicon.ico',

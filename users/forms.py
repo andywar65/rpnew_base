@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from captcha.fields import ReCaptchaField
-from .models import Member, User, Applicant
+from .models import Member, User, Applicant, UserMessage
 from .choices import *
 
 class ChangeMemberForm(ModelForm):
@@ -47,3 +47,23 @@ class RegistrationForm(ModelForm):
     class Meta:
         model = Applicant
         fields = '__all__'
+
+class ContactLogForm(ModelForm):
+    subject = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
+    body = forms.CharField(widget=forms.Textarea(attrs={'class': "form-control",
+        'placeholder': "Scrivi qui il messaggio"}))
+    class Meta:
+        model = UserMessage
+        fields = ('user', 'email', 'subject', 'body')
+
+class ContactForm(ModelForm):
+    nickname = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'class': "form-control",
+        'placeholder': "you@example.com"}))
+    subject = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
+    body = forms.CharField(widget=forms.Textarea(attrs={'class': "form-control",
+        'placeholder': "Scrivi qui il messaggio"}))
+    captcha = ReCaptchaField()
+    class Meta:
+        model = UserMessage
+        fields = ('nickname', 'email', 'subject', 'body')

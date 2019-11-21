@@ -162,3 +162,36 @@ class ApplicantChild(models.Model):
     class Meta:
         verbose_name = 'Figlio'
         verbose_name_plural = 'Figli'
+
+class UserMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+        related_name='user_message', blank=True, null=True,
+        verbose_name = 'Utente', )
+    nickname = models.CharField(max_length = 50,
+        verbose_name = 'Nome', blank=True, null=True,)
+    email = models.EmailField(blank=True, null=True,
+        verbose_name = 'Indirizzo email',)
+    subject = models.CharField(max_length = 200,
+        verbose_name = 'Soggetto', )
+    body = models.TextField(verbose_name = 'Messaggio', )
+
+    def get_full_name(self):
+        if self.user:
+            return self.user.get_full_name()
+        else:
+            return self.nickname
+    get_full_name.short_description = 'Nome'
+
+    def get_email(self):
+        if self.user:
+            return self.user.email
+        else:
+            return self.email
+    get_email.short_description = 'Indirizzo email'
+
+    def __str__(self):
+        return 'Messaggio - %s' % (self.id)
+
+    class Meta:
+        verbose_name = 'Messaggio'
+        verbose_name_plural = 'Messaggi'

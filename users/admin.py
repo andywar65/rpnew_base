@@ -9,7 +9,7 @@ from django.core.mail import send_mail, get_connection
 from django.db.models import Q
 
 from .models import (User, Member, CourseSchedule, MemberPayment, Applicant,
-    ApplicantChild)
+    ApplicantChild, UserMessage, )
 from .forms import ChangeMemberForm
 
 class UserAdmin(UserAdmin):
@@ -17,6 +17,11 @@ class UserAdmin(UserAdmin):
         'is_active')
 
 admin.site.register(User, UserAdmin)
+
+@admin.register(UserMessage)
+class UserMessageAdmin(admin.ModelAdmin):
+    list_display = ('get_full_name', 'get_email', 'subject', )
+    ordering = ('user__last_name', 'user__first_name', 'nickname', )
 
 class ApplicantChildInline(admin.TabularInline):
     model = ApplicantChild

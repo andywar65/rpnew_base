@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contatto{%endblock title %}
+{% block extra-head %}
+<link href="{% static 'users/css/form-validation.css' %}" rel="stylesheet">
+{% endblock extra-head %}
+
+{% block content %}
+<h2>Richiesta di iscrizione</h2>
+  {% if submitted %}
+  <div class="alert alert-success" role="alert">
+    <p><strong>Il tuo messaggio è stato inoltrato con successo, grazie!</strong></p>
+    <p>A breve riceverai una risposta via mail.
+    Non è un processo automatico, per cui può richiedere tempo.</p>
+  </div>
+
+  {% else %}
+  <p>Non sei loggato. Vuoi effettuare il
+    <a href="/admin/login/?next=/contacts/" style="color: #24890d;">login?</a>
+  </p>
+  <form action="" method="post" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="first-name">Nome</label>
+                {{ form.nickname }}
+                <div class="invalid-feedback">
+                  E' necessario inserire il nome.
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="email">Email </label>
+                {{ form.email }}
+                <div class="invalid-feedback">
+                  Inserisci una email valida.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-9 mb-3">
+                <label for="subject">Soggetto</label>
+                {{ form.subject }}
+                <div class="invalid-feedback">
+                  E' necessario inserire il soggetto.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-9 mb-3">
+                <label for="message">Messaggio </label>
+                {{ form.body }}
+                <div class="invalid-feedback">
+                  E' necessario inserire il messaggio.
+                </div>
+              </div>
+            </div>
+            <hr class="mb-4">
+            <div class="row">
+              <div class="col-md-6 mb-3 custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="privacy" required>
+                <label class="custom-control-label" for="privacy">Ho letto l'Informativa sulla Privacy</label>
+              </div>
+              <div class="col-md-6 mb-3">
+              {{ form.captcha }}
+              </div>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
+            <hr class="mb-4">
+    {% csrf_token %}
+  </form>
+  {% endif %}
+{% endblock content %}
+{% block extra-js %}
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+  {% endblock extra-js %}
