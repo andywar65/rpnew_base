@@ -1,12 +1,8 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'contact.html' %}
 
 {% block title %}Richiesta di iscrizione{%endblock title %}
-{% block extra-head %}
-<link href="{% static 'users/css/form-validation.css' %}" rel="stylesheet">
-{% endblock extra-head %}
 
-{% block content %}
+{% block message %}
 <h2>Richiesta di iscrizione</h2>
   {% if submitted %}
   <div class="alert alert-success" role="alert">
@@ -74,28 +70,4 @@
     {% csrf_token %}
   </form>
   {% endif %}
-{% endblock content %}
-{% block extra-js %}
-    <script>
-      // Example starter JavaScript for disabling form submissions if there are invalid fields
-      (function() {
-        'use strict';
-
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
-
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add('was-validated');
-            }, false);
-          });
-        }, false);
-      })();
-    </script>
-  {% endblock extra-js %}
+{% endblock message %}
