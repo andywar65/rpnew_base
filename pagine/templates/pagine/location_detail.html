@@ -4,4 +4,10 @@
 {% block title %}{{ location.title }}{%endblock title %}
 {% block content %}
 <h1>{{ location.title }}</h1>
+{% if location.gmap_embed %}
+  <iframe src="{{ location.gmap_embed }}" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+{% else %}
+  <p><a href="{{ location.gmap_link }}" target="_blank">{{ location.address }}</a></p>
+{% endif %}
+{{ location.body|safe }}
 {% endblock content %}
