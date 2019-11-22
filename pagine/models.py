@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from django.utils.html import format_html
 from django.utils.text import slugify
@@ -43,7 +44,7 @@ class Location(models.Model):
         help_text="Dal menu di Google Maps seleziona 'Condividi/link', \
                    copia il link e incollalo qui",
     )
-    gmap_embed = models.URLField('Incorpora Google Map',
+    gmap_embed = models.TextField('Incorpora Google Map',
         blank= True, null=True, max_length=500,
         help_text="Dal menu di Google Maps seleziona 'Condividi/incorpora', \
                    copia il link e incollalo qui",
@@ -51,6 +52,10 @@ class Location(models.Model):
     body = RichTextUploadingField('Descrizione', )
 
     def save(self, *args, **kwargs):
+        if not self.gmap_embed.startswith('http'):
+            # thanks to geeksforgeeks.com!
+            list = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', self.gmap_embed)
+            self.gmap_embed = list[0]
         if self.slug:  # edit
             if slugify(self.title) != self.slug:
                 self.slug = generate_unique_slug(Location, self.title)
