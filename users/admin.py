@@ -8,7 +8,7 @@ from django.contrib.auth.models import Group
 from django.core.mail import send_mail, get_connection
 from django.db.models import Q
 
-from .models import (User, Member, CourseSchedule, MemberPayment, Applicant,
+from .models import (User, Member, MemberPayment, Applicant,
     ApplicantChild, UserMessage, )
 from .forms import ChangeMemberForm
 
@@ -108,7 +108,7 @@ class MemberAdmin(admin.ModelAdmin):
         ('Contatti', {'classes': ('collapse',),
             'fields':('address', 'phone', 'email_2', )}),
         ('Corso/Tesseramento', {'classes': ('collapse',),
-            'fields':('course', 'course_alt', 'course_membership',
+            'fields':('course2', 'course_alt', 'course_membership',
             'no_course_membership')}),
         ('Uploads', {'classes': ('collapse',),
             'fields':('sign_up', 'privacy', 'med_cert',)}),
@@ -213,7 +213,7 @@ class MemberAdmin(admin.ModelAdmin):
                 'no_course_membership'])
         elif member.sector == '0-NO':
             readonly.extend(['gender', 'date_of_birth', 'place_of_birth',
-                'nationality', 'course', 'course_alt', 'course_membership',
+                'nationality', 'course2', 'course_alt', 'course_membership',
                 'no_course_membership', 'sign_up', 'privacy', 'med_cert',])
             if request.user.has_perm('users.add_user'):
                 readonly.extend(['membership', 'mc_expiry',
@@ -221,9 +221,5 @@ class MemberAdmin(admin.ModelAdmin):
         elif member.sector == '1-YC':
             readonly.append('no_course_membership')
         elif member.sector == '2-NC':
-            readonly.extend(['course', 'course_alt', 'course_membership', ])
+            readonly.extend(['course2', 'course_alt', 'course_membership', ])
         return readonly
-
-@admin.register(CourseSchedule)
-class CourseScheduleAdmin(admin.ModelAdmin):
-    list_display = ('full', )

@@ -19,7 +19,7 @@ class ChangeMemberForm(ModelForm):
                 code='juvenile_follows_course',
             ))
         try:
-            course = cd.get('course')
+            course = cd.get('course2')
             course_alt = cd.get('course_alt')
             for sched in course:
                 if sched.full == 'Altro' and course_alt == None:
