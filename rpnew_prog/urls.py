@@ -33,6 +33,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="base.html")),
     path('privacy/', TemplateView.as_view(template_name="privacy.html")),
     path('luoghi/', pagine_views.ListLocation.as_view(), name='luoghi'),
+    path('luoghi/<slug>', pagine_views.DetailLocation.as_view(), name='luogo'),
     path('favicon.ico',
         RedirectView.as_view(url=settings.STATIC_ROOT + 'images/favicon.ico')),
     path('ckeditor/', include('ckeditor_uploader.urls')),

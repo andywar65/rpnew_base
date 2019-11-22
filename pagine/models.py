@@ -1,6 +1,24 @@
 from django.db import models
 from django.utils.html import format_html
+from django.utils.text import slugify
 from ckeditor_uploader.fields import RichTextUploadingField
+
+def generate_unique_slug(klass, field):
+    """
+    return unique slug if origin slug exists.
+    eg: `foo-bar` => `foo-bar-1`
+
+    :param `klass` is Class model.
+    :param `field` is specific field for title.
+    Thanks to djangosnippets.org!
+    """
+    origin_slug = slugify(field)
+    unique_slug = origin_slug
+    numb = 1
+    while klass.objects.filter(slug=unique_slug).exists():
+        unique_slug = '%s-%d' % (origin_slug, numb)
+        numb += 1
+    return unique_slug
 
 class CourseSchedule2(models.Model):
     full = models.CharField(max_length = 32, verbose_name = 'Giorno e ora',)
@@ -17,6 +35,7 @@ class Location(models.Model):
     title = models.CharField('Titolo',
         help_text='Il nome del luogo',
         max_length = 50)
+    slug = models.SlugField(max_length=50, unique=True)
     address = models.CharField('Indirizzo', max_length = 200,
         help_text = 'Via/Piazza, civico, CAP, Città',)
     gmap_link = models.URLField('Link di Google Map',
@@ -30,6 +49,14 @@ class Location(models.Model):
                    copia il link e incollalo qui",
     )
     body = RichTextUploadingField('Descrizione', )
+
+    def save(self, *args, **kwargs):
+        if self.slug:  # edit
+            if slugify(self.title) != self.slug:
+                self.slug = generate_unique_slug(Location, self.title)
+        else:  # create
+            self.slug = generate_unique_slug(Location, self.title)
+        super(Location, self).save(*args, **kwargs)
 
     def get_gmap_link(self):
         link = format_html('<a href="{}" class="btn" target="_blank">Mappa</a>',

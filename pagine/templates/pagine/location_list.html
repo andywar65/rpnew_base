@@ -7,7 +7,7 @@
 <ul>
   {% for location in all_locations %}
     <li>
-      {{ location.title }}
+      <a href="/luoghi/{{ location.slug }}">{{ location.title }}</a>
     </li>
   {% endfor%}
 </ul>
