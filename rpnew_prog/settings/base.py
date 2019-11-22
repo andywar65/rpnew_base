@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'pagine.apps.PagineConfig',
     'captcha',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -88,6 +90,7 @@ STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
 ]
 
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
