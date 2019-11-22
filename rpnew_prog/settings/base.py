@@ -91,6 +91,9 @@ STATICFILES_DIRS = [
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_BROWSE_SHOW_DIRS = True
+CKEDITOR_RESTRICT_BY_DATE = True
+CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

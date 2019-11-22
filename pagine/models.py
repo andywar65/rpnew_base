@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.html import format_html
-from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class CourseSchedule2(models.Model):
     full = models.CharField(max_length = 32, verbose_name = 'Giorno e ora',)
@@ -29,7 +29,7 @@ class Location(models.Model):
         help_text="Dal menu di Google Maps seleziona 'Condividi/incorpora', \
                    copia il link e incollalo qui",
     )
-    body = RichTextField('Descrizione', )
+    body = RichTextUploadingField('Descrizione', )
 
     def get_gmap_link(self):
         link = format_html('<a href="{}" class="btn" target="_blank">Mappa</a>',

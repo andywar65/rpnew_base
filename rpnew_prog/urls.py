@@ -14,8 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path#, include
+from django.urls import path, re_path, include
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from users import views as user_views
@@ -31,5 +32,6 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="base.html")),
     path('privacy/', TemplateView.as_view(template_name="privacy.html")),
     path('favicon.ico',
-        RedirectView.as_view(url=settings.STATIC_ROOT + 'images/favicon.ico'))
+        RedirectView.as_view(url=settings.STATIC_ROOT + 'images/favicon.ico')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
