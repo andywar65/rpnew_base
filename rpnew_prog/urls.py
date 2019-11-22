@@ -20,6 +20,7 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from users import views as user_views
+from pagine import views as pagine_views
 
 admin.site.site_header = 'Amministrazione RP'
 admin.site.site_title = 'Amministrazione RP'
@@ -31,6 +32,7 @@ urlpatterns = [
     path('contacts/', user_views.contacts, name='contacts'),
     path('', TemplateView.as_view(template_name="base.html")),
     path('privacy/', TemplateView.as_view(template_name="privacy.html")),
+    path('luoghi/', pagine_views.ListLocation.as_view(), name='luoghi'),
     path('favicon.ico',
         RedirectView.as_view(url=settings.STATIC_ROOT + 'images/favicon.ico')),
     path('ckeditor/', include('ckeditor_uploader.urls')),

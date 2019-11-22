@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Tutti i luoghi{%endblock title %}
+{% block content %}
+<h1>Lista dei luoghi</h1>
+<ul>
+  {% for location in all_locations %}
+    <li>
+      {{ location.title }}
+    </li>
+  {% endfor%}
+</ul>
+{% endblock content %}
