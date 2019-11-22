@@ -38,7 +38,7 @@ MEDIA_URL = '/media/'
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'https://rifondazionepodistica.it'
+BASE_URL = 'localhost'
 
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
