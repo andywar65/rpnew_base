@@ -3,6 +3,7 @@
 
 {% block title %}{{ location.title }}{%endblock title %}
 {% block content %}
+<p><a href="/luoghi" target="_blank">Guarda tutti i luoghi</a></p>
 <h1>{{ location.title }}</h1>
 {% if location.gmap_embed %}
   <iframe src="{{ location.gmap_embed }}" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
