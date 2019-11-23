@@ -55,7 +55,8 @@ class Location(models.Model):
         if not self.gmap_embed.startswith('http'):
             # thanks to geeksforgeeks.com!
             list = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', self.gmap_embed)
-            self.gmap_embed = list[0]
+            if list:
+                self.gmap_embed = list[0]
         if self.slug:  # edit
             if slugify(self.title) != self.slug:
                 self.slug = generate_unique_slug(Location, self.title)
