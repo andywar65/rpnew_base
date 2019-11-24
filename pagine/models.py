@@ -65,8 +65,11 @@ class Location(models.Model):
         super(Location, self).save(*args, **kwargs)
 
     def get_gmap_link(self):
-        link = format_html('<a href="{}" class="btn" target="_blank">Mappa</a>',
-            self.gmap_link)
+        if self.gmap_link:
+            link = format_html('<a href="{}" class="btn" target="_blank">Mappa</a>',
+                self.gmap_link)
+        else:
+            link = '-'
         return link
     get_gmap_link.short_description = 'Link di Google Maps'
 
