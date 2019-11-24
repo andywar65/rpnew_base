@@ -21,7 +21,7 @@ def generate_unique_slug(klass, field):
         numb += 1
     return unique_slug
 
-class CourseSchedule2(models.Model):
+class CourseSchedule(models.Model):
     full = models.CharField(max_length = 32, verbose_name = 'Giorno e ora',)
     abbrev = models.CharField(max_length = 8, verbose_name = 'Abbreviazione',)
 
