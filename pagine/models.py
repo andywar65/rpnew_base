@@ -72,13 +72,16 @@ class ImageEntry(models.Model):
         url_extension = os.path.splitext(self.image.url)
         thumb_name = url_extension[0] + "_thumb" + url_extension[1]
         if not self.thumb == thumb_name:
-            root_extension = os.path.splitext(self.image.path)
-            size = (128, 128)
-            img = Image.open(root_extension[0] + root_extension[1])
-            img.thumbnail(size)
-            img.save(root_extension[0] + "_thumb" + root_extension[1])
-            self.thumb = thumb_name
-            super(ImageEntry, self).save(*args, **kwargs)
+            try:
+                root_extension = os.path.splitext(self.image.path)
+                size = (128, 128)
+                img = Image.open(root_extension[0] + root_extension[1])
+                img.thumbnail(size)
+                img.save(root_extension[0] + "_thumb" + root_extension[1])
+                self.thumb = thumb_name
+                super(ImageEntry, self).save(*args, **kwargs)
+            except:
+                pass
 
 
     class Meta:
