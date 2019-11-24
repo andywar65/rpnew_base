@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 from django.db import models
 from django.utils.html import format_html
 from django.utils.text import slugify
@@ -53,7 +54,7 @@ class Location(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.gmap_embed.startswith('http'):
-            # thanks to geeksforgeeks.com!
+            # thanks to geeksforgeeks.com! findall returns a list
             list = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', self.gmap_embed)
             if list:
                 self.gmap_embed = list[0]
@@ -79,3 +80,34 @@ class Location(models.Model):
     class Meta:
         verbose_name = 'Luogo'
         verbose_name_plural = 'Luoghi'
+
+def date_directory_path(instance, filename):
+    if instance.date:
+        now = instance.date
+    else:
+        now = datetime.now()
+    year = now.strftime("%Y")
+    month = now.strftime("%m")
+    return 'uploads/{0}/{1}/{2}'.format(year, month, filename)
+
+class ImageEntry(models.Model):
+    date = models.DateTimeField(blank=True, null=True, editable=False)
+    image = models.ImageField(upload_to = date_directory_path,)
+    description = models.CharField('Descrizione', max_length = 200,
+        blank=True, null=True,)
+
+    def __str__(self):
+        return 'IMG-' + self.date.strftime("%Y%m%d") + '-' + str(self.pk)
+
+    def get_name(self):
+        return 'IMG-' + self.date.strftime("%Y%m%d") + '-' + str(self.pk)
+    get_name.short_description = 'Nome'
+
+    def save(self, *args, **kwargs):
+        if not self.date:
+            self.date = datetime.now()
+        super(ImageEntry, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Immagine'
+        verbose_name_plural = 'Immagini'
