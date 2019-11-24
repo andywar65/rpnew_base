@@ -1,4 +1,6 @@
+import os
 import re
+from PIL import Image
 from datetime import datetime
 from django.db import models
 from django.utils.html import format_html
@@ -93,6 +95,8 @@ def date_directory_path(instance, filename):
 class ImageEntry(models.Model):
     date = models.DateTimeField(blank=True, null=True, editable=False)
     image = models.ImageField(upload_to = date_directory_path,)
+    thumb = models.CharField(editable=False, blank=True, null=True,
+        max_length = 200,)
     description = models.CharField('Descrizione', max_length = 200,
         blank=True, null=True,)
 
@@ -103,10 +107,27 @@ class ImageEntry(models.Model):
         return 'IMG-' + self.date.strftime("%Y%m%d") + '-' + str(self.pk)
     get_name.short_description = 'Nome'
 
+    def get_thumb(self):
+        thumb = format_html('<img src="{}" alt="{}" />', self.thumb,
+            self.description)
+        return thumb
+    get_thumb.short_description = 'Anteprima'
+
     def save(self, *args, **kwargs):
         if not self.date:
             self.date = datetime.now()
         super(ImageEntry, self).save(*args, **kwargs)
+        url_extension = os.path.splitext(self.image.url)
+        thumb_name = url_extension[0] + "_thumb" + url_extension[1]
+        if not self.thumb == thumb_name:
+            root_extension = os.path.splitext(self.image.path)
+            size = (128, 128)
+            img = Image.open(root_extension[0] + root_extension[1])
+            img.thumbnail(size)
+            img.save(root_extension[0] + "_thumb" + root_extension[1])
+            self.thumb = thumb_name
+            super(ImageEntry, self).save(*args, **kwargs)
+
 
     class Meta:
         verbose_name = 'Immagine'
