@@ -1,0 +1,7 @@
+{% extends "admin/change_form.html" %}
+
+{% block content %}
+Trying to add thumbnail here
+  <img src="{{ form.thumb }}" alt="{{ form.description }}" />
+  {{ block.super }}
+{% endblock content %}
