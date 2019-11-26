@@ -7,7 +7,7 @@ class ListLocation(ListView):
     model = Location
     ordering = ('title', )
     context_object_name = 'all_locations'
-    paginate_by = 3
+    paginate_by = 12
 
 class DetailLocation(DetailView):
     model = Location
