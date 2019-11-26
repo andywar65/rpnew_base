@@ -8,7 +8,7 @@ class CourseScheduleAdmin(admin.ModelAdmin):
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ('title', 'address', 'get_gmap_link')
+    list_display = ('title', 'address', 'get_thumb', 'get_gmap_link')
     readonly_fields = ('slug', )
 
 @admin.register(ImageEntry)

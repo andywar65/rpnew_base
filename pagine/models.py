@@ -66,7 +66,9 @@ class ImageEntry(models.Model):
     def save(self, *args, **kwargs):
         if not self.date:
             self.date = datetime.now()
-        super(ImageEntry, self).save(*args, **kwargs)
+            super(ImageEntry, self).save(*args, **kwargs)
+        if not self.name:
+            self.name = 'IMG-' + self.date.strftime("%Y%m%d") + '-' + str(self.pk)
         url_extension = os.path.splitext(self.image.url)
         thumb_name = url_extension[0] + "_thumb" + url_extension[1]
         if not self.thumb == thumb_name:
@@ -77,12 +79,9 @@ class ImageEntry(models.Model):
                 img.thumbnail(size)
                 img.save(root_extension[0] + "_thumb" + root_extension[1])
                 self.thumb = thumb_name
-                super(ImageEntry, self).save(*args, **kwargs)
             except:
                 pass
-        if not self.name:
-            self.name = 'IMG-' + self.date.strftime("%Y%m%d") + '-' + str(self.pk)
-            super(ImageEntry, self).save(*args, **kwargs)
+        super(ImageEntry, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Immagine'
@@ -130,6 +129,15 @@ class Location(models.Model):
             link = '-'
         return link
     get_gmap_link.short_description = 'Link di Google Maps'
+
+    def get_thumb(self):
+        if self.image:
+            thumb = format_html('<img src="{}" alt="{}" />', self.image.thumb,
+                self.image.description)
+        else:
+            thumb = ''
+        return thumb
+    get_thumb.short_description = 'Immagine'
 
     def __str__(self):
         return self.title
