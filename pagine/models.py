@@ -45,6 +45,8 @@ class CourseSchedule(models.Model):
         verbose_name_plural = 'Orari'
 
 class ImageEntry(models.Model):
+    name = models.CharField('Nome', editable=False, blank=True, null=True,
+        max_length = 50,)
     date = models.DateTimeField(blank=True, null=True, editable=False)
     image = models.ImageField(upload_to = date_directory_path,)
     thumb = models.CharField(editable=False, blank=True, null=True,
@@ -53,11 +55,7 @@ class ImageEntry(models.Model):
         blank=True, null=True,)
 
     def __str__(self):
-        return 'IMG-' + self.date.strftime("%Y%m%d") + '-' + str(self.pk)
-
-    def get_name(self):
-        return 'IMG-' + self.date.strftime("%Y%m%d") + '-' + str(self.pk)
-    get_name.short_description = 'Nome'
+        return self.name
 
     def get_thumb(self):
         thumb = format_html('<img src="{}" alt="{}" />', self.thumb,
@@ -82,7 +80,9 @@ class ImageEntry(models.Model):
                 super(ImageEntry, self).save(*args, **kwargs)
             except:
                 pass
-
+        if not self.name:
+            self.name = 'IMG-' + self.date.strftime("%Y%m%d") + '-' + str(self.pk)
+            super(ImageEntry, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Immagine'

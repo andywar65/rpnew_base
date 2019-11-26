@@ -13,7 +13,7 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(ImageEntry)
 class ImageEntryAdmin(admin.ModelAdmin):
-    list_display = ('get_thumb', 'get_name', 'description', )
+    list_display = ('get_thumb', 'name', 'description', )
     list_filter = ('date', )
     ordering = ('date', )
-    search_fields = ('description', )
+    search_fields = ('description', 'name', )
