@@ -1,0 +1,6 @@
+{% extends "admin/change_form.html" %}
+
+{% block content %}
+  <img src="{{ original.image.thumb }}" alt="{{ original.image.description }}" />
+  {{ block.super }}
+{% endblock content %}
