@@ -94,7 +94,8 @@ class MemberPaymentInline(admin.TabularInline):
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
     form = ChangeMemberForm
-    list_display = ('get_full_name', 'sector', 'parent', 'mc_state', 'settled')
+    list_display = ('get_thumb', 'get_full_name', 'sector', 'parent',
+        'mc_state', 'settled')
     list_filter = ('mc_state', 'settled')
     search_fields = ('user__first_name', 'user__last_name',
         'user__username', 'fiscal_code', 'address')
@@ -103,7 +104,7 @@ class MemberAdmin(admin.ModelAdmin):
     fieldsets = (
         ('', {'fields':('sector', 'parent')}),
         ('Anagrafica', {'classes': ('collapse',),
-            'fields':('gender', 'date_of_birth', 'place_of_birth',
+            'fields':('avatar', 'gender', 'date_of_birth', 'place_of_birth',
             'nationality', 'fiscal_code')}),
         ('Contatti', {'classes': ('collapse',),
             'fields':('address', 'phone', 'email_2', )}),

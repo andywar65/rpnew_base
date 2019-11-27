@@ -1,3 +1,5 @@
+import os
+from PIL import Image
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from pagine.models import CourseSchedule
@@ -40,6 +42,10 @@ class Member(models.Model):
     parent = models.ForeignKey(User, on_delete = models.SET_NULL,
         blank = True, null = True, related_name = 'member_parent',
         verbose_name = 'Genitore')
+    avatar = models.ImageField(blank = True, null=True,
+        upload_to = user_directory_path,)
+    thumb = models.CharField(editable=False, blank=True, null=True,
+        max_length = 200,)
     gender = models.CharField(max_length = 1, choices = GENDER,
         blank = True, null=True, verbose_name = 'Sesso', )
     date_of_birth = models.DateField( blank=True, null=True,
@@ -96,9 +102,44 @@ class Member(models.Model):
         return self.user.get_full_name()
     get_full_name.short_description = 'Nome'
 
+    def get_thumb(self):
+        if self.thumb:
+            thumb = format_html('<img src="{}" alt="" class="rounded-circle" />',
+                self.thumb)
+        else:
+            thumb = format_html('<img src="/static/images/thumb_rp.png" alt="" class="rounded-circle" />')
+        return thumb
+    get_thumb.short_description = ''
+
     def __str__(self):
         full_name = '%s %s' % (self.user.last_name, self.user.first_name)
         return full_name.strip()
+
+    def save(self, *args, **kwargs):
+        super(Member, self).save(*args, **kwargs)
+        if self.avatar:
+            url_extension = os.path.splitext(self.avatar.url)
+            thumb_name = url_extension[0] + "_thumb" + url_extension[1]
+            if not self.thumb == thumb_name:
+                try:
+                    root_extension = os.path.splitext(self.avatar.path)
+                    img = Image.open(root_extension[0] + root_extension[1])
+                    xsize, ysize = img.size
+                    if xsize > ysize:
+                        cropped = img.crop(((xsize-ysize)/2,0,
+                            xsize-(xsize-ysize)/2,ysize))
+                    elif xsize < ysize:
+                        cropped = img.crop((0,(ysize-xsize)/2,
+                            xsize,ysize-(ysize-xsize)/2))
+                    else:
+                        cropped = img.copy()
+                    size = (32, 32)
+                    cropped.thumbnail(size)
+                    cropped.save(root_extension[0] + "_thumb" + root_extension[1])
+                    self.thumb = thumb_name
+                    super(Member, self).save(*args, **kwargs)
+                except:
+                    pass
 
     class Meta:
         verbose_name = 'Iscritto'
