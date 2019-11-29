@@ -35,8 +35,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'pagine.apps.PagineConfig',
     'captcha',
-    #'ckeditor',
-    #'ckeditor_uploader',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [

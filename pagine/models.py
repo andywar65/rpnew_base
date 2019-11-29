@@ -14,7 +14,8 @@ def date_directory_path(instance, filename):
         now = datetime.now()
     year = now.strftime("%Y")
     month = now.strftime("%m")
-    return 'uploads/{0}/{1}/{2}'.format(year, month, filename)
+    day = now.strftime("%d")
+    return 'uploads/{0}/{1}/{2}/{3}'.format(year, month, day, filename)
 
 def generate_unique_slug(klass, field):
     """
