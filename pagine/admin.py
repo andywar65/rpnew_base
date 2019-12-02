@@ -17,5 +17,5 @@ class LocationAdmin(admin.ModelAdmin):
 class ImageEntryAdmin(admin.ModelAdmin):
     list_display = ('get_thumb', 'name', 'description', )
     list_filter = ('date', )
-    ordering = ('date', )
+    ordering = ('-date', )
     search_fields = ('description', 'name', )

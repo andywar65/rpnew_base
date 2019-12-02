@@ -89,12 +89,12 @@ class ImageEntry(models.Model):
         verbose_name_plural = 'Immagini'
 
 class Location(models.Model):
+    image = models.ForeignKey(ImageEntry, on_delete=models.SET_NULL,
+        blank= True, null=True, verbose_name = 'Immagine')
     title = models.CharField('Titolo',
         help_text='Il nome del luogo',
         max_length = 50)
     slug = models.SlugField(max_length=50, unique=True)
-    image = models.ForeignKey(ImageEntry, on_delete=models.SET_NULL,
-        blank= True, null=True,)
     address = models.CharField('Indirizzo', max_length = 200,
         help_text = 'Via/Piazza, civico, CAP, Città',)
     gmap_link = models.URLField('Link di Google Map',
