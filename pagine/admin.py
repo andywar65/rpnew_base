@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import (CourseSchedule, Location, ImageEntry, )
+from .forms import LocationForm
 
 @admin.register(CourseSchedule)
 class CourseScheduleAdmin(admin.ModelAdmin):
@@ -8,6 +9,7 @@ class CourseScheduleAdmin(admin.ModelAdmin):
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
+    form = LocationForm
     list_display = ('title', 'address', 'get_thumb', 'get_gmap_link')
     readonly_fields = ('slug', )
 
