@@ -108,6 +108,12 @@ class Location(models.Model):
                    copia il link e incollalo qui",
     )
     body = models.TextField('Descrizione', blank= True, null=True,)
+    website = models.URLField('Sito internet',
+        blank= True, null=True, )
+    email = models.EmailField(blank = True, null = True,
+        verbose_name = 'Email',)
+    phone = models.CharField(max_length = 50,
+        blank = True, null = True, verbose_name = 'Telefono/i',)
 
     def save(self, *args, **kwargs):
         if not self.gmap_embed.startswith('http'):
