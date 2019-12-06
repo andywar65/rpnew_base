@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import (CourseSchedule, Location, ImageEntry, Event, )
+from .models import (CourseSchedule, Location, ImageEntry, Event,
+    EventUpgrade, )
 from .forms import LocationForm
 
 @admin.register(CourseSchedule)
@@ -20,6 +21,12 @@ class ImageEntryAdmin(admin.ModelAdmin):
     ordering = ('-date', )
     search_fields = ('description', 'name', )
 
+class EventUpgradeInline(admin.TabularInline):
+    model = EventUpgrade
+    fields = ('title', 'date', 'body', )
+    extra = 1
+
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = ('title', 'date', 'location', )
+    inlines = [ EventUpgradeInline, ]
