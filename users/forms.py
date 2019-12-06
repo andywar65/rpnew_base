@@ -42,7 +42,7 @@ class RegistrationForm(ModelForm):
     sector = forms.ChoiceField(choices = SECTOR, widget=forms.Select(attrs={'class': "form-control"}))
     children_str = forms.CharField(required = False,
         widget=forms.TextInput(attrs={'class': "form-control",
-        'placeholder': "Nomi e cognomi dei figli da iscrivere, separati da una virgola"}))
+        'placeholder': "Nome e cognome dei figli, separati da una virgola (Mario Rossi, Ada Rossi)"}))
     captcha = ReCaptchaField()
     class Meta:
         model = Applicant
