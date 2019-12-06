@@ -5,6 +5,7 @@ from datetime import datetime
 from django.db import models
 from django.utils.html import format_html
 from django.utils.text import slugify
+from taggit.managers import TaggableManager
 #from ckeditor_uploader.fields import RichTextUploadingField
 
 def date_directory_path(instance, filename):
@@ -152,3 +153,24 @@ class Location(models.Model):
     class Meta:
         verbose_name = 'Luogo'
         verbose_name_plural = 'Luoghi'
+
+class Event(models.Model):
+    image = models.ForeignKey(ImageEntry, on_delete=models.SET_NULL,
+        blank= True, null=True, verbose_name = 'Immagine')
+    title = models.CharField('Titolo',
+        help_text="Il titolo dell'evento",
+        max_length = 50)
+    date = models.DateTimeField('Quando', default = datetime.now())
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL,
+        null = True, verbose_name = 'Dove', )
+    tags = TaggableManager(verbose_name="Categorie",
+        help_text="Lista di categorie separate da virgole",
+        through=None, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Evento'
+        verbose_name_plural = 'Eventi'
+        ordering = ('date', )

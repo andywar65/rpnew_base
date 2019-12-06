@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (CourseSchedule, Location, ImageEntry, )
+from .models import (CourseSchedule, Location, ImageEntry, Event, )
 from .forms import LocationForm
 
 @admin.register(CourseSchedule)
@@ -19,3 +19,7 @@ class ImageEntryAdmin(admin.ModelAdmin):
     list_filter = ('date', )
     ordering = ('-date', )
     search_fields = ('description', 'name', )
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('title', 'date', 'location', )
