@@ -1,0 +1,18 @@
+/*
+    RP frontend styles
+*/
+
+/* LINKS */
+
+a:link, a:visited {
+    color: #24890d;
+    text-decoration: none;
+}
+
+a:focus, a:hover {
+    color: #88a91e;
+}
+
+a:focus {
+    text-decoration: underline;
+}
