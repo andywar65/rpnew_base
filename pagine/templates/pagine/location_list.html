@@ -1,21 +1,23 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}Tutti i luoghi{% endblock title %}
 {% block content %}
 <h1>Lista dei luoghi</h1>
-
+  <div class="card-deck">
   {% for location in all_locations %}
-      {% if forloop.first %}<div class="row">{% endif %}
-      <div class="col-4">
-              <a href="/luoghi/{{ location.slug }}">
-                  {{ location.title }}
-              </a>
-          </div>
-      {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
-      {% if forloop.last %}</div>{% endif %}
+    <div class="card">
+      <img class="card-img-top" src="/media/{{ location.image.image }}" alt="{{ location.image.description }}">
+      <div class="card-body">
+        <h5 class="card-title">{{ location.title }}</h5>
+        <p class="card-text">{{ location.address }}</p>
+        <a href="/luoghi/{{ location.slug }}" class="card-link">Dettagli</a>
+        {% if location.gmap_link %}
+        <a href="{{ location.gmap_link }}" class="card-link">Mappa</a>
+        {% endif %}
+      </div>
+    </div>
   {% endfor %}
-
+  </div>
 {% if is_paginated %}
   <nav aria-label="Page navigation container">
   <ul class="pagination justify-content-center">
