@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Tutti i luoghi{% endblock title %}
+{% block title %}Dove corriamo{% endblock title %}
 {% block content %}
-<h1>Lista dei luoghi</h1>
+<h1>Dove corriamo e altri luoghi</h1>
   <div class="card-deck">
   {% for location in all_locations %}
     <div class="card">
-      <img class="card-img-top" src="/media/{{ location.image.image }}" alt="{{ location.image.description }}">
+      <img class="card-img-top" src="{{ location.image.image.url }}" alt="{{ location.image.description }}">
       <div class="card-body">
         <h5 class="card-title">{{ location.title }}</h5>
         <p class="card-text">{{ location.address }}</p>
