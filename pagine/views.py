@@ -19,3 +19,5 @@ class EventArchiveIndexView(ArchiveIndexView):
     model = Event
     date_field = 'date'
     allow_future = True
+    context_object_name = 'all_events'
+    paginate_by = 12
