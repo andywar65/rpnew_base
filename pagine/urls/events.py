@@ -1,5 +1,5 @@
-from django.views.generic.dates import ArchiveIndexView
 from django.urls import path
+from django.views.generic.dates import ArchiveIndexView
 from pagine.models import Event
 
 urlpatterns = [
