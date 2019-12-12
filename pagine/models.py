@@ -197,7 +197,7 @@ class Event(models.Model):
     class Meta:
         verbose_name = 'Evento'
         verbose_name_plural = 'Eventi'
-        ordering = ('date', )
+        ordering = ('-date', )
 
 class EventUpgrade(models.Model):
     event = models.ForeignKey(Event, on_delete = models.CASCADE,

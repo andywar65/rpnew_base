@@ -30,3 +30,4 @@ class EventUpgradeInline(admin.TabularInline):
 class EventAdmin(admin.ModelAdmin):
     list_display = ('title', 'date', 'location', )
     inlines = [ EventUpgradeInline, ]
+    search_fields = ('title', 'date', 'intro', )
