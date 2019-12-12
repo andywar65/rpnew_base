@@ -174,6 +174,14 @@ class Event(models.Model):
         help_text="Lista di categorie separate da virgole",
         through=None, blank=True)
 
+    def get_badge_color(self):
+        if self.date.date() > datetime.today().date():
+            return 'success'
+        elif self.date.date() < datetime.today().date():
+            return 'secondary'
+        else:
+            return 'warning'
+
     def __str__(self):
         return self.title
 
