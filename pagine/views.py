@@ -29,3 +29,4 @@ class EventMonthArchiveView(MonthArchiveView):
     allow_future = True
     context_object_name = 'all_events'
     month_format = '%m'
+    allow_empty = True

@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}RP | Calendario mese{% endblock title %}
+{% block title %}RP | Calendario {{ month|date:"M-Y" }}{% endblock title %}
 {% block content %}
-<h1>Appuntamenti e cronache mese</h1>
+<h1>Appuntamenti e cronache {{ month|date:"M-Y" }}</h1>
+<hr class="mb-4">
 {% if all_events %}
     {% for event in all_events %}
       <div class="row row-striped">
@@ -26,6 +27,7 @@
         <p>Non ci sono eventi in calendario.</p>
     </div>
 {% endif %}
+<hr class="mb-4">
   <nav aria-label="Page navigation container">
   <ul class="pagination justify-content-center">
     {% if previous_month %}
