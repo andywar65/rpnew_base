@@ -1,7 +1,6 @@
 from django.urls import path
-from django.views.generic.dates import ArchiveIndexView
-from pagine.models import Event
+from pagine.views import EventArchiveIndexView
 
 urlpatterns = [
-    path('', ArchiveIndexView.as_view(model=Event, date_field='date'))
+    path('', EventArchiveIndexView.as_view(), name = 'event_index'),
     ]
