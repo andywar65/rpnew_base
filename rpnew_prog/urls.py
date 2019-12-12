@@ -37,6 +37,7 @@ urlpatterns = [
     path('favicon.ico',
         RedirectView.as_view(url=settings.STATIC_ROOT + 'images/favicon.ico')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('calendario/', include('pagine.urls.calendario')),
 ]
 
 if settings.DEBUG:
