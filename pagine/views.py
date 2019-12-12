@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from django.views.generic.dates import ArchiveIndexView
+from django.views.generic.dates import (ArchiveIndexView,
+    MonthArchiveView, )
 
 from .models import (Location, Event)
 
@@ -21,3 +22,10 @@ class EventArchiveIndexView(ArchiveIndexView):
     allow_future = True
     context_object_name = 'all_events'
     paginate_by = 12
+
+class EventMonthArchiveView(MonthArchiveView):
+    model = Event
+    date_field = 'date'
+    allow_future = True
+    context_object_name = 'all_events'
+    month_format = '%m'
