@@ -30,3 +30,8 @@ class EventMonthArchiveView(MonthArchiveView):
     context_object_name = 'all_events'
     month_format = '%m'
     allow_empty = True
+
+class DetailEvent(DetailView):
+    model = Event
+    context_object_name = 'event'
+    slug_field = 'slug'

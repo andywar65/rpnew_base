@@ -30,3 +30,8 @@ a:focus {
 .row-striped {
     padding: 15px 0;
 }
+
+.page-link:hover {
+    color: #24890d;
+    background-color: #e9ecef;
+}
