@@ -123,10 +123,7 @@ class Location(models.Model):
             list = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', self.gmap_embed)
             if list:
                 self.gmap_embed = list[0]
-        if self.slug:  # edit
-            if slugify(self.title) != self.slug:
-                self.slug = generate_unique_slug(Location, self.title)
-        else:  # create
+        if not self.slug:  # create
             self.slug = generate_unique_slug(Location, self.title)
         super(Location, self).save(*args, **kwargs)
 
@@ -184,11 +181,8 @@ class Event(models.Model):
             return 'warning'
 
     def save(self, *args, **kwargs):
-        if self.slug:  # edit
-            if slugify(self.title) != self.slug:
-                self.slug = slugify(self.title)
-        else:  # create
-            self.slug = slugify(self.title)
+        if not self.slug:
+            self.slug = generate_unique_slug(Event, self.title)
         super(Event, self).save(*args, **kwargs)
 
     def __str__(self):
