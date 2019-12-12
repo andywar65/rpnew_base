@@ -24,7 +24,7 @@ class ImageEntryAdmin(admin.ModelAdmin):
 class EventUpgradeInline(admin.TabularInline):
     model = EventUpgrade
     fields = ('title', 'date', 'body', )
-    extra = 1
+    extra = 0
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):

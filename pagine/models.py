@@ -162,6 +162,7 @@ class Event(models.Model):
     title = models.CharField('Titolo',
         help_text="Il titolo dell'evento",
         max_length = 50)
+    slug = models.SlugField(max_length=50, editable=False, null=True)
     date = models.DateTimeField('Quando', default = datetime.now())
     location = models.ForeignKey(Location, on_delete=models.SET_NULL,
         null = True, verbose_name = 'Dove', )
@@ -181,6 +182,14 @@ class Event(models.Model):
             return 'secondary'
         else:
             return 'warning'
+
+    def save(self, *args, **kwargs):
+        if self.slug:  # edit
+            if slugify(self.title) != self.slug:
+                self.slug = slugify(self.title)
+        else:  # create
+            self.slug = slugify(self.title)
+        super(Event, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
