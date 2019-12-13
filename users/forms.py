@@ -54,7 +54,7 @@ class ContactLogForm(ModelForm):
         'placeholder': "Scrivi qui il messaggio"}))
     class Meta:
         model = UserMessage
-        fields = ('user', 'email', 'subject', 'body')
+        fields = ('user', 'email', 'subject', 'body', 'recipient')
 
 class ContactForm(ModelForm):
     nickname = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))

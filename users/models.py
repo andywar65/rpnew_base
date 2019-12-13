@@ -203,8 +203,8 @@ class UserMessage(models.Model):
     nickname = models.CharField(max_length = 50,
         verbose_name = 'Nome', blank=True, null=True,)
     email = models.EmailField(blank=True, null=True,
-        verbose_name = 'Indirizzo email',)
-    recipient = models.EmailField(default = 'rifondazionepodistica96@gmail.com')
+        verbose_name = 'Inviato da',)
+    recipient = models.EmailField(blank=True, null=True, verbose_name = 'Destinatario')
     subject = models.CharField(max_length = 200,
         verbose_name = 'Soggetto', )
     body = models.TextField(verbose_name = 'Messaggio', )
@@ -224,6 +224,8 @@ class UserMessage(models.Model):
     get_email.short_description = 'Indirizzo email'
 
     def save(self, *args, **kwargs):
+        if not self.recipient:
+            self.recipient = 'rifondazionepodistica96@gmail.com'
         super(UserMessage, self).save(*args, **kwargs)
         con = get_connection(settings.EMAIL_BACKEND)
         send_mail(

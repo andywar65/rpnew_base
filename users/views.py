@@ -23,6 +23,8 @@ def contacts(request):
             form = ContactLogForm(request.POST)
             if form.is_valid():
                 mod_form = form.save(commit=False)
+                if 'recipient' in request.GET:
+                    mod_form.recipient = request.GET['recipient']
                 mod_form.user = request.user
                 mod_form.email = request.user.email
                 mod_form.save()
@@ -32,7 +34,7 @@ def contacts(request):
             if 'submitted' in request.GET:
                 submitted = True
         return render(request, 'users/message-log.html', {
-            'form': form, 'submitted': submitted})
+            'form': form, 'submitted': submitted, })
     else:
         if request.method == 'POST':
             form = ContactForm(request.POST)
