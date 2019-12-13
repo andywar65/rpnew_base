@@ -163,9 +163,10 @@ class Event(models.Model):
     date = models.DateTimeField('Quando', default = datetime.now())
     location = models.ForeignKey(Location, on_delete=models.SET_NULL,
         null = True, verbose_name = 'Dove', )
-    intro = models.CharField('Introduzione', blank= True, null=True,
-        max_length = 100)
-    body = RichTextUploadingField('Lancio', blank= True, null=True, )
+    intro = models.CharField('Introduzione',
+        default = 'Un altro appuntamento con RP!', max_length = 100)
+    body = RichTextUploadingField('Lancio',
+        default = "Inserisci qui i dati dell'evento", )
     manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
         blank= True, null=True, verbose_name = 'Responsabile')
     tags = TaggableManager(verbose_name="Categorie",
@@ -190,6 +191,9 @@ class Event(models.Model):
     def get_tags(self):
         return list(self.tags.names())
 
+    def get_upgrades(self):
+        return EventUpgrade.objects.filter(event_id=self.id)
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = generate_unique_slug(Event, self.title)
@@ -210,7 +214,8 @@ class EventUpgrade(models.Model):
         help_text="Il titolo dell'aggiornamento",
         max_length = 50)
     date = models.DateTimeField('Data', default = datetime.now())
-    body = RichTextUploadingField('Aggiornamento', blank= True, null=True, )
+    body = RichTextUploadingField('Aggiornamento',
+        default = "Inserisci qui i dati dell'aggiornamento", )
 
     def __str__(self):
         return self.title
@@ -218,4 +223,4 @@ class EventUpgrade(models.Model):
     class Meta:
         verbose_name = 'Aggiornamento'
         verbose_name_plural = 'Aggiornamenti'
-        ordering = ('date', )
+        ordering = ('-date', )

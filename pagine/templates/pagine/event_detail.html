@@ -43,6 +43,20 @@
           <p>{{ event.intro }}</p>
         </div>
       </div>
+      {% if event.get_upgrades %}
+        {% for upgrade in event.get_upgrades %}
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <h4><strong>Aggiornamento del {{ upgrade.date|date:"d M Y" }} - {{ upgrade.title }}</strong></h4>
+            {{ upgrade.body|safe }}
+          </div>
+        </div>
+        <hr class="mb-4">
+        {% endfor %}
+        <div class="row"><div class="col-md-2"></div>
+        <h4 class="col-md-8"><strong>Articolo originale</strong></h4></div>
+      {% endif %}
       <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
