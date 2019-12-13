@@ -180,6 +180,13 @@ class Event(models.Model):
         else:
             return 'warning'
 
+    def get_image(self):
+        if self.image:
+            return self.image
+        elif self.location.image:
+            return self.location.image
+        return
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = generate_unique_slug(Event, self.title)

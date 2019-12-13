@@ -18,13 +18,13 @@ a:focus {
 }
 
 .row-striped:nth-of-type(odd){
-  background-color: #efefef;
+  background-color: #dddddd;
   border-left: 4px #000000 solid;
 }
 
 .row-striped:nth-of-type(even){
-  background-color: #ffffff;
-  border-left: 4px #efefef solid;
+  background-color: #efefef;
+  border-left: 4px #dddddd solid;
 }
 
 .row-striped {
