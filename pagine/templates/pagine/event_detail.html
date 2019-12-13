@@ -16,6 +16,16 @@
               <i class="fa fa-location-arrow" aria-hidden="true"></i>
               <a href="/luoghi/{{ event.location.slug }}">{{ event.location.title }}</a>
             </li>
+            {% if event.manager %}
+            <li class="list-inline-item">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              {% if user.is_authenticated %}
+              <a href="/contacts">{{ event.manager }}</a>
+              {% else %}
+              {{ event.manager }}
+              {% endif %}
+            </li>
+            {% endif %}
           </ul>
           <p>{{ event.intro }}</p>
         </div>
