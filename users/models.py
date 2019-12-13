@@ -1,5 +1,7 @@
 import os
 from PIL import Image
+from django.conf import settings
+from django.core.mail import send_mail, get_connection
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from pagine.models import CourseSchedule
@@ -202,6 +204,7 @@ class UserMessage(models.Model):
         verbose_name = 'Nome', blank=True, null=True,)
     email = models.EmailField(blank=True, null=True,
         verbose_name = 'Indirizzo email',)
+    recipient = models.EmailField(default = 'rifondazionepodistica96@gmail.com')
     subject = models.CharField(max_length = 200,
         verbose_name = 'Soggetto', )
     body = models.TextField(verbose_name = 'Messaggio', )
@@ -219,6 +222,17 @@ class UserMessage(models.Model):
         else:
             return self.email
     get_email.short_description = 'Indirizzo email'
+
+    def save(self, *args, **kwargs):
+        super(UserMessage, self).save(*args, **kwargs)
+        con = get_connection(settings.EMAIL_BACKEND)
+        send_mail(
+            self.subject + ' da ' + self.get_email(),
+            self.body,
+            'no-reply@rifondazionepodistica.it',
+            [self.recipient, ] ,
+            connection = con,
+        )
 
     def __str__(self):
         return 'Messaggio - %s' % (self.id)
