@@ -187,6 +187,9 @@ class Event(models.Model):
             return self.location.image
         return
 
+    def get_tags(self):
+        return list(self.tags.names())
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = generate_unique_slug(Event, self.title)

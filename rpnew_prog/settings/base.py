@@ -96,6 +96,8 @@ CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_RESTRICT_BY_DATE = True
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 
+TAGGIT_CASE_INSENSITIVE = True
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -110,5 +112,3 @@ USE_L10N = True
 USE_TZ = True
 
 AUTH_USER_MODEL = 'users.User'
-
-#GRAPPELLI_ADMIN_TITLE = 'Amministrazione RP'

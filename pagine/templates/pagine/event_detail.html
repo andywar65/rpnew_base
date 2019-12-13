@@ -31,6 +31,14 @@
               {% endif %}
             </li>
             {% endif %}
+            {% if event.get_tags %}
+              <li class="list-inline-item">
+                <i class="fa fa-folder-open" aria-hidden="true"></i>
+                {% for tag in event.get_tags %}
+                  {{ tag }}
+                {% endfor %}
+              </li>
+            {% endif %}
           </ul>
           <p>{{ event.intro }}</p>
         </div>
