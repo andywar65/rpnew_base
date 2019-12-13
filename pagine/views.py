@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.dates import (ArchiveIndexView, YearArchiveView,
-    MonthArchiveView, )
+    MonthArchiveView, DayArchiveView, )
 
 from .models import (Location, Event)
 
@@ -38,7 +38,18 @@ class EventMonthArchiveView(MonthArchiveView):
     date_field = 'date'
     allow_future = True
     context_object_name = 'all_events'
+    year_format = '%Y'
     month_format = '%m'
+    allow_empty = True
+
+class EventDayArchiveView(DayArchiveView):
+    model = Event
+    date_field = 'date'
+    allow_future = True
+    context_object_name = 'all_events'
+    year_format = '%Y'
+    month_format = '%m'
+    day_format = '%d'
     allow_empty = True
 
 class DetailEvent(DetailView):
