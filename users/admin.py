@@ -21,7 +21,7 @@ admin.site.register(User, UserAdmin)
 @admin.register(UserMessage)
 class UserMessageAdmin(admin.ModelAdmin):
     list_display = ('get_full_name', 'get_email', 'subject', )
-    ordering = ('user__last_name', 'user__first_name', 'nickname', )
+    ordering = ('-id', )
 
 class ApplicantChildInline(admin.TabularInline):
     model = ApplicantChild

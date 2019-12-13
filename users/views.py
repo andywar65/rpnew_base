@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import RegistrationForm, ContactLogForm, ContactForm
+from .models import User
 
 def registration(request):
     submitted = False
@@ -24,7 +25,11 @@ def contacts(request):
             if form.is_valid():
                 mod_form = form.save(commit=False)
                 if 'recipient' in request.GET:
-                    mod_form.recipient = request.GET['recipient']
+                    try:
+                        recip = User.objects.get(id=request.GET['recipient'])
+                        mod_form.recipient = recip.email
+                    except:
+                        pass
                 mod_form.user = request.user
                 mod_form.email = request.user.email
                 mod_form.save()
