@@ -208,6 +208,8 @@ class UserMessage(models.Model):
     subject = models.CharField(max_length = 200,
         verbose_name = 'Soggetto', )
     body = models.TextField(verbose_name = 'Messaggio', )
+    notice = models.CharField(max_length = 4, choices = NOTICE,
+        default = 'SPAM', verbose_name = 'Notifica via email')
 
     def get_full_name(self):
         if self.user:
@@ -224,17 +226,22 @@ class UserMessage(models.Model):
     get_email.short_description = 'Indirizzo email'
 
     def save(self, *args, **kwargs):
+        go_spam = False
         if not self.recipient:
             self.recipient = 'rifondazionepodistica96@gmail.com'
+        if self.notice == 'SPAM':
+            go_spam = True
+            self.notice = 'DONE'
         super(UserMessage, self).save(*args, **kwargs)
-        con = get_connection(settings.EMAIL_BACKEND)
-        send_mail(
-            self.subject + ' da ' + self.get_email(),
-            self.body,
-            'no-reply@rifondazionepodistica.it',
-            [self.recipient, ] ,
-            connection = con,
-        )
+        if go_spam:
+            con = get_connection(settings.EMAIL_BACKEND)
+            send_mail(
+                self.subject + ' da ' + self.get_email(),
+                self.body,
+                'no-reply@rifondazionepodistica.it',
+                [self.recipient, ] ,
+                connection = con,
+            )
 
     def __str__(self):
         return 'Messaggio - %s' % (self.id)

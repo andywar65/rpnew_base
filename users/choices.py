@@ -2,6 +2,8 @@ from django.utils.html import format_html
 
 GENDER = [('F', 'Femmina'), ('M', 'Maschio'), ]
 
+NOTICE = [('SPAM', 'Da inviare'), ('DONE', 'Già inviata'), ]
+
 SECTOR = [('0-NO', 'No'), ('1-YC', 'Sì, con il corso'),
     ('2-NC', 'Sì, senza corso'), ]
 
