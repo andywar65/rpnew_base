@@ -8,6 +8,7 @@ from django.utils.html import format_html
 from django.utils.text import slugify
 from taggit.managers import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
+from users.choices import NOTICE
 
 def date_directory_path(instance, filename):
     if instance.date:
@@ -167,11 +168,15 @@ class Event(models.Model):
         default = 'Un altro appuntamento con RP!', max_length = 100)
     body = RichTextUploadingField('Lancio',
         default = "Inserisci qui i dati dell'evento", )
+    chronicle = RichTextUploadingField('Cronaca',
+        default = "Inserisci qui la cronaca dell'evento", )
     manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
         blank= True, null=True, verbose_name = 'Responsabile')
     tags = TaggableManager(verbose_name="Categorie",
         help_text="Lista di categorie separate da virgole",
         through=None, blank=True)
+    notice = models.CharField(max_length = 4, choices = NOTICE,
+        blank = True, null = True, verbose_name = 'Notifica via email')
 
     def get_badge_color(self):
         if self.date.date() > datetime.today().date():
@@ -193,6 +198,11 @@ class Event(models.Model):
 
     def get_upgrades(self):
         return EventUpgrade.objects.filter(event_id=self.id)
+
+    def get_chronicle(self):
+        if self.date.date() < datetime.today().date():
+            return True
+        return False
 
     def save(self, *args, **kwargs):
         if not self.slug:
