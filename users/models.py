@@ -4,7 +4,6 @@ from django.conf import settings
 from django.core.mail import send_mail, get_connection
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-#from pagine.models import CourseSchedule
 from .choices import *
 
 def user_directory_path(instance, filename):
@@ -34,6 +33,17 @@ class User(AbstractUser):
             children = Member.objects.filter(parent = self.id)
             if children:
                 children.update(parent = None)
+
+class CourseSchedule(models.Model):
+    full = models.CharField(max_length = 32, verbose_name = 'Giorno e ora',)
+    abbrev = models.CharField(max_length = 8, verbose_name = 'Abbreviazione',)
+
+    def __str__(self):
+        return self.full
+
+    class Meta:
+        verbose_name = 'Orario'
+        verbose_name_plural = 'Orari'
 
 class Member(models.Model):
 
@@ -65,8 +75,8 @@ class Member(models.Model):
         blank = True, null = True, verbose_name = 'Telefono/i',)
     email_2 = models.EmailField(blank = True, null = True,
         verbose_name = 'Seconda email',)
-    #course2 = models.ManyToManyField(CourseSchedule,
-        #blank = True, verbose_name = 'Orari scelti', )
+    course = models.ManyToManyField(CourseSchedule,
+        blank = True, verbose_name = 'Orari scelti', )
     course_alt = models.CharField(max_length = 100,
         blank = True, null = True, verbose_name = 'Altro orario',)
     course_membership = models.CharField(max_length = 4, choices = COURSE,

@@ -1,12 +1,7 @@
 from django.contrib import admin
 from .models import ( Location, ImageEntry, Event,
-    EventUpgrade, )#CourseSchedule,
+    EventUpgrade, )
 from .forms import LocationForm
-
-#@admin.register(CourseSchedule)
-#class CourseScheduleAdmin(admin.ModelAdmin):
-    #list_display = ('full', 'abbrev')
-    #ordering = ('abbrev', )
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):

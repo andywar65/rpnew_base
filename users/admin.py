@@ -9,7 +9,7 @@ from django.core.mail import send_mail, get_connection
 from django.db.models import Q
 
 from .models import (User, Member, MemberPayment, Applicant,
-    ApplicantChild, UserMessage, )
+    ApplicantChild, UserMessage, CourseSchedule,)
 from .forms import ChangeMemberForm
 
 class UserAdmin(UserAdmin):
@@ -17,6 +17,11 @@ class UserAdmin(UserAdmin):
         'is_active')
 
 admin.site.register(User, UserAdmin)
+
+@admin.register(CourseSchedule)
+class CourseScheduleAdmin(admin.ModelAdmin):
+    list_display = ('full', 'abbrev')
+    ordering = ('abbrev', )
 
 @admin.register(UserMessage)
 class UserMessageAdmin(admin.ModelAdmin):
@@ -109,7 +114,7 @@ class MemberAdmin(admin.ModelAdmin):
         ('Contatti', {'classes': ('collapse',),
             'fields':('address', 'phone', 'email_2', )}),
         ('Corso/Tesseramento', {'classes': ('collapse',),
-            'fields':('course2', 'course_alt', 'course_membership',
+            'fields':('course', 'course_alt', 'course_membership',
             'no_course_membership')}),
         ('Uploads', {'classes': ('collapse',),
             'fields':('sign_up', 'privacy', 'med_cert',)}),
@@ -214,7 +219,7 @@ class MemberAdmin(admin.ModelAdmin):
                 'no_course_membership'])
         elif member.sector == '0-NO':
             readonly.extend(['gender', 'date_of_birth', 'place_of_birth',
-                'nationality', 'course2', 'course_alt', 'course_membership',
+                'nationality', 'course', 'course_alt', 'course_membership',
                 'no_course_membership', 'sign_up', 'privacy', 'med_cert',])
             if request.user.has_perm('users.add_user'):
                 readonly.extend(['membership', 'mc_expiry',
@@ -222,5 +227,5 @@ class MemberAdmin(admin.ModelAdmin):
         elif member.sector == '1-YC':
             readonly.append('no_course_membership')
         elif member.sector == '2-NC':
-            readonly.extend(['course2', 'course_alt', 'course_membership', ])
+            readonly.extend(['course', 'course_alt', 'course_membership', ])
         return readonly
