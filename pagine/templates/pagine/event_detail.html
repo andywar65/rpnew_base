@@ -50,6 +50,21 @@
             {{ event.chronicle|safe }}
           </div>
         </div>
+        {% if user.is_authenticated %}{% if event.get_uploads %}
+          <div class="row"><div class="col-md-2"></div>
+          <h4 class="col-md-8"><strong>Contributi</strong></h4></div>
+          {% for upload in event.get_uploads %}
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+            user with avatar
+            Image
+            <p>{{ upload.body }}</p>
+            </div>
+          </div>
+          <hr class="mb-4">
+          {% endfor %}
+        {% endif %}{% endif %}
       {% else %}
         {% if event.get_upgrades %}
           {% for upgrade in event.get_upgrades %}

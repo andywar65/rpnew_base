@@ -195,6 +195,9 @@ class Event(models.Model):
             return True
         return False
 
+    def get_uploads(self):
+        return UserUpload.objects.filter(event_id=self.id)
+
     def save(self, *args, **kwargs):
         go_spam = False
         if not self.slug:
@@ -230,7 +233,7 @@ class Event(models.Model):
 
 class EventUpgrade(models.Model):
     event = models.ForeignKey(Event, on_delete = models.CASCADE,
-        blank = True, null = True, related_name='event_upgrades')
+        null = True, related_name='event_upgrades')
     title = models.CharField('Titolo',
         help_text="Il titolo dell'aggiornamento",
         max_length = 50)
@@ -244,4 +247,22 @@ class EventUpgrade(models.Model):
     class Meta:
         verbose_name = 'Aggiornamento'
         verbose_name_plural = 'Aggiornamenti'
+        ordering = ('-date', )
+
+class UserUpload(models.Model):
+    event = models.ForeignKey(Event, on_delete = models.CASCADE,
+        null = True, related_name='event_uploads')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null = True,
+        verbose_name = 'Utente')
+    date = models.DateTimeField('Data', default = datetime.now(), )
+    image = models.ImageField('Immagine', blank = True, null = True,
+        upload_to = date_directory_path,)
+    body = models.TextField('Testo', help_text = "Scrivi qualcosa.", )
+
+    def __str__(self):
+        return 'Contributo - ' + str(self.id)
+
+    class Meta:
+        verbose_name = 'Contributo'
+        verbose_name_plural = 'Contributi'
         ordering = ('-date', )

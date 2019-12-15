@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import ( Location, ImageEntry, Event,
-    EventUpgrade, )
+    EventUpgrade, UserUpload, )
 from .forms import LocationForm
 
 @admin.register(Location)
@@ -21,8 +21,13 @@ class EventUpgradeInline(admin.TabularInline):
     fields = ('title', 'date', 'body', )
     extra = 0
 
+class UserUploadInline(admin.TabularInline):
+    model = UserUpload
+    fields = ('user', 'date', 'image', 'body', )
+    extra = 0
+
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = ('title', 'date', 'location', )
-    inlines = [ EventUpgradeInline, ]
+    inlines = [ EventUpgradeInline, UserUploadInline ]
     search_fields = ('title', 'date', 'intro', )
