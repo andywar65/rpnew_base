@@ -3,12 +3,14 @@ import re
 from PIL import Image
 from datetime import datetime
 from django.conf import settings
+from django.core.mail import send_mail, get_connection
 from django.db import models
 from django.utils.html import format_html
 from django.utils.text import slugify
 from taggit.managers import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
 from users.choices import NOTICE
+#from users.models import Member
 
 def date_directory_path(instance, filename):
     if instance.date:
@@ -37,16 +39,16 @@ def generate_unique_slug(klass, field):
         numb += 1
     return unique_slug
 
-class CourseSchedule(models.Model):
-    full = models.CharField(max_length = 32, verbose_name = 'Giorno e ora',)
-    abbrev = models.CharField(max_length = 8, verbose_name = 'Abbreviazione',)
+#class CourseSchedule(models.Model):
+    #full = models.CharField(max_length = 32, verbose_name = 'Giorno e ora',)
+    #abbrev = models.CharField(max_length = 8, verbose_name = 'Abbreviazione',)
 
-    def __str__(self):
-        return self.full
+    #def __str__(self):
+        #return self.full
 
-    class Meta:
-        verbose_name = 'Orario'
-        verbose_name_plural = 'Orari'
+    #class Meta:
+        #verbose_name = 'Orario'
+        #verbose_name_plural = 'Orari'
 
 class ImageEntry(models.Model):
     name = models.CharField('Nome', editable=False, blank=True, null=True,
@@ -205,9 +207,29 @@ class Event(models.Model):
         return False
 
     def save(self, *args, **kwargs):
+        go_spam = False
         if not self.slug:
             self.slug = generate_unique_slug(Event, self.title)
+        if self.notice == 'SPAM':
+            go_spam = True
+            self.notice = 'DONE'
         super(Event, self).save(*args, **kwargs)
+        if go_spam:
+            url = settings.BASE_URL + '/' + self.date.strftime('%Y/%m/%d') + '/' + self.slug
+            message = self.intro + ' Fai click su questo link: ' + url
+            con = get_connection(settings.EMAIL_BACKEND)
+            recipients = settings.AUTH_USER_MODEL.objects.filter(is_active = True)
+            recipients = recipients.flter(member__parent = None)
+            mailto = []
+            for recipient in recipients:
+                mailto.append(recipient.user.email)
+            send_mail(
+                'Nuovo appuntamento / aggiornamento RP',
+                message,
+                'no-reply@rifondazionepodistica.it',
+                mailto ,
+                connection = con,
+            )
 
     def __str__(self):
         return self.title
