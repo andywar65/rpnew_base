@@ -10,7 +10,7 @@ from django.utils.text import slugify
 from taggit.managers import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
 from users.choices import NOTICE
-#from users.models import Member
+from users.models import User, Member
 
 def date_directory_path(instance, filename):
     if instance.date:
@@ -161,7 +161,7 @@ class Event(models.Model):
         default = "Inserisci qui i dati dell'evento", )
     chronicle = RichTextUploadingField('Cronaca',
         default = "Inserisci qui la cronaca dell'evento", )
-    manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+    manager = models.ForeignKey(User, on_delete=models.SET_NULL,
         blank= True, null=True, verbose_name = 'Responsabile')
     tags = TaggableManager(verbose_name="Categorie",
         help_text="Lista di categorie separate da virgole",
@@ -204,11 +204,11 @@ class Event(models.Model):
             self.notice = 'DONE'
         super(Event, self).save(*args, **kwargs)
         if go_spam:
-            url = settings.BASE_URL + '/' + self.date.strftime('%Y/%m/%d') + '/' + self.slug
+            url = settings.BASE_URL + '/calendario/' + self.date.strftime('%Y/%m/%d') + '/' + self.slug
             message = self.intro + ' Fai click su questo link: ' + url
             con = get_connection(settings.EMAIL_BACKEND)
-            recipients = settings.AUTH_USER_MODEL.objects.filter(is_active = True)
-            recipients = recipients.flter(member__parent = None)
+            recipients = Member.objects.filter(parent = None,
+                user__is_active = True)
             mailto = []
             for recipient in recipients:
                 mailto.append(recipient.user.email)
