@@ -53,8 +53,15 @@
         </div>
         <hr class="mb-4">
         {% if user.is_authenticated %}{% if event.get_uploads %}
-          <div class="row"><div class="col-md-2"></div>
-          <h4 class="col-md-8"><strong>Contributi</strong></h4></div>
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+              <h4 id="upload-anchor"><strong>Contributi</strong></h4>
+              <a href="/calendario/contributi/?next={{ event.date|date:"Y/m/d" }}/{{ event.slug }}">
+            Aggiungi un contributo</a>
+            <hr class="mb-4">
+            </div>
+          </div>
           {% for upload in event.get_uploads %}
           <div class="row">
             <div class="col-md-2"></div>
@@ -64,9 +71,9 @@
              il {{ upload.date|date:"d M Y"}}</p>
             {% if upload.image %}<img src="{{ upload.image.url }}" width="100%" alt="" />{% endif %}
             <p>{{ upload.body }}</p>
+            <hr class="mb-4">
             </div>
           </div>
-          <hr class="mb-4">
           {% endfor %}
         {% endif %}{% endif %}
       {% else %}

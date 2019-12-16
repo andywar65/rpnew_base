@@ -1,9 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.dates import (ArchiveIndexView, YearArchiveView,
     MonthArchiveView, DayArchiveView, )
 
-from .models import (Location, Event)
+from .models import (Location, Event, UserUpload, )
 
 class ListLocation(ListView):
     model = Location
@@ -56,3 +57,7 @@ class DetailEvent(DetailView):
     model = Event
     context_object_name = 'event'
     slug_field = 'slug'
+
+class UserUploadCreateView(LoginRequiredMixin, CreateView):
+    model = UserUpload
+    fields = ['image', 'body']

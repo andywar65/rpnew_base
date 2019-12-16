@@ -1,6 +1,8 @@
 from django.urls import path
 from pagine.views import (EventArchiveIndexView, EventYearArchiveView,
-    EventMonthArchiveView, EventDayArchiveView, DetailEvent )
+    EventMonthArchiveView, EventDayArchiveView, DetailEvent, UserUploadCreateView )
+
+app_name = 'pagine'
 
 urlpatterns = [
     path('', EventArchiveIndexView.as_view(), name = 'event_index'),
@@ -12,4 +14,6 @@ urlpatterns = [
         name = 'event_day'),
     path('<int:year>/<int:month>/<int:day>/<slug>/', DetailEvent.as_view(),
         name = 'event_detail'),
+    path('contributi/', UserUploadCreateView.as_view(),
+        name = 'event_upload'),
     ]
