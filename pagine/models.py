@@ -238,7 +238,7 @@ class EventUpgrade(models.Model):
         help_text="Il titolo dell'aggiornamento",
         max_length = 50)
     date = models.DateTimeField('Data', default = datetime.now())
-    body = RichTextUploadingField('Aggiornamento',
+    body = models.TextField('Aggiornamento',
         default = "Inserisci qui i dati dell'aggiornamento", )
 
     def __str__(self):
