@@ -51,6 +51,7 @@
             {{ event.chronicle|safe }}
           </div>
         </div>
+        <hr class="mb-4">
         {% if user.is_authenticated %}{% if event.get_uploads %}
           <div class="row"><div class="col-md-2"></div>
           <h4 class="col-md-8"><strong>Contributi</strong></h4></div>
@@ -58,8 +59,10 @@
           <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-            user with avatar
-            Image
+            <p>Caricato da {{ upload.user.get_full_name_reverse }}
+            {% if upload.user.member.avatar %}{{ upload.user.member.get_thumb }}{% endif %}
+             il {{ upload.date|date:"d M Y"}}</p>
+            {% if upload.image %}<img src="{{ upload.image.url }}" width="100%" alt="" />{% endif %}
             <p>{{ upload.body }}</p>
             </div>
           </div>

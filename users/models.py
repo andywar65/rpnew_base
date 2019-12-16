@@ -19,6 +19,10 @@ class User(AbstractUser):
         full_name = '%s %s' % (self.last_name, self.first_name)
         return full_name.strip()
 
+    def get_full_name_reverse(self):
+        full_name_reverse = '%s %s' % (self.first_name, self.last_name)
+        return full_name_reverse.strip()
+
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)
         if self.is_active:
