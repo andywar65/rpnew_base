@@ -1,10 +1,16 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.dates import (ArchiveIndexView, YearArchiveView,
     MonthArchiveView, DayArchiveView, )
 
+from .forms import UserUploadForm
 from .models import (Location, Event, UserUpload, )
+
+def get_custom_success_url(request):
+    evt = Event.objects.get(id=request.GET['id'])
+    return evt.get_path
 
 class ListLocation(ListView):
     model = Location
@@ -60,4 +66,13 @@ class DetailEvent(DetailView):
 
 class UserUploadCreateView(LoginRequiredMixin, CreateView):
     model = UserUpload
-    fields = ['image', 'body']
+    form_class = UserUploadForm
+
+    def get_success_url(self):
+        evt = Event.objects.get(id=self.request.GET['id'])
+        return evt.get_path() + '/#upload-anchor'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.event = Event.objects.get(id=self.request.GET['id'])
+        return super().form_valid(form)

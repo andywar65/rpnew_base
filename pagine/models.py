@@ -198,6 +198,9 @@ class Event(models.Model):
     def get_uploads(self):
         return UserUpload.objects.filter(event_id=self.id)
 
+    def get_path(self):
+        return '/calendario/' + self.date.strftime("%Y/%m/%d") + '/' + self.slug
+
     def save(self, *args, **kwargs):
         go_spam = False
         if not self.slug:
@@ -207,7 +210,7 @@ class Event(models.Model):
             self.notice = 'DONE'
         super(Event, self).save(*args, **kwargs)
         if go_spam:
-            url = settings.BASE_URL + '/calendario/' + self.date.strftime('%Y/%m/%d') + '/' + self.slug
+            url = settings.BASE_URL + self.get_path()
             message = self.intro + ' Fai click su questo link: ' + url
             con = get_connection(settings.EMAIL_BACKEND)
             recipients = Member.objects.filter(parent = None,
