@@ -1,6 +1,6 @@
 {% extends 'contact.html' %}
 
-{% block message %}
+{% block contact_msg %}
 <h2>Contatto</h2>
   {% if submitted %}
   <div class="alert alert-success" role="alert">
@@ -67,4 +67,4 @@
     {% csrf_token %}
   </form>
   {% endif %}
-{% endblock message %}
+{% endblock contact_msg %}

@@ -1,7 +1,7 @@
 {% extends 'contact.html' %}
 
 {% block title %}RP | Aggiungi contributo{% endblock title %}
-{% block message %}
+{% block contact_msg %}
 <h1>Aggiungi un contributo</h1>
 <p>Ciao {{ user.first_name }}, inserisci qui sotto il tuo contributo e poi invia.</p>
 <form action="" method="post" class="needs-validation" novalidate>
@@ -25,4 +25,4 @@
           <hr class="mb-4">
   {% csrf_token %}
 </form>
-{% endblock message %}
+{% endblock contact_msg %}
