@@ -52,29 +52,39 @@
           </div>
         </div>
         <hr class="mb-4">
-        {% if user.is_authenticated %}{% if event.get_uploads %}
+        {% if user.is_authenticated %}
+          {% if event.get_uploads %}
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-8">
+                <h4 id="upload-anchor"><strong>Contributi</strong></h4>
+                <a href="/calendario/contributi/?id={{ event.id }}">
+              Aggiungi un contributo</a>
+              <hr class="mb-4">
+              </div>
+            </div>
+            {% for upload in event.get_uploads %}
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-8">
+              <p>{% if upload.user.member.avatar %}{{ upload.user.member.get_thumb }}{% endif %}
+                Caricato da {{ upload.user.get_full_name_reverse }} il {{ upload.date|date:"d M Y"}}</p>
+              {% if upload.image %}<img src="{{ upload.image.url }}" width="100%" alt="" />{% endif %}
+              <p>{{ upload.body }}</p>
+              <hr class="mb-4">
+              </div>
+            </div>
+            {% endfor %}
+          {% endif %}
+        {% else %}
           <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-              <h4 id="upload-anchor"><strong>Contributi</strong></h4>
-              <a href="/calendario/contributi/?id={{ event.id }}">
-            Aggiungi un contributo</a>
+              Esegui il <a href="/admin/login/?next={{ request.get_full_path }}">login</a> se vuoi aggiungere un contributo
             <hr class="mb-4">
             </div>
           </div>
-          {% for upload in event.get_uploads %}
-          <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-            <p>{% if upload.user.member.avatar %}{{ upload.user.member.get_thumb }}{% endif %}
-              Caricato da {{ upload.user.get_full_name_reverse }} il {{ upload.date|date:"d M Y"}}</p>
-            {% if upload.image %}<img src="{{ upload.image.url }}" width="100%" alt="" />{% endif %}
-            <p>{{ upload.body }}</p>
-            <hr class="mb-4">
-            </div>
-          </div>
-          {% endfor %}
-        {% endif %}{% endif %}
+        {% endif %}
       {% else %}
         {% if event.get_upgrades %}
           {% for upgrade in event.get_upgrades %}
