@@ -268,4 +268,4 @@ class UserUpload(models.Model):
     class Meta:
         verbose_name = 'Contributo'
         verbose_name_plural = 'Contributi'
-        ordering = ('-date', )
+        ordering = ('-id', )
