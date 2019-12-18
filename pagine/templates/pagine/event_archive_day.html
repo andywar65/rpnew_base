@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'pagine/event_archive_general.html' %}
 
 {% block title %}RP | Calendario {{ day }}{% endblock title %}
-{% block content %}
+{% block event_archive %}
 <h1>Appuntamenti e cronache {{ day }}</h1>
 <hr class="mb-4">
 {% if all_events %}
@@ -38,4 +38,4 @@
     {% endif %}
   </ul>
   </nav>
-{% endblock content %}
+{% endblock event_archive %}
