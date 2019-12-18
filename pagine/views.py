@@ -7,7 +7,7 @@ from django.views.generic.dates import (ArchiveIndexView, YearArchiveView,
 from taggit.models import Tag
 
 from .forms import UserUploadForm
-from .models import (Location, Event, UserUpload, )
+from .models import (Location, Event, UserUpload, Blog)
 
 class ListLocation(ListView):
     model = Location
@@ -20,7 +20,7 @@ class DetailLocation(DetailView):
     context_object_name = 'location'
     slug_field = 'slug'
 
-class EventArchiveMixin:
+class TagMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tag.objects.all()
@@ -32,7 +32,7 @@ class EventArchiveMixin:
             qs = qs.filter(tags__name=self.request.GET['categoria'])
         return qs
 
-class EventArchiveIndexView(EventArchiveMixin, ArchiveIndexView):
+class EventArchiveIndexView(TagMixin, ArchiveIndexView):
     model = Event
     date_field = 'date'
     allow_future = True
@@ -40,7 +40,7 @@ class EventArchiveIndexView(EventArchiveMixin, ArchiveIndexView):
     paginate_by = 12
     allow_empty = True
 
-class EventYearArchiveView(EventArchiveMixin, YearArchiveView):
+class EventYearArchiveView(TagMixin, YearArchiveView):
     model = Event
     make_object_list = True
     date_field = 'date'
@@ -50,7 +50,7 @@ class EventYearArchiveView(EventArchiveMixin, YearArchiveView):
     year_format = '%Y'
     allow_empty = True
 
-class EventMonthArchiveView(EventArchiveMixin, MonthArchiveView):
+class EventMonthArchiveView(TagMixin, MonthArchiveView):
     model = Event
     date_field = 'date'
     allow_future = True
@@ -59,7 +59,7 @@ class EventMonthArchiveView(EventArchiveMixin, MonthArchiveView):
     month_format = '%m'
     allow_empty = True
 
-class EventDayArchiveView(EventArchiveMixin, DayArchiveView):
+class EventDayArchiveView(TagMixin, DayArchiveView):
     model = Event
     date_field = 'date'
     allow_future = True
@@ -72,6 +72,17 @@ class EventDayArchiveView(EventArchiveMixin, DayArchiveView):
 class DetailEvent(DetailView):
     model = Event
     context_object_name = 'event'
+    slug_field = 'slug'
+
+class ListBlog(TagMixin, ListView):
+    model = Blog
+    ordering = ('-date', )
+    context_object_name = 'posts'
+    paginate_by = 12
+
+class DetailBlog(DetailView):
+    model = Blog
+    context_object_name = 'post'
     slug_field = 'slug'
 
 class UserUploadCreateView(LoginRequiredMixin, CreateView):

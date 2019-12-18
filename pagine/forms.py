@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import UserUpload, Event
+from .models import UserUpload, Event, Blog
 from users.models import User
 
 class UserUploadForm(ModelForm):
@@ -17,4 +17,12 @@ class EventForm(ModelForm):
 
     class Meta:
         model = Event
+        fields = '__all__'
+
+class BlogForm(ModelForm):
+    author = forms.ModelChoiceField(label="Autore", required = False,
+        queryset = User.objects.filter(groups__name = 'Autori', ), )
+
+    class Meta:
+        model = Blog
         fields = '__all__'

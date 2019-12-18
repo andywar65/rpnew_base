@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import ( Location, ImageEntry, Event,
-    EventUpgrade, UserUpload, )
-from .forms import EventForm
+    EventUpgrade, UserUpload, Blog)
+from .forms import EventForm, BlogForm
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
@@ -31,3 +31,9 @@ class EventAdmin(admin.ModelAdmin):
     inlines = [ EventUpgradeInline, UserUploadInline ]
     search_fields = ('title', 'date', 'intro', )
     form = EventForm
+
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ('title', 'intro', 'date', 'author', )
+    search_fields = ('title', 'date', 'intro', )
+    form = BlogForm

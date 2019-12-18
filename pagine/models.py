@@ -269,3 +269,34 @@ class UserUpload(models.Model):
         verbose_name = 'Contributo'
         verbose_name_plural = 'Contributi'
         ordering = ('-id', )
+
+class Blog(models.Model):
+    image = models.ForeignKey(ImageEntry, on_delete=models.SET_NULL,
+        blank= True, null=True, verbose_name = 'Immagine')
+    title = models.CharField('Titolo',
+        help_text="Il titolo dell'articolo",
+        max_length = 50)
+    slug = models.SlugField(max_length=50, editable=False, null=True)
+    date = models.DateTimeField('Data', default = datetime.now())
+    intro = models.CharField('Introduzione',
+        default = 'Un altro articolo di approfondimento da RP!', max_length = 100)
+    body = RichTextUploadingField('Testo',
+        default = "Inserisci qui il testo dell'articolo", )
+    author = models.ForeignKey(User, on_delete=models.SET_NULL,
+        blank= True, null=True, verbose_name = 'Autore')
+    tags = TaggableManager(verbose_name="Categorie",
+        help_text="Lista di categorie separate da virgole",
+        through=None, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = generate_unique_slug(Blog, self.title)
+        super(Blog, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Articolo'
+        verbose_name_plural = 'Articoli'
+        ordering = ('-date', )
