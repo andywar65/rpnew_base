@@ -1,11 +1,9 @@
 from django.contrib import admin
 from .models import ( Location, ImageEntry, Event,
     EventUpgrade, UserUpload, )
-from .forms import LocationForm
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
-    form = LocationForm
     list_display = ('title', 'address', 'get_thumb', 'get_gmap_link')
     readonly_fields = ('slug', )
 
