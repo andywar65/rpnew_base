@@ -20,20 +20,27 @@ class DetailLocation(DetailView):
     context_object_name = 'location'
     slug_field = 'slug'
 
-class EventArchiveIndexView(ArchiveIndexView):
-    model = Event
-    date_field = 'date'
-    allow_future = True
-    context_object_name = 'all_events'
-    paginate_by = 12
-
-    #we will move this to a mixin, so to share it with other archives
+class EventArchiveMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tag.objects.all()
         return context
 
-class EventYearArchiveView(YearArchiveView):
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'tag' in self.request.GET:
+            qs = qs.filter(tags__id=self.request.GET['tag'])
+        return qs
+
+class EventArchiveIndexView(EventArchiveMixin, ArchiveIndexView):
+    model = Event
+    date_field = 'date'
+    allow_future = True
+    context_object_name = 'all_events'
+    paginate_by = 12
+    allow_empty = True
+
+class EventYearArchiveView(EventArchiveMixin, YearArchiveView):
     model = Event
     make_object_list = True
     date_field = 'date'
@@ -43,7 +50,7 @@ class EventYearArchiveView(YearArchiveView):
     year_format = '%Y'
     allow_empty = True
 
-class EventMonthArchiveView(MonthArchiveView):
+class EventMonthArchiveView(EventArchiveMixin, MonthArchiveView):
     model = Event
     date_field = 'date'
     allow_future = True
@@ -52,7 +59,7 @@ class EventMonthArchiveView(MonthArchiveView):
     month_format = '%m'
     allow_empty = True
 
-class EventDayArchiveView(DayArchiveView):
+class EventDayArchiveView(EventArchiveMixin, DayArchiveView):
     model = Event
     date_field = 'date'
     allow_future = True
