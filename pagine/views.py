@@ -4,13 +4,10 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.dates import (ArchiveIndexView, YearArchiveView,
     MonthArchiveView, DayArchiveView, )
+from taggit.models import Tag
 
 from .forms import UserUploadForm
 from .models import (Location, Event, UserUpload, )
-
-def get_custom_success_url(request):
-    evt = Event.objects.get(id=request.GET['id'])
-    return evt.get_path
 
 class ListLocation(ListView):
     model = Location
@@ -29,6 +26,12 @@ class EventArchiveIndexView(ArchiveIndexView):
     allow_future = True
     context_object_name = 'all_events'
     paginate_by = 12
+
+    #we will move this to a mixin, so to share it with other archives
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tags'] = Tag.objects.all()
+        return context
 
 class EventYearArchiveView(YearArchiveView):
     model = Event

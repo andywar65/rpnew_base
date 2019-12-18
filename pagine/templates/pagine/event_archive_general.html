@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-tags here
+{% if tags %}
+  {% for tag in tags %}
+  {{ tag.name }}
+  {% endfor %}
+{% endif %}
 {% block event_archive %}
 {% endblock event_archive %}
 {% endblock content %}
