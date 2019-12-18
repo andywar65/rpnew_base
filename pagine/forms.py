@@ -12,7 +12,7 @@ class UserUploadForm(ModelForm):
 
 class EventForm(ModelForm):
     manager = forms.ModelChoiceField(label="Responsabile", required = False,
-        queryset = User.objects.filter(groups__name = 'Autori',
+        queryset = User.objects.filter(groups__name = 'Dirigenti',
         is_active = True, ), )
 
     class Meta:
