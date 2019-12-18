@@ -4,7 +4,7 @@
 {% block contact_msg %}
 <h1>Aggiungi un contributo</h1>
 <p>Ciao {{ user.first_name }}, inserisci qui sotto il tuo contributo e poi invia.</p>
-<form action="" method="post" class="needs-validation" novalidate>
+<form action="" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
           <div class="row">
             <div class="col-md-9 mb-3">
               <label for="image">Immagine</label>
