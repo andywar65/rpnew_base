@@ -2,12 +2,14 @@
 
 {% block content %}
 {% for key, value in request.GET.items %}
- 
+  {% if key == 'categoria' %}
+  Risultati per la categoria: {{ value|upper }}
+  {% endif %}
 {% endfor %}
 {% if tags %}
   <p>Filtra per categoria:
   {% for tag_item in tags %}
-  <a href="{{ request.path }}?tag={{ tag_item.id }}">{{ tag_item.name }}</a>
+  <a href="{{ request.path }}?categoria={{ tag_item.name }}">{{ tag_item.name|upper }}</a>
   {% endfor %}
   </p>
 {% endif %}

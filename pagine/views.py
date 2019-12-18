@@ -28,8 +28,8 @@ class EventArchiveMixin:
 
     def get_queryset(self):
         qs = super().get_queryset()
-        if 'tag' in self.request.GET:
-            qs = qs.filter(tags__id=self.request.GET['tag'])
+        if 'categoria' in self.request.GET:
+            qs = qs.filter(tags__name=self.request.GET['categoria'])
         return qs
 
 class EventArchiveIndexView(EventArchiveMixin, ArchiveIndexView):
