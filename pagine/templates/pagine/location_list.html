@@ -7,7 +7,7 @@
   <div class="card-deck">
   {% for location in all_locations %}
     <div class="card">
-      <img class="card-img-top" src="{{ location.image.image.url }}" alt="{{ location.image.description }}">
+      <img class="card-img-top" src="{{ location.image.image.url }}" alt="{{ location.image.image.description }}">
       <div class="card-body">
         <h5 class="card-title">{{ location.title }}</h5>
         <p class="card-text">{{ location.address }}</p>

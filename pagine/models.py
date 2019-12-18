@@ -288,6 +288,9 @@ class Blog(models.Model):
         help_text="Lista di categorie separate da virgole",
         through=None, blank=True)
 
+    def get_tags(self):
+        return list(self.tags.names())
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = generate_unique_slug(Blog, self.title)
