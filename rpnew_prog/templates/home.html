@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}RP | Home{%endblock title %}
 {% block extra-head %}
 {% endblock extra-head %}
 
 {% block content %}
+<div class="row">
+  <img src="{% static 'images/RP_header.jpg'%}" width="100%" alt="Header RP" />
+</div>
 <a href="/calendario/"><h2>Appuntamenti e cronache</h2></a>
 {% if all_events %}
 <div class="card-deck">
