@@ -29,7 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('registration/', user_views.registration, name='registration'),
     path('contacts/', user_views.contacts, name='contacts'),
-    path('', TemplateView.as_view(template_name="base.html")),
+    path('', TemplateView.as_view(template_name="home.html")),
     path('privacy/', TemplateView.as_view(template_name="privacy.html")),
     path('favicon.ico',
         RedirectView.as_view(url=settings.STATIC_ROOT + 'images/favicon.ico')),
