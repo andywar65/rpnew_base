@@ -26,13 +26,13 @@
         }
       }
     </style>
-    <link href="{% static 'css/sticky-footer-navbar.css' %}" rel="stylesheet">
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
     <title>{% block title %}Rifondazione Podistica{% endblock title %}</title>
     {% block extra-head %}{% endblock extra-head %}
   </head>
   <body class="d-flex flex-column h-100">
     {% include 'navbar.html' %}
+    {% block image_header %}<div style="margin-top: 55px;"></div>{% endblock image_header %}
     <main role="main" class="flex-shrink-0">
       <div class="container">
         {% block content %}
