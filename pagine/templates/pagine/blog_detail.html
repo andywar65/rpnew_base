@@ -2,9 +2,6 @@
 
 {% block title %}RP | {{ post.title }}{% endblock title %}
 
-{% block image_header %}
-{% endblock image_header %}
-
 {% block content %}
       {% if post.image %}
         <div class="row">
@@ -12,7 +9,7 @@
         </div>
       {% endif %}
       <div class="row row-striped">
-        <div class="col-md-2 text-right"></div>
+        <div class="col-md-2"></div>
         <div class="col-md-10">
           <h3 class="text-uppercase"><strong>{{ post.title }}</strong></h3>
           <ul class="list-inline">
