@@ -36,4 +36,5 @@ class EventAdmin(admin.ModelAdmin):
 class BlogAdmin(admin.ModelAdmin):
     list_display = ('title', 'intro', 'date', 'author', )
     search_fields = ('title', 'date', 'intro', )
+    inlines = [ UserUploadInline,  ]
     form = BlogForm

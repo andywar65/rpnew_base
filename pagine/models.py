@@ -158,7 +158,7 @@ class Event(models.Model):
     intro = models.CharField('Introduzione',
         default = 'Un altro appuntamento con RP!', max_length = 100)
     body = RichTextUploadingField('Lancio',
-        default = "Inserisci qui i dati dell'evento", )
+        help_text = "Scrivi qualcosa.", )
     chronicle = RichTextUploadingField('Cronaca',
         default = "Inserisci qui la cronaca dell'evento", )
     manager = models.ForeignKey(User, on_delete=models.SET_NULL,
@@ -242,7 +242,7 @@ class EventUpgrade(models.Model):
         max_length = 50)
     date = models.DateTimeField('Data', default = datetime.now())
     body = models.TextField('Aggiornamento',
-        default = "Inserisci qui i dati dell'aggiornamento", )
+        help_text = "Scrivi qualcosa.", )
 
     def __str__(self):
         return self.title
@@ -251,24 +251,6 @@ class EventUpgrade(models.Model):
         verbose_name = 'Aggiornamento'
         verbose_name_plural = 'Aggiornamenti'
         ordering = ('-date', )
-
-class UserUpload(models.Model):
-    event = models.ForeignKey(Event, on_delete = models.CASCADE,
-        null = True, related_name='event_uploads')
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null = True,
-        verbose_name = 'Utente')
-    date = models.DateTimeField('Data', default = datetime.now(), )
-    image = models.ImageField('Immagine', blank = True, null = True,
-        upload_to = date_directory_path,)
-    body = models.TextField('Testo', help_text = "Scrivi qualcosa.", )
-
-    def __str__(self):
-        return 'Contributo - ' + str(self.id)
-
-    class Meta:
-        verbose_name = 'Contributo'
-        verbose_name_plural = 'Contributi'
-        ordering = ('-id', )
 
 class Blog(models.Model):
     image = models.ForeignKey(ImageEntry, on_delete=models.SET_NULL,
@@ -281,12 +263,21 @@ class Blog(models.Model):
     intro = models.CharField('Introduzione',
         default = 'Un altro articolo di approfondimento da RP!', max_length = 100)
     body = RichTextUploadingField('Testo',
-        default = "Inserisci qui il testo dell'articolo", )
+        help_text = "Scrivi qualcosa.", )
     author = models.ForeignKey(User, on_delete=models.SET_NULL,
         blank= True, null=True, verbose_name = 'Autore')
     tags = TaggableManager(verbose_name="Categorie",
         help_text="Lista di categorie separate da virgole",
         through=None, blank=True)
+
+    def get_uploads(self):
+        return UserUpload.objects.filter(post_id=self.id)
+
+    def get_path(self):
+        return '/articoli/' + self.slug
+
+    def get_uploads(self):
+        return UserUpload.objects.filter(post_id=self.id)
 
     def get_tags(self):
         return list(self.tags.names())
@@ -303,3 +294,23 @@ class Blog(models.Model):
         verbose_name = 'Articolo'
         verbose_name_plural = 'Articoli'
         ordering = ('-date', )
+
+class UserUpload(models.Model):
+    event = models.ForeignKey(Event, on_delete = models.CASCADE,
+        null = True, related_name='event_uploads')
+    post = models.ForeignKey(Blog, on_delete = models.CASCADE,
+        null = True, related_name='blog_uploads')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null = True,
+        verbose_name = 'Utente')
+    date = models.DateTimeField('Data', default = datetime.now(), )
+    image = models.ImageField('Immagine', blank = True, null = True,
+        upload_to = date_directory_path,)
+    body = models.TextField('Testo', help_text = "Scrivi qualcosa.", )
+
+    def __str__(self):
+        return 'Contributo - ' + str(self.id)
+
+    class Meta:
+        verbose_name = 'Contributo'
+        verbose_name_plural = 'Contributi'
+        ordering = ('-id', )

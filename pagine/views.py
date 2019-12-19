@@ -92,10 +92,17 @@ class UserUploadCreateView(LoginRequiredMixin, CreateView):
     form_class = UserUploadForm
 
     def get_success_url(self):
-        evt = Event.objects.get(id=self.request.GET['id'])
-        return evt.get_path() + '/#upload-anchor'
+        if 'event_id' in self.request.GET:
+            evt = Event.objects.get(id=self.request.GET['event_id'])
+            return evt.get_path() + '/#upload-anchor'
+        elif 'post_id' in self.request.GET:
+            pst = Blog.objects.get(id=self.request.GET['post_id'])
+            return pst.get_path() + '/#upload-anchor'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.event = Event.objects.get(id=self.request.GET['id'])
+        if 'event_id' in self.request.GET:
+            form.instance.event = Event.objects.get(id=self.request.GET['event_id'])
+        elif 'post_id' in self.request.GET:
+            form.instance.post = Blog.objects.get(id=self.request.GET['post_id'])
         return super().form_valid(form)
