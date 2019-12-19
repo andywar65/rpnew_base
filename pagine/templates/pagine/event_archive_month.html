@@ -2,7 +2,8 @@
 
 {% block title %}RP | Calendario {{ month|date:"M-Y" }}{% endblock title %}
 {% block event_archive %}
-<h1>Appuntamenti e cronache {{ month|date:"M-Y" }}</h1>
+<h2>Appuntamenti e cronache {{ month|date:"M-Y" }}
+{% if tag_filter %} per categoria: {{ tag_filter|upper }}{% endif %}</h2>
 <hr class="mb-4">
 {% if all_events %}
     {% for event in all_events %}
