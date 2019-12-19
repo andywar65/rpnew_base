@@ -14,7 +14,7 @@
   </p>
 {% endif %}
 <h2>Articoli di approfondimento
-{% if tag_filter %} per categoria: {{ tag_filter|upper }}{% endif %}</h2>
+{% if tag_filter %} nella categoria: {{ tag_filter|upper }}{% endif %}</h2>
 {% if posts %}
 <div class="card-deck">
 {% for post in posts %}
