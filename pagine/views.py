@@ -1,13 +1,17 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import (ListView, DetailView, CreateView,
+    TemplateView)
 from django.views.generic.dates import (ArchiveIndexView, YearArchiveView,
     MonthArchiveView, DayArchiveView, )
 from taggit.models import Tag
 
 from .forms import UserUploadForm
 from .models import (Location, Event, UserUpload, Blog)
+
+class HomeTemplateView(TemplateView):
+    template_name = 'home.html'
 
 class ListLocation(ListView):
     model = Location

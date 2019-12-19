@@ -20,6 +20,7 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from users import views as user_views
+from pagine.views import HomeTemplateView
 
 admin.site.site_header = 'Amministrazione RP'
 admin.site.site_title = 'Amministrazione RP'
@@ -29,7 +30,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('registration/', user_views.registration, name='registration'),
     path('contacts/', user_views.contacts, name='contacts'),
-    path('', TemplateView.as_view(template_name="home.html")),
+    path('', HomeTemplateView.as_view()),
     path('privacy/', TemplateView.as_view(template_name="privacy.html")),
     path('favicon.ico',
         RedirectView.as_view(url=settings.STATIC_ROOT + 'images/favicon.ico')),
