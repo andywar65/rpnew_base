@@ -5,7 +5,43 @@
 {% endblock extra-head %}
 
 {% block content %}
-<h1>Home of RP!</h1>
+<a href="/articoli/"><h2>Articoli di approfondimento</h2></a>
+{% if posts %}
+<div class="card-deck">
+{% for post in posts %}
+  <div class="card">
+    <img class="card-img-top" src="{{ post.image.image.url }}" alt="{{ post.image.image.description }}">
+    <div class="card-body">
+      <a href="/articoli/{{ post.slug }}">
+        <h4 class="card-title">{{ post.title }}</h4></a>
+      <em class="card-text">{{ post.intro }}</em>
+      <ul class="list-inline">
+        <li class="list-inline-item">
+          {% if post.author %}
+          <i class="fa fa-user" aria-hidden="true"></i>
+          {{ post.author.get_full_name_reverse }}
+          {% endif %}
+        </li>
+        <li class="list-inline-item">
+          <i class="fa fa-calendar-o" aria-hidden="true"></i>
+          {{ post.date|date:"d M Y" }}
+        </li>
+        {% if post.get_tags %}
+          <li class="list-inline-item">
+            <i class="fa fa-folder-open" aria-hidden="true"></i>
+            {% for tag in post.get_tags %}
+              <a href="/articoli/?categoria={{ tag }}">{{ tag|upper }}</a>
+            {% endfor %}
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% else %}
+<p>Non sono disponibili articoli</p>
+{% endif %}
 {% endblock content %}
 
 {% block extra-js %}

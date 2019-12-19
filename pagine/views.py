@@ -13,6 +13,12 @@ from .models import (Location, Event, UserUpload, Blog)
 class HomeTemplateView(TemplateView):
     template_name = 'home.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_events'] = Event.objects.all()[:6]
+        context['posts'] = Blog.objects.all()[:6]
+        return context
+
 class ListLocation(ListView):
     model = Location
     ordering = ('title', )
