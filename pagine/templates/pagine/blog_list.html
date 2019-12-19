@@ -3,19 +3,18 @@
 
 {% block title %}RP | Articoli{% endblock title %}
 {% block content %}
-{% for key, value in request.GET.items %}
-  {% if key == 'categoria' %}
-  Risultati per la categoria: {{ value|upper }}
-  {% endif %}
-{% endfor %}
 {% if tags %}
   <p>Filtra per categoria:
   {% for tag_item in tags %}
-  <a href="{{ request.path }}?categoria={{ tag_item.name }}">{{ tag_item.name|upper }}</a>
+    {% if tag_item.name == tag_filter %}
+    {% else %}
+      <a href="{{ request.path }}?categoria={{ tag_item.name }}">{{ tag_item.name|upper }}</a>
+    {% endif %}
   {% endfor %}
   </p>
 {% endif %}
-<h1>Articoli di approfondimento</h1>
+<h1>Articoli di approfondimento
+{% if tag_filter %} per categoria: {{ tag_filter|upper }}{% endif %}</h1>
 {% if posts %}
 <div class="card-deck">
 {% for post in posts %}

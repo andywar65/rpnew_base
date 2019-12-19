@@ -24,6 +24,8 @@ class TagMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tag.objects.all()
+        if 'categoria' in self.request.GET:
+            context['tag_filter'] = self.request.GET['categoria']
         return context
 
     def get_queryset(self):
