@@ -2,7 +2,7 @@ from datetime import datetime
 from django.db import models
 
 from users.models import User
-from pagine.models import Event, Location
+from pagine.models import Event, Location, generate_unique_slug
 from .choices import *
 
 class Race(models.Model):
@@ -32,6 +32,11 @@ class Race(models.Model):
             return self.event.location
         return self.location
     get_location.short_description = 'Luogo'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:  # create
+            self.slug = generate_unique_slug(Race, self.title)
+        super(Race, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
