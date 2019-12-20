@@ -50,6 +50,8 @@ class ImageEntry(models.Model):
         blank=True, null=True,)
 
     def __str__(self):
+        if self.description:
+            return self.name + '-' + self.description
         return self.name
 
     def get_thumb(self):
