@@ -27,6 +27,19 @@ class Race(models.Model):
         return self.date
     get_date.short_description = 'Data'
 
+    def get_biennium(self):
+        date = self.get_date()
+        year = date.year
+        month = date.month
+        if month >= 11:
+            return str(year) + '-' + str(year+1)
+        else:
+            return str(year-1) + '-' + str(year)
+    get_biennium.short_description = 'Edizione'
+
+    def get_path(self):
+        return '/criterium/' + self.get_biennium() + '/' + self.slug
+
     def get_location(self):
         if self.event:
             return self.event.location
