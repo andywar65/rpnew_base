@@ -22,7 +22,8 @@ class RaceForm(ModelForm):
 
 class AthleteForm(ModelForm):
     user = forms.ModelChoiceField(label="Iscritto", required = True,
-        queryset = User.objects.filter(member__parent = None, ), )
+        queryset = User.objects.filter(member__parent = None,
+            member__sector__in = ['1-YC', '2-NC']), )
 
     class Meta:
         model = Athlete
