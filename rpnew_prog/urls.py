@@ -38,6 +38,7 @@ urlpatterns = [
     path('calendario/', include('pagine.urls.events', namespace = 'pagine')),
     path('articoli/', include('pagine.urls.posts', namespace = 'blog')),
     path('luoghi/', include('pagine.urls.locations')),
+    path('criterium/', include('criterium.urls', namespace = 'criterium')),
 ]
 
 if settings.DEBUG:

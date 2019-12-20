@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Race
 
-# Register your models here.
+@admin.register(Race)
+class RaceAdmin(admin.ModelAdmin):
+    list_display = ('title', 'get_date', 'event', )

@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'pagine.apps.PagineConfig',
-    'criterium.apps.PagineConfig',
+    'criterium.apps.CriteriumConfig',
     'captcha',
     'ckeditor',
     'ckeditor_uploader',
