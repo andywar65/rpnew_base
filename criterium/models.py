@@ -41,4 +41,20 @@ class Race(models.Model):
         verbose_name_plural = 'Gare'
         ordering = ('-id', )
 
-# Create your models here.
+class Athlete(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+        verbose_name = 'Iscritto')
+    race = models.ForeignKey(Race, on_delete=models.CASCADE,
+        editable = False, null = True, )
+    points = models.IntegerField('Punti')
+    placement = models.IntegerField('Piazzamento assoluto', blank = True,
+        null = True, )
+    time = models.TimeField('Tempo', blank = True, null = True, )
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+    class Meta:
+        verbose_name = 'Atleta'
+        verbose_name_plural = 'Atleti/e'
+        ordering = ('-id', )
