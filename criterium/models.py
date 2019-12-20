@@ -27,7 +27,7 @@ class Race(models.Model):
         return self.date
     get_date.short_description = 'Data'
 
-    def get_biennium(self):
+    def get_edition(self):
         date = self.get_date()
         year = date.year
         month = date.month
@@ -35,10 +35,10 @@ class Race(models.Model):
             return str(year) + '-' + str(year+1)
         else:
             return str(year-1) + '-' + str(year)
-    get_biennium.short_description = 'Edizione'
+    get_edition.short_description = 'Edizione'
 
     def get_path(self):
-        return '/criterium/' + self.get_biennium() + '/' + self.slug
+        return '/criterium/' + self.get_edition() + '/' + self.slug
 
     def get_location(self):
         if self.event:
