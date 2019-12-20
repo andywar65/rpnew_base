@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Race, Athlete
+from .forms import RaceForm
 
 class AthleteInline(admin.TabularInline):
     model = Athlete
@@ -10,3 +11,4 @@ class AthleteInline(admin.TabularInline):
 class RaceAdmin(admin.ModelAdmin):
     list_display = ('title', 'get_date', 'get_location', 'description', )
     inlines = [ AthleteInline, ]
+    form = RaceForm
