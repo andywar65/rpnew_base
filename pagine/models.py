@@ -5,6 +5,7 @@ from datetime import datetime
 from django.conf import settings
 from django.core.mail import send_mail, get_connection
 from django.db import models
+from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.text import slugify
 from taggit.managers import TaggableManager
@@ -154,7 +155,7 @@ class Event(models.Model):
         help_text="Il titolo dell'evento",
         max_length = 50)
     slug = models.SlugField(max_length=50, editable=False, null=True)
-    date = models.DateTimeField('Quando', default = datetime.now())
+    date = models.DateTimeField('Quando', default = timezone.now())
     location = models.ForeignKey(Location, on_delete=models.SET_NULL,
         null = True, verbose_name = 'Dove', )
     intro = models.CharField('Introduzione',
@@ -242,7 +243,7 @@ class EventUpgrade(models.Model):
     title = models.CharField('Titolo',
         help_text="Il titolo dell'aggiornamento",
         max_length = 50)
-    date = models.DateTimeField('Data', default = datetime.now())
+    date = models.DateTimeField('Data', default = timezone.now())
     body = models.TextField('Aggiornamento',
         help_text = "Scrivi qualcosa.", )
 
@@ -261,7 +262,7 @@ class Blog(models.Model):
         help_text="Il titolo dell'articolo",
         max_length = 50)
     slug = models.SlugField(max_length=50, editable=False, null=True)
-    date = models.DateTimeField('Data', default = datetime.now())
+    date = models.DateTimeField('Data', default = timezone.now())
     intro = models.CharField('Introduzione',
         default = 'Un altro articolo di approfondimento da RP!', max_length = 100)
     body = RichTextUploadingField('Testo',
@@ -304,7 +305,7 @@ class UserUpload(models.Model):
         null = True, related_name='blog_uploads')
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null = True,
         verbose_name = 'Utente')
-    date = models.DateTimeField('Data', default = datetime.now(), )
+    date = models.DateTimeField('Data', default = timezone.now(), )
     image = models.ImageField('Immagine', blank = True, null = True,
         upload_to = date_directory_path,)
     body = models.TextField('Testo', help_text = "Scrivi qualcosa.", )

@@ -10,7 +10,8 @@ class Race(models.Model):
         max_length = 50)
     slug = models.SlugField(max_length=50, editable=False, null=True)
     event = models.ForeignKey(Event, on_delete=models.SET_NULL,
-        blank= True, null=True, verbose_name = 'Evento')
+        blank= True, null=True, verbose_name = 'Evento',
+        related_name = 'event_race')
     date = models.DateField('Data', blank= True, null=True,
         help_text="In mancanza di Evento", )
     location = models.ForeignKey(Location, on_delete=models.SET_NULL,
