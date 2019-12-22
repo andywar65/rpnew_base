@@ -5,6 +5,18 @@ from django.views.generic import (DetailView, RedirectView)
 from django.views.generic.dates import (ArchiveIndexView, YearArchiveView, )
 from .models import (Race, Athlete, )
 
+def get_edition_years():
+    date = datetime.now()
+    year = date.year
+    month = date.month
+    if month >= 11:
+        year1 = year
+        year2 = year + 1
+    else:
+        year1 = year - 1
+        year2 = year
+    return year1, year2
+
 class DetailRace(DetailView):
     model = Race
     context_object_name = 'race'
@@ -34,19 +46,14 @@ class RaceYearArchiveView(YearArchiveView):
         return context
 
 class RaceRedirectView(RedirectView):
-
+    """redirects simple /criterium/ url to current edition url"""
     def get_redirect_url(self, *args, **kwargs):
-        date = datetime.now()
-        year = date.year
-        month = date.month
-        if month >= 11:
-            url = f'/criterium/{year}-{year+1}/'
-        else:
-            url = f'/criterium/{year-1}-{year}/'
+        year1, year2 = get_edition_years()
+        url = f'/criterium/{year1}-{year2}/'
         return url
 
 class CorrectRedirectView(RedirectView):
-
+    """redirects simple year url to double year url"""
     def get_redirect_url(self, *args, **kwargs):
         year = kwargs['year']
         url = f'/criterium/{year}-{year+1}/'

@@ -21,7 +21,7 @@
   <nav aria-label="Page navigation container">
   <ul class="pagination justify-content-center">
     {% if previous_year %}
-    <li><a href="/criterium/{{ previous_year|date:"Y" }}-{{ year|date:"Y" }}/" class="page-link">&laquo; PRECEDENTE </a></li>
+    <li><a href="/criterium/{{ previous_year|date:"Y" }}/" class="page-link">&laquo; PRECEDENTE </a></li>
     {% endif %}
     {% if next_year %}
     <li><a href="/criterium/{{ next_year|date:"Y" }}/" class="page-link"> SUCCESSIVA &raquo;</a></li>
