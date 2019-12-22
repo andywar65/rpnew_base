@@ -1,5 +1,6 @@
+from datetime import datetime
 from django.shortcuts import render
-from django.views.generic import (DetailView, )
+from django.views.generic import (DetailView, RedirectView)
 from django.views.generic.dates import (ArchiveIndexView, YearArchiveView, )
 from .models import (Race, Athlete, )
 
@@ -19,7 +20,21 @@ class DetailRace(DetailView):
 class RaceYearArchiveView(YearArchiveView):
     model = Race
     context_object_name = 'edition'
+    make_object_list = True
+    date_field = 'date'
+    allow_future = True
+    context_object_name = 'all_races'
+    year_format = '%Y'
+    allow_empty = True
 
-class RaceArchiveIndexView(ArchiveIndexView):
-    model = Race
-    context_object_name = 'all_editions'
+class RaceRedirectView(RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        date = datetime.now()
+        year = date.year
+        month = date.month
+        if month >= 11:
+            url = f'/criterium/{year}-{year+1}/'
+        else:
+            url = f'/criterium/{year-1}-{year}/'
+        return url
