@@ -58,7 +58,7 @@ class Race(models.Model):
     class Meta:
         verbose_name = 'Gara'
         verbose_name_plural = 'Gare'
-        ordering = ('-id', )
+        ordering = ('-date', )
 
 class Athlete(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,

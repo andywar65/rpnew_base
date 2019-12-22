@@ -1,8 +1,7 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from django.shortcuts import render
-from django.views.generic import (DetailView, RedirectView)
-from django.views.generic.dates import (ArchiveIndexView, YearArchiveView, )
+from django.views.generic import (DetailView, RedirectView, ListView)
 from .models import (Race, Athlete, )
 
 def get_edition_years():
@@ -17,7 +16,7 @@ def get_edition_years():
         year2 = year
     return year1, year2
 
-class DetailRace(DetailView):
+class RaceDetailView(DetailView):
     model = Race
     context_object_name = 'race'
     slug_field = 'slug'
@@ -30,19 +29,43 @@ class DetailRace(DetailView):
         context['males'] = athletes.filter(user__member__gender='M').order_by('-points')
         return context
 
-class RaceYearArchiveView(YearArchiveView):
+class RaceListView(ListView):
     model = Race
-    context_object_name = 'edition'
-    make_object_list = True
-    date_field = 'date'
-    allow_future = True
+    ordering = ('date', )
     context_object_name = 'all_races'
-    year_format = '%Y'
-    allow_empty = True
+
+    def get_queryset(self):
+        year1 = self.kwargs['year']
+        year2 = self.kwargs['year2']
+        qs = Race.objects.filter(date__gte = datetime(year1, 11, 1),
+            date__lt = datetime(year2, 11, 1)).order_by('date')
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year2'] = context['year'] + relativedelta(years=1)
+        context['year']= self.kwargs['year']
+        context['year2']= self.kwargs['year2']
+        context['year0'] = context['year'] - 1
+        context['year3'] = context['year2'] + 1
+        female_dict = {}
+        male_dict = {}
+        for race in context['all_races']:
+            athletes = Athlete.objects.filter(race_id=race.id)
+            females = athletes.filter(user__member__gender='F')
+            males = athletes.filter(user__member__gender='M')
+            for female in females:
+                if female.user.get_full_name() in female_dict:
+                    female_dict[female.user.get_full_name()] += female.points
+                else:
+                    female_dict[female.user.get_full_name()] = female.points
+            for male in males:
+                if male.user.get_full_name() in male_dict:
+                    male_dict[male.user.get_full_name()] += male.points
+                else:
+                    male_dict[male.user.get_full_name()] = male.points
+        context['females'] = female_dict
+        context['males'] = male_dict
+        #to be sorted
         return context
 
 class RaceRedirectView(RedirectView):

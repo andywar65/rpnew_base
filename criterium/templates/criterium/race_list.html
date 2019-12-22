@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}RP | Criterium {{ year|date:"Y" }}-{{ year2|date:"Y" }}{% endblock title %}
+{% block title %}RP | Criterium {{ year }}-{{ year2 }}{% endblock title %}
 {% block content %}
-<h2>Criterium edizione {{ year|date:"Y" }}-{{ year2|date:"Y" }}
+<h2>Criterium edizione {{ year }}-{{ year2 }}
 <hr class="mb-4">
 {% if all_races %}
   <ul>
@@ -20,12 +20,8 @@
 <hr class="mb-4">
   <nav aria-label="Page navigation container">
   <ul class="pagination justify-content-center">
-    {% if previous_year %}
-    <li><a href="/criterium/{{ previous_year|date:"Y" }}/" class="page-link">&laquo; PRECEDENTE </a></li>
-    {% endif %}
-    {% if next_year %}
-    <li><a href="/criterium/{{ next_year|date:"Y" }}/" class="page-link"> SUCCESSIVA &raquo;</a></li>
-    {% endif %}
+    <li><a href="/criterium/{{ year0 }}-{{ year }}/" class="page-link">&laquo; PRECEDENTE </a></li>
+    <li><a href="/criterium/{{ year2 }}-{{ year3 }}/" class="page-link"> SUCCESSIVA &raquo;</a></li>
   </ul>
   </nav>
 {% endblock content %}
