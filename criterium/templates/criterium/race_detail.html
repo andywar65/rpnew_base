@@ -2,7 +2,10 @@
 
 {% block title %}RP | {{ race.title }}{%endblock title %}
 {% block content %}
-<h1>{{ race.title }}</h1>
+<h1>Gara: {{ race.title }}</h1>
+<p>data: {{ race.get_date }}</p>
+<p>luogo: {{ race.get_location }}</p>
+<p>cronaca: <a href="{{ race.event.get_path }}">{{ race.event.title }}</a></p>
 <p>{{ race.description }}</p>
 {% if females %}
 <h3>Femmine</h3>
