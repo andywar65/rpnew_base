@@ -1,4 +1,5 @@
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from django.shortcuts import render
 from django.views.generic import (DetailView, RedirectView)
 from django.views.generic.dates import (ArchiveIndexView, YearArchiveView, )
@@ -27,6 +28,11 @@ class RaceYearArchiveView(YearArchiveView):
     year_format = '%Y'
     allow_empty = True
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year2'] = context['year'] + relativedelta(years=1)
+        return context
+
 class RaceRedirectView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
@@ -37,4 +43,11 @@ class RaceRedirectView(RedirectView):
             url = f'/criterium/{year}-{year+1}/'
         else:
             url = f'/criterium/{year-1}-{year}/'
+        return url
+
+class CorrectRedirectView(RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        year = kwargs['year']
+        url = f'/criterium/{year}-{year+1}/'
         return url

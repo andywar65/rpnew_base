@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}RP | Criterium {{ year|date:"Y" }}-{{ year2|date:"Y" }}{% endblock title %}
+{% block content %}
+<h2>Criterium edizione {{ year|date:"Y" }}-{{ year2|date:"Y" }}
+<hr class="mb-4">
+{% if all_races %}
+  <ul>
+  {% for race in all_races %}
+    <li>
+      <a href="{{ race.get_path }}">{{ race.title }}</a>
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+    <div class="col-md-12">
+        <p>Non ci sono gare in calendario.</p>
+    </div>
+{% endif %}
+<hr class="mb-4">
+  <nav aria-label="Page navigation container">
+  <ul class="pagination justify-content-center">
+    {% if previous_year %}
+    <li><a href="/criterium/{{ previous_year|date:"Y" }}-{{ year|date:"Y" }}/" class="page-link">&laquo; PRECEDENTE </a></li>
+    {% endif %}
+    {% if next_year %}
+    <li><a href="/criterium/{{ next_year|date:"Y" }}/" class="page-link"> SUCCESSIVA &raquo;</a></li>
+    {% endif %}
+  </ul>
+  </nav>
+{% endblock content %}
