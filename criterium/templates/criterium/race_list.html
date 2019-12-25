@@ -14,20 +14,20 @@
     </li>
   {% endfor %}
   </ul>
-  {% if f_dict %}
+  {% if females %}
   <h3>Classifica femminile {{ status }}</h3>
     <ul>
-    {% for name, points in f_dict.items %}
+    {% for name, points in females.items %}
       <li>
         {{ name }}, {{ points }}
       </li>
     {% endfor %}
     </ul>
   {% endif %}
-  {% if m_dict %}
+  {% if males %}
   <h3>Classifica maschile {{ status }}</h3>
     <ul>
-    {% for name, points in m_dict.items %}
+    {% for name, points in males.items %}
       <li>
         {{ name }}, {{ points }}
       </li>

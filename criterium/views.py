@@ -49,6 +49,9 @@ class RaceListView(ListView):
             point_sum = sum(athlete.values_list('points', flat = True))
             first = athlete.first()
             athl_dict[first.user.get_full_name()] = point_sum
+        # thanks to https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value
+        athl_dict = {k: v for k, v in sorted(athl_dict.items(),
+            key=lambda item: item[1], reverse = True)}
         return athl_dict
 
     def get_status(self, year):
@@ -65,9 +68,9 @@ class RaceListView(ListView):
         race_list = context['all_races'].values_list('id', flat = True)
         athletes = Athlete.objects.filter(race_id__in = race_list)
         females = athletes.filter(user__member__gender = 'F')
-        context['f_dict'] = self.get_athlete_dict(females)
+        context['females'] = self.get_athlete_dict(females)
         males = athletes.filter(user__member__gender = 'M')
-        context['m_dict'] = self.get_athlete_dict(males)
+        context['males'] = self.get_athlete_dict(males)
         context['status'] = self.get_status(context['year2'])
         return context
 
