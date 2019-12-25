@@ -51,6 +51,11 @@ class RaceListView(ListView):
             athl_dict[first.user.get_full_name()] = point_sum
         return athl_dict
 
+    def get_status(self, year):
+        if datetime(year, 10, 31) > datetime.now():
+            return 'provvisoria'
+        return 'definitiva'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['year']= self.kwargs['year']
@@ -63,6 +68,7 @@ class RaceListView(ListView):
         context['f_dict'] = self.get_athlete_dict(females)
         males = athletes.filter(user__member__gender = 'M')
         context['m_dict'] = self.get_athlete_dict(males)
+        context['status'] = self.get_status(context['year2'])
         return context
 
 class RaceRedirectView(RedirectView):
