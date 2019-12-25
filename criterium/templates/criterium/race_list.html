@@ -5,13 +5,35 @@
 <h2>Criterium edizione {{ year }}-{{ year2 }}
 <hr class="mb-4">
 {% if all_races %}
+  <h3>Lista delle gare</h3>
   <ul>
   {% for race in all_races %}
     <li>
-      <a href="{{ race.get_path }}">{{ race.title }}</a>
+      <a href="{{ race.get_path }}">{{ race.title }} </a>
+      {{ race.date|date:"d M Y"}}, {{ race.get_location }}
     </li>
   {% endfor %}
   </ul>
+  {% if f_dict %}
+  <h3>Classifica femminile</h3>
+    <ul>
+    {% for name, points in f_dict.items %}
+      <li>
+        {{ name }}, {{ points }}
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  {% if m_dict %}
+  <h3>Classifica maschile</h3>
+    <ul>
+    {% for name, points in m_dict.items %}
+      <li>
+        {{ name }}, {{ points }}
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
 {% else %}
     <div class="col-md-12">
         <p>Non ci sono gare in calendario.</p>
