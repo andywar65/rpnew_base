@@ -19,23 +19,23 @@
   </ul>
   {% if females %}
   <h3>Classifica femminile {{ status }}</h3>
-    <ul>
+    <ol>
     {% for name, points in females.items %}
       <li>
         {{ name }}, {{ points }}
       </li>
     {% endfor %}
-    </ul>
+    </ol>
   {% endif %}
   {% if males %}
   <h3>Classifica maschile {{ status }}</h3>
-    <ul>
+    <ol>
     {% for name, points in males.items %}
       <li>
         {{ name }}, {{ points }}
       </li>
     {% endfor %}
-    </ul>
+    </ol>
   {% endif %}
 {% else %}
     <div class="col-md-12">
