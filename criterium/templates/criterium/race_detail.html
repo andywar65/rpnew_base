@@ -2,29 +2,75 @@
 
 {% block title %}RP | {{ race.title }}{%endblock title %}
 {% block content %}
-<h1>Gara: {{ race.title }}</h1>
-<p>data: {{ race.get_date }}</p>
-<p>luogo: {{ race.get_location }}</p>
-<p>cronaca: <a href="{{ race.event.get_path }}">{{ race.event.title }}</a></p>
-<p>{{ race.description }}</p>
-{% if females %}
-<h3>Femmine</h3>
-  <ul>
-  {% for female in females %}
-    <li>
-      {{ female.user.get_full_name_reverse }}, {{ female.points }}
-    </li>
-  {% endfor %}
-  </ul>
-{% endif %}
-{% if males %}
-<h3>Maschi</h3>
-  <ul>
-  {% for male in males %}
-    <li>
-      {{ male.user.get_full_name_reverse }}, {{ male.points }}
-    </li>
-  {% endfor %}
-  </ul>
-{% endif %}
+<div class="row row-striped">
+  <div class="col-md-2 text-right">
+    <i class="fa fa-flag-checkered fa-3x" aria-hidden="true"></i>
+    <a href="/criterium/{{ race.get_edition }}/"><h4>{{ race.get_edition }}</h4></a>
+  </div>
+  <div class="col-md-10">
+    <h3 class="text-uppercase"><strong>{{ race.title }}</strong></h3>
+    <ul class="list-inline">
+      <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ race.get_date }}</li>
+      <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{ race.get_location }}</li>
+      <li class="list-inline-item"><i class="fa fa-link" aria-hidden="true"></i>
+      <a href="{{ race.event.get_path }}">{{ race.event.title }}</a></li>
+    </ul>
+    <p>{{ race.description }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    {% if females %}
+    <h3>Classifica femminile</h3>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Punti</th>
+            <th scope="col">Piazzamento</th>
+            <th scope="col">Tempo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for female in females %}
+          <tr>
+            <td>{{ female.user.get_full_name_reverse }}</td>
+            <td>{{ female.points }}</td>
+            <td>{{ female.placement }}</td>
+            <td>{{ female.time|time:"H:i:s" }}</td>
+          </tr>
+          {% endfor %}
+        <tbody>
+      </table>
+    </div>
+    {% endif %}
+    {% if males %}
+    <h3>Classifica maschile</h3>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Punti</th>
+            <th scope="col">Piazzamento</th>
+            <th scope="col">Tempo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for male in males %}
+          <tr>
+            <td>{{ male.user.get_full_name_reverse }}</td>
+            <td>{{ male.points }}</td>
+            <td>{{ male.placement }}</td>
+            <td>{{ male.time|time:"H:i:s" }}</td>
+          </tr>
+          {% endfor %}
+        <tbody>
+      </table>
+    </div>
+    {% endif %}
+  </div>
+</div>
 {% endblock content %}

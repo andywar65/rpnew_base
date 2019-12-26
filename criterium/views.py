@@ -48,7 +48,7 @@ class RaceListView(ListView):
             athlete = athletes.filter(user_id=athl)
             point_sum = sum(athlete.values_list('points', flat = True))
             first = athlete.first()
-            athl_dict[first.user.get_full_name()] = point_sum
+            athl_dict[first.user.get_full_name_reverse()] = point_sum
         # thanks to https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value
         athl_dict = {k: v for k, v in sorted(athl_dict.items(),
             key=lambda item: item[1], reverse = True)}
