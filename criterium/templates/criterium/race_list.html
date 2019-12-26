@@ -9,8 +9,11 @@
   <ul>
   {% for race in all_races %}
     <li>
-      <a href="{{ race.get_path }}">{{ race.title }} </a>
+      <a href="{{ race.get_path }}">{{ race.title }}, </a>
       {{ race.date|date:"d M Y"}}, {{ race.get_location }}
+      {% if race.event %}
+        <a href="{{ race.event.get_path }}">(leggi la cronaca)</a>
+      {% endif %}
     </li>
   {% endfor %}
   </ul>
