@@ -110,7 +110,7 @@ class Member(models.Model):
         verbose_name = 'Scadenza CM/CMA',)
     mc_state = models.CharField(max_length = 4, choices = MC_STATE,
         verbose_name = 'Stato del CM/CMA',
-        default = '0-NF',)
+        blank = True, null = True, )
     total_amount = models.FloatField( default = 0.00,
         verbose_name = 'Importo totale')
     settled = models.CharField(max_length = 4, choices = SETTLED,

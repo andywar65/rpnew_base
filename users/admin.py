@@ -132,7 +132,11 @@ class MemberAdmin(admin.ModelAdmin):
             for member in queryset:
                 if member.sector == '0-NO':
                     continue
-                if member.mc_state == '0-NF' or member.mc_state == '5-NI':
+                if member.mc_state == None:
+                    member.mc_state = '0-NF'
+                    member.save()
+                elif (member.mc_state == '0-NF' or
+                    member.mc_state == '5-NI'):
                     if member.med_cert:
                         member.mc_state = '1-VF'
                         member.save()
