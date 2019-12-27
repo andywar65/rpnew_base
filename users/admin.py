@@ -112,7 +112,7 @@ class MemberAdmin(admin.ModelAdmin):
             'fields':('avatar', 'gender', 'date_of_birth', 'place_of_birth',
             'nationality', 'fiscal_code')}),
         ('Contatti', {'classes': ('collapse',),
-            'fields':('address', 'phone', 'email_2', )}),
+            'fields':('address', 'phone', 'email_2', 'no_spam')}),
         ('Corso/Tesseramento', {'classes': ('collapse',),
             'fields':('course', 'course_alt', 'course_membership',
             'no_course_membership')}),
@@ -215,7 +215,7 @@ class MemberAdmin(admin.ModelAdmin):
             readonly = ['sector', 'parent', 'membership', 'mc_expiry',
                 'mc_state', 'settled', 'total_amount', ]
         if member.parent:
-            readonly.extend(['address', 'phone', 'email_2',
+            readonly.extend(['address', 'phone', 'email_2', 'no_spam',
                 'no_course_membership'])
         elif member.sector == '0-NO':
             readonly.extend(['gender', 'date_of_birth', 'place_of_birth',

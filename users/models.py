@@ -79,6 +79,9 @@ class Member(models.Model):
         blank = True, null = True, verbose_name = 'Telefono/i',)
     email_2 = models.EmailField(blank = True, null = True,
         verbose_name = 'Seconda email',)
+    no_spam = models.BooleanField(default = True,
+        verbose_name = 'Mailing list',
+        help_text = 'Vuoi ricevere notifiche sugli eventi?',)
     course = models.ManyToManyField(CourseSchedule,
         blank = True, verbose_name = 'Orari scelti', )
     course_alt = models.CharField(max_length = 100,
