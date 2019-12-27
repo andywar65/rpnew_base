@@ -217,7 +217,7 @@ class Event(models.Model):
             message = self.intro + ' Fai click su questo link: ' + url
             con = get_connection(settings.EMAIL_BACKEND)
             recipients = Member.objects.filter(parent = None,
-                user__is_active = True)
+                user__is_active = True, no_spam = True, )
             mailto = []
             for recipient in recipients:
                 mailto.append(recipient.user.email)
