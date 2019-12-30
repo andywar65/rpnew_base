@@ -8,9 +8,10 @@
   {% for post in posts %}
   <div class="card" style="margin-bottom: 20px; min-width: 18rem;">
     <div class="card-header">
-      <a href="{{ post.link }}">
+      <a href="/archivio/{{ post.id }}">
         <h4 class="card-title">{{ post.title|safe }}</h4></a>
     </div>
+    <img class="card-img-top" src="{{ post.image }}" alt="">
     <div class="card-body">
       <em class="card-text">{{ post.excerpt|truncatewords_html:15|safe }}</em>
     </div>
