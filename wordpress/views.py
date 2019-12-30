@@ -10,7 +10,7 @@ def wp_list_view(request):
         page = 1
     filter = {
         '_fields': 'id,title,excerpt,jetpack_featured_media_url',
-        'per_page': 12,
+        'per_page': 9,
         'page': page,
         }
     response = requests.get(target + 'posts', params = filter )
