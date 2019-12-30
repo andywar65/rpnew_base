@@ -4,9 +4,10 @@ from django.shortcuts import render
 target = 'https://rifondazionepodistica.it/wp-json/wp/v2/'
 
 def wp_list_view(request):
-    page = 1
     if 'page' in request.GET:
-        page = request.GET['page']
+        page = int(request.GET['page'])
+    else:
+        page = 1
     filter = {
         '_fields': 'id,title,excerpt,jetpack_featured_media_url',
         'per_page': 12,
@@ -20,8 +21,12 @@ def wp_list_view(request):
         post['id'] = wp_post['id']
         post['title'] = wp_post['title']['rendered']
         post['excerpt'] = wp_post['excerpt']['rendered']
+        if wp_post['excerpt']['protected'] == 'true':
+            post['visible'] = False
+        else:
+            post['visible'] = True
         post['image'] = wp_post['jetpack_featured_media_url']
         posts.append(post)
-    return render(request, 'wordpress/list.html', {'posts': posts, 'page': page,
+    return render(request, 'wordpress/wp_list.html', {'posts': posts, 'page': page,
     'previous': page-1, 'next': page+1
     })
