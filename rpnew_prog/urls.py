@@ -39,6 +39,7 @@ urlpatterns = [
     path('articoli/', include('pagine.urls.posts', namespace = 'blog')),
     path('luoghi/', include('pagine.urls.locations')),
     path('criterium/', include('criterium.urls', namespace = 'criterium')),
+    path('archivio/', include('wordpress.urls', namespace = 'wordpress')),
 ]
 
 if settings.DEBUG:

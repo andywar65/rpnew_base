@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'pagine.apps.PagineConfig',
     'criterium.apps.CriteriumConfig',
+    'wordpress.apps.WordpressConfig',
     'captcha',
     'ckeditor',
     'ckeditor_uploader',
