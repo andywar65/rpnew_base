@@ -3,15 +3,15 @@ import re
 from PIL import Image
 from datetime import datetime
 from django.conf import settings
-from django.core.mail import send_mail, get_connection
 from django.db import models
 from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.text import slugify
 from taggit.managers import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
-from users.choices import NOTICE
+from .choices import *
 from users.models import User, Member
+from rpnew_prog.utils import send_rp_mail
 
 def date_directory_path(instance, filename):
     if instance.date:
@@ -170,7 +170,10 @@ class Event(models.Model):
         help_text="Lista di categorie separate da virgole",
         through=None, blank=True)
     notice = models.CharField(max_length = 4, choices = NOTICE,
-        blank = True, null = True, verbose_name = 'Notifica via email')
+        blank = True, null = True, verbose_name = 'Notifica via email',
+        help_text = """Se devi inviare un aggiornamento, prima salvi, poi
+            imposti su 'Da Inviare' e poi salvi di nuovo. Funzione da migliorare
+            """)
 
     def get_badge_color(self):
         if self.date.date() > datetime.today().date():
@@ -213,21 +216,21 @@ class Event(models.Model):
             self.notice = 'DONE'
         super(Event, self).save(*args, **kwargs)
         if go_spam:
+            message = self.title + '\n'
+            upgrades = EventUpgrade.objects.filter(event_id=self.id)
+            if upgrades:
+                upgrade = upgrades[0]
+                message += upgrade.body + '\n'
+            message += self.intro + '\n'
             url = settings.BASE_URL + self.get_path()
-            message = self.intro + ' Fai click su questo link: ' + url
-            con = get_connection(settings.EMAIL_BACKEND)
+            message += 'Fai click su questo link: ' + url + '\n'
             recipients = Member.objects.filter(parent = None,
                 user__is_active = True, no_spam = True, )
             mailto = []
             for recipient in recipients:
                 mailto.append(recipient.user.email)
-            send_mail(
-                'Nuovo appuntamento / aggiornamento RP',
-                message,
-                'no-reply@rifondazionepodistica.it',
-                mailto ,
-                connection = con,
-            )
+            subject = 'Nuovo appuntamento / aggiornamento RP'
+            send_rp_mail(subject, message, mailto)
 
     def __str__(self):
         return self.title
