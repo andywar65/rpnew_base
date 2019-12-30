@@ -2,6 +2,23 @@
 
 {% block title %}RP | Archivio{% endblock title %}
 {% block content %}
-Hello from WordPress
+<h2>Archivio</h2>
+{% if posts %}
+<div class="card-deck">
+  {% for post in posts %}
+  <div class="card" style="margin-bottom: 20px; min-width: 18rem;">
+    <div class="card-header">
+      <a href="{{ post.link }}">
+        <h4 class="card-title">{{ post.title|safe }}</h4></a>
+    </div>
+    <div class="card-body">
+      <em class="card-text">{{ post.excerpt|truncatewords_html:15|safe }}</em>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>Non ci sono articoli da mostrare</p>
+{% endif %}
 {{ title|safe }}
 {% endblock content %}
