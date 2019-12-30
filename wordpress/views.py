@@ -31,20 +31,22 @@ def wp_list_view(request):
     'previous': page-1, 'next': page+1
     })
 
-def wp_detail_view(request):
-    id = request.GET['id']
+def wp_detail_view(request, id):
     filter = {
         'id': id,
-        '_fields': 'title,excerpt,jetpack_featured_media_url',
+        '_fields': 'title,content,jetpack_featured_media_url',
         }
     response = requests.get(target + 'posts', params = filter )
-    wp_post = response.json()
+    wp_posts = response.json()
+    wp_post = wp_posts[0]
+    post = {}
     post['title'] = wp_post['title']['rendered']
-    post['excerpt'] = wp_post['excerpt']['rendered']
-    if wp_post['excerpt']['protected'] == 'true':
+    post['content'] = wp_post['content']['rendered']
+    if wp_post['content']['protected'] == 'true':
         post['visible'] = False
     else:
         post['visible'] = True
     post['image'] = wp_post['jetpack_featured_media_url']
+    assert False
     return render(request, 'wordpress/wp_detail.html', {'post': post,
     })
