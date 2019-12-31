@@ -36,14 +36,14 @@ DATABASES = {
         'HOST': get_secret('HOST'),
         'PORT': get_secret('PORT'),
     },
-    'wordpress': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': get_secret('NAME2'),
-        'USER': get_secret('USER2'),
-        'PASSWORD': get_secret('PASSWORD2'),
-        'HOST': get_secret('HOST2'),
-        'PORT': get_secret('PORT2'),
-    }
+    #'wordpress': {
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME': get_secret('NAME2'),
+        #'USER': get_secret('USER2'),
+        #'PASSWORD': get_secret('PASSWORD2'),
+        #'HOST': get_secret('HOST2'),
+        #'PORT': get_secret('PORT2'),
+    #}
 }
 
 RECAPTCHA_PUBLIC_KEY = get_secret('RECAPTCHA_PUBLIC_KEY')
