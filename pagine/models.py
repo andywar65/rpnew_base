@@ -164,6 +164,9 @@ class Event(models.Model):
         help_text = "Scrivi qualcosa.", )
     chronicle = RichTextUploadingField('Cronaca',
         default = "Inserisci qui la cronaca dell'evento", )
+    restricted = RichTextUploadingField('Area riservata',
+        blank= True, null=True,
+        help_text="Inserisci qui materiale riservato ai soci",)
     manager = models.ForeignKey(User, on_delete=models.SET_NULL,
         blank= True, null=True, verbose_name = 'Responsabile')
     tags = TaggableManager(verbose_name="Categorie",
