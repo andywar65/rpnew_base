@@ -5,12 +5,12 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
-from django.core.mail import send_mail, get_connection
 from django.db.models import Q
 
 from .models import (User, Member, MemberPayment, Applicant,
     ApplicantChild, UserMessage, CourseSchedule,)
 from .forms import ChangeMemberForm
+from rpnew_prog.utils import send_rp_mail
 
 class UserAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff',
@@ -72,21 +72,15 @@ class ApplicantAdmin(admin.ModelAdmin):
                 member.sector = '1-YC'
                 member.parent = usr
                 member.save()
-            mail_to = applicant.email
+            mail_to = [applicant.email, ]
             message = 'Buongiorno \n'
             message += 'potete loggarvi al sito di RP \n'
             message += f'con nome utente = {username} \n'
             message += f'e password = {password} (da cambiare). \n'
             message += 'Una volta loggati potrete gestire la vostra iscrizione. Grazie. \n'
             message += 'Lo staff di RP'
-            con = get_connection(settings.EMAIL_BACKEND)
-            send_mail(
-                'Credenziali di accesso',
-                message,
-                'no-reply@rifondazionepodistica.it',
-                [mail_to, ] ,
-                connection = con,
-            )
+            subject = 'Credenziali di accesso'
+            send_rp_mail(subject, message, mail_to)
             applicant.delete()
         return
     applicant_to_user.short_description = 'Crea Utenti'
@@ -157,22 +151,16 @@ class MemberAdmin(admin.ModelAdmin):
                     member.mc_state = '5-NI'
                     member.save()
                     if member.parent:
-                        mail_to = member.parent.email
+                        mail_to = [member.parent.email, ]
                     else:
-                        mail_to = member.user.email
+                        mail_to = [member.user.email, ]
                     message = 'Buongiorno \n'
                     message += f'Il CM/CMA di {member.get_full_name()} '
                     message += 'risulta scaduto o inesistente. \n'
                     message += 'Si prega di rimediare al più presto. Grazie. \n'
                     message += 'Lo staff di RP'
-                    con = get_connection(settings.EMAIL_BACKEND)
-                    send_mail(
-                        'Verifica CM/CMA',
-                        message,
-                        'no-reply@rifondazionepodistica.it',
-                        [mail_to, ] ,
-                        connection = con,
-                    )
+                    subject = 'Verifica CM/CMA'
+                    send_rp_mail(subject, message, mail_to)
     control_mc.short_description = 'Gestisci CM/CMA'
 
     def reset_all(self, request, queryset):

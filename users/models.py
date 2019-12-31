@@ -1,10 +1,10 @@
 import os
 from PIL import Image
 from django.conf import settings
-from django.core.mail import send_mail, get_connection
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .choices import *
+from rpnew_prog.utils import send_rp_mail
 
 def user_directory_path(instance, filename):
     return 'user_uploads/{0}/{1}'.format(instance.user.username, filename)
@@ -251,14 +251,10 @@ class UserMessage(models.Model):
             self.notice = 'DONE'
         super(UserMessage, self).save(*args, **kwargs)
         if go_spam:
-            con = get_connection(settings.EMAIL_BACKEND)
-            send_mail(
-                self.subject + ' da ' + self.get_email(),
-                self.body,
-                'no-reply@rifondazionepodistica.it',
-                [self.recipient, ] ,
-                connection = con,
-            )
+            subject = self.subject + ' da ' + self.get_email()
+            message = self.body
+            mailto = [self.recipient, ]
+            send_rp_mail(subject, message, mailto)
 
     def __str__(self):
         return 'Messaggio - %s' % (self.id)
