@@ -7,7 +7,7 @@
 <div class="row row-striped">
   <div class="col-md-2"></div>
   <div class="col-md-10">
-    <h3 class="text-uppercase"><strong>{{ post.title }}</strong></h3>
+    <h3 class="text-uppercase"><strong>{{ post.title|safe }}</strong></h3>
     <ul class="list-inline">
       {% if post.author %}
       <li class="list-inline-item">

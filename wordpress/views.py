@@ -1,3 +1,4 @@
+from datetime import datetime
 import requests
 from django.shortcuts import render
 
@@ -42,7 +43,7 @@ def wp_detail_view(request, id):
     #hardcode them, as they never change
     post = {}
     post['title'] = wp_post['title']['rendered']
-    post['date'] = wp_post['date']
+    post['date'] = datetime.fromisoformat(wp_post['date'])
     post['author'] = wp_post['author']
     post['categories'] = wp_post['categories']
     post['content'] = wp_post['content']['rendered']
@@ -51,6 +52,5 @@ def wp_detail_view(request, id):
     else:
         post['visible'] = True
     post['image'] = wp_post['jetpack_featured_media_url']
-    #assert False
     return render(request, 'wordpress/wp_detail.html', {'post': post,
     })
