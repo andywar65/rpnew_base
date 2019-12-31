@@ -19,8 +19,8 @@
       {% if post.categories %}
         <li class="list-inline-item">
           <i class="fa fa-folder-open" aria-hidden="true"></i>
-          {% for category in post.categories %}
-            <a href="#">{{ category|upper }}</a>
+          {% for id, name in post.categories.items %}
+            <a href="/archivio/categoria/{{ id }}">{{ name|upper }}</a>
           {% endfor %}
         </li>
       {% endif %}

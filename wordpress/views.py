@@ -9,6 +9,15 @@ def get_user_name(id):
     author = response.json()
     return author['name']
 
+def get_category_dict():
+    response = requests.get(target + 'categories/', params = {'per_page': 100})
+    all_cat = response.json()
+    category_dict = {}
+    for cat in all_cat:
+        category_dict[cat['id']] = cat['name']
+    return category_dict
+
+
 def wp_list_view(request):
     if 'page' in request.GET:
         page = int(request.GET['page'])
@@ -38,23 +47,23 @@ def wp_list_view(request):
     })
 
 def wp_detail_view(request, id):
-    response = requests.get(target + 'categories/' )
-    categories = response.json()
-
     filter = {
         'id': id,
         '_fields': 'title,content,jetpack_featured_media_url,date,author,categories',
         }
     response = requests.get(target + 'posts/' + str(id), params = filter )
     wp_post = response.json()
-    #here we have to go back and fetch categories and author, or we
-    #hardcode them, as they never change
     post = {}
     post['title'] = wp_post['title']['rendered']
     post['date'] = datetime.fromisoformat(wp_post['date'])
     if wp_post['author']:
         post['author'] = get_user_name(wp_post['author'])
-    post['categories'] = wp_post['categories']
+    if wp_post['categories']:
+        categories = {}
+        category_dict = get_category_dict()
+        for cat in wp_post['categories']:
+            categories[cat] = category_dict[cat]
+            post['categories'] = categories
     post['content'] = wp_post['content']['rendered']
     if wp_post['content']['protected'] == 'true':
         post['visible'] = False
