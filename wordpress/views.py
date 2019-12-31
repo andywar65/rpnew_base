@@ -4,6 +4,11 @@ from django.shortcuts import render
 
 target = 'https://rifondazionepodistica.it/wp-json/wp/v2/'
 
+def get_user_name(id):
+    response = requests.get(target + 'users/' + str(id) )
+    author = response.json()
+    return author['name']
+
 def wp_list_view(request):
     if 'page' in request.GET:
         page = int(request.GET['page'])
@@ -33,6 +38,9 @@ def wp_list_view(request):
     })
 
 def wp_detail_view(request, id):
+    response = requests.get(target + 'categories/' )
+    categories = response.json()
+
     filter = {
         'id': id,
         '_fields': 'title,content,jetpack_featured_media_url,date,author,categories',
@@ -44,7 +52,8 @@ def wp_detail_view(request, id):
     post = {}
     post['title'] = wp_post['title']['rendered']
     post['date'] = datetime.fromisoformat(wp_post['date'])
-    post['author'] = wp_post['author']
+    if wp_post['author']:
+        post['author'] = get_user_name(wp_post['author'])
     post['categories'] = wp_post['categories']
     post['content'] = wp_post['content']['rendered']
     if wp_post['content']['protected'] == 'true':
