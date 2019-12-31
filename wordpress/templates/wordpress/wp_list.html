@@ -3,6 +3,7 @@
 {% block title %}RP | Archivio {% if category %}{{ category }} {% endif %}{{ page }}{% endblock title %}
 {% block content %}
 <h2>Archivio {% if category %}categoria {{ category|upper }} {% endif %}pag. {{ page }}</h2>
+<p>Lista di articoli del vecchio sito (bordati in rosso quelli protetti da password)</p>
 {% if posts %}
 <div class="card-deck">
   {% for post in posts %}

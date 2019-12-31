@@ -1,5 +1,6 @@
 from datetime import datetime
 import requests
+from django.views.generic import (TemplateView, )
 from django.shortcuts import render
 
 target = 'https://rifondazionepodistica.it/wp-json/wp/v2/'
@@ -80,3 +81,6 @@ def wp_detail_view(request, id):
     post['image'] = wp_post['jetpack_featured_media_url']
     return render(request, 'wordpress/wp_detail.html', {'post': post,
     })
+
+class CategoryTemplateView(TemplateView):
+    template_name = 'wordpress/wp_category.html'
