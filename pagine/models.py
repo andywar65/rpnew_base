@@ -2,7 +2,6 @@ import os
 import re
 from PIL import Image
 from datetime import datetime
-from django.conf import settings
 from django.db import models
 from django.utils.timezone import now
 from django.utils.html import format_html
@@ -11,7 +10,6 @@ from taggit.managers import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
 from .choices import *
 from users.models import User, Member
-from rpnew_prog.utils import send_rp_mail
 
 def date_directory_path(instance, filename):
     if instance.date:
@@ -174,8 +172,9 @@ class Event(models.Model):
         through=None, blank=True)
     notice = models.CharField(max_length = 4, choices = NOTICE,
         blank = True, null = True, verbose_name = 'Notifica via email',
-        help_text = """Se devi inviare un aggiornamento, prima salvi, poi
-            imposti su 'Da Inviare' e poi salvi di nuovo. Funzione da migliorare
+        help_text = """Non invia in automatico, per farlo seleziona l'Evento
+            dalla Lista degli Eventi, imposta l'azione 'Invia notifica' e fai
+            clic su 'Vai'.
             """)
 
     def get_badge_color(self):
@@ -211,29 +210,11 @@ class Event(models.Model):
         return '/calendario/' + self.date.strftime("%Y/%m/%d") + '/' + self.slug
 
     def save(self, *args, **kwargs):
-        go_spam = False
         if not self.slug:
             self.slug = generate_unique_slug(Event, self.title)
-        if self.notice == 'SPAM':
-            go_spam = True
-            self.notice = 'DONE'
+        if not self.notice:
+            self.notice = 'SPAM'
         super(Event, self).save(*args, **kwargs)
-        if go_spam:
-            message = self.title + '\n'
-            upgrades = EventUpgrade.objects.filter(event_id=self.id)
-            if upgrades:
-                upgrade = upgrades[0]
-                message += upgrade.body + '\n'
-            message += self.intro + '\n'
-            url = settings.BASE_URL + self.get_path()
-            message += 'Fai click su questo link: ' + url + '\n'
-            recipients = Member.objects.filter(parent = None,
-                user__is_active = True, no_spam = True, )
-            mailto = []
-            for recipient in recipients:
-                mailto.append(recipient.user.email)
-            subject = 'Nuovo appuntamento / aggiornamento RP'
-            send_rp_mail(subject, message, mailto)
 
     def __str__(self):
         return self.title
