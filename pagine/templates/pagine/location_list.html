@@ -7,13 +7,17 @@
   <div class="card-deck">
   {% for location in all_locations %}
     <div class="card" style="margin-bottom: 20px; min-width: 18rem;">
+      <div class="card-header">
+        <h4 class="card-title"><i class="fa fa-location-arrow" aria-hidden="true"></i>
+        <a href="/luoghi/{{ location.slug }}">
+          {{ location.title }}</a></h4>
+      </div>
       <img class="card-img-top" src="{{ location.image.image.url }}" alt="{{ location.image.image.description }}">
       <div class="card-body">
-        <h5 class="card-title">{{ location.title }}</h5>
-        <p class="card-text">{{ location.address }}</p>
-        <a href="/luoghi/{{ location.slug }}" class="card-link">Dettagli</a>
+        <p><em class="card-text">{{ location.address }}</em></p>
         {% if location.gmap_link %}
-        <a href="{{ location.gmap_link }}" class="card-link">Mappa</a>
+        <p><i class="fa fa-map-marker" aria-hidden="true"></i>
+        <a href="{{ location.gmap_link }}" class="card-link">Mappa</a></p>
         {% endif %}
       </div>
     </div>
