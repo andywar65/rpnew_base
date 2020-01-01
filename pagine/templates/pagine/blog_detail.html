@@ -50,19 +50,7 @@
               Aggiungi un contributo</a>
             </div>
             <hr class="mb-4">
-            {% if post.get_uploads %}
-              {% for upload in post.get_uploads %}
-              <div class="row">
-                <p>{{ upload.body }}</p>
-                {% if upload.image %}<img src="{{ upload.image.url }}" width="100%" alt="" />{% endif %}
-              </div>
-              <div class="row">
-                <em>{% if upload.user.member.avatar %}{{ upload.user.member.get_thumb }}{% endif %}
-                {{ upload.user.get_full_name_reverse }}, caricato il {{ upload.date|date:"d M Y"}}</em>
-              </div>
-              <hr class="mb-4">
-              {% endfor %}
-            {% endif %}
+            {% include 'pagine/blog_detail_uploads.html' %}
           {% else %}
             <div class="row">
               Esegui il <a href="/admin/login/?next={{ request.get_full_path }}">&nbsp;login&nbsp;</a> se vuoi aggiungere un contributo
