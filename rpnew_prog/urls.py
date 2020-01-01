@@ -21,6 +21,7 @@ from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from users import views as user_views
 from pagine.views import HomeTemplateView
+from . import views
 
 admin.site.site_header = 'Amministrazione RP'
 admin.site.site_title = 'Amministrazione RP'
@@ -29,6 +30,7 @@ urlpatterns = [
     #path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('registration/', user_views.registration, name='registration'),
+    path('search/', views.search_results, name='search_results'),
     path('contacts/', user_views.contacts, name='contacts'),
     path('', HomeTemplateView.as_view()),
     path('privacy/', TemplateView.as_view(template_name="privacy.html")),

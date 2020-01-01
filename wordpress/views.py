@@ -45,7 +45,9 @@ def wp_list_view(request, category=None):
         post = {}
         post['id'] = wp_post['id']
         post['title'] = wp_post['title']['rendered']
-        post['excerpt'] = wp_post['excerpt']['rendered']
+        excerpt = wp_post['excerpt']['rendered']
+        post['excerpt'] = re.sub('<div class="sharedaddy.*</div></div></div>',
+            '', excerpt)
         if wp_post['excerpt']['protected'] == True:
             post['visible'] = False
         else:
