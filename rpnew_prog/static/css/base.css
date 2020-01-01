@@ -56,6 +56,11 @@ a:link, a:visited {
     text-decoration: none;
 }
 
+a.btn:link, a.btn:visited {
+    color: #ffffff;
+    text-decoration: none;
+}
+
 a:focus, a:hover {
     color: #88a91e;
 }

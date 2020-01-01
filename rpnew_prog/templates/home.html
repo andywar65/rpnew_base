@@ -12,6 +12,29 @@
 {% endblock image_header %}
 
 {% block content %}
+<h3>RP, Associazione Sportiva Dilettantistica, scuola di atletica e di vita!</h3>
+<div class="card-deck">
+  <div class="card text-center" style="margin-bottom: 20px; min-width: 18rem; ">
+    <div class="card-body">
+      <h4 class="card-title">Corri con noi</h4>
+      <p class="card-text">Come iscriversi, le convenzioni ecc...</p>
+      <a href="/iscrizioni" class="btn btn-success btn-lg btn-block">Vai!</a>
+    </div>
+  </div>
+  <div class="card text-center" style="margin-bottom: 20px; min-width: 18rem; ">
+    <div class="card-body">
+      <h4 class="card-title">Appuntamenti Giovanile</h4>
+      <p class="card-text">Gare, allenamenti e tanto altro...</p>
+      <a href="/calendario/?categoria=giovanile" class="btn btn-success btn-lg btn-block">Vai!</a></div>
+  </div>
+  <div class="card text-center" style="margin-bottom: 20px; min-width: 18rem; ">
+    <div class="card-body">
+      <h4 class="card-title">Criterium</h4>
+      <p class="card-text">La classifica dei vecchietti...</p>
+      <a href="/criterium" class="btn btn-success btn-lg btn-block">Vai!</a>
+    </div>
+  </div>
+</div>
 <a href="/calendario/"><h2>Appuntamenti e cronache</h2></a>
 {% if all_events %}
 <div class="card-deck">
