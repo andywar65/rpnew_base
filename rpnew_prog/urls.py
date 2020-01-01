@@ -27,7 +27,6 @@ admin.site.site_header = 'Amministrazione RP'
 admin.site.site_title = 'Amministrazione RP'
 
 urlpatterns = [
-    #path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('registration/', user_views.registration, name='registration'),
     path('search/', views.search_results, name='search_results'),
