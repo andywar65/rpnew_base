@@ -19,10 +19,13 @@
 <div class="card-deck">
 {% for post in posts %}
   <div class="card" style="margin-bottom: 20px; min-width: 18rem;">
+    <div class="card-header">
+      <h4 class="card-title">
+      <a href="/articoli/{{ post.slug }}">
+        {{ post.title }}</a></h4>
+    </div>
     <img class="card-img-top" src="{{ post.image.image.url }}" alt="{{ post.image.image.description }}">
     <div class="card-body">
-      <a href="/articoli/{{ post.slug }}">
-        <h4 class="card-title">{{ post.title }}</h4></a>
       <em class="card-text">{{ post.intro }}</em>
       <ul class="list-inline">
         <li class="list-inline-item">
