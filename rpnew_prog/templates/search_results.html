@@ -21,6 +21,17 @@
           </ul>
         {% endfor %}
       {% endif %}
+      {% if all_blogs %}
+        <h3>Approfondimenti</h3>
+        {% for blog in all_blogs %}
+          <ul>
+            <li>
+              <p><a href="{{ blog.get_path }}">{{ blog.title }}&nbsp;</a>
+              {{ blog.date|date:"d M Y" }}</p>
+            </li>
+          </ul>
+        {% endfor %}
+      {% endif %}
     {% else %}
     <h1>Ricerca nulla</h1>
     <p>Non abbiamo trovato elementi che soddisfano la tua ricerca</p>
