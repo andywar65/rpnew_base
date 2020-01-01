@@ -50,7 +50,13 @@
               Aggiungi un contributo</a>
             </div>
             <hr class="mb-4">
-            {% include 'pagine/blog_detail_uploads.html' %}
+            {% if post.get_uploads %}
+            <div class="card-deck">
+              {% for upload in post.get_uploads %}
+                {% include 'pagine/uploads.html' %}
+              {% endfor %}
+            </div>
+            {% endif %}
           {% else %}
             <div class="row">
               Esegui il <a href="/admin/login/?next={{ request.get_full_path }}">&nbsp;login&nbsp;</a> se vuoi aggiungere un contributo

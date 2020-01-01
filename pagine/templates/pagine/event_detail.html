@@ -80,7 +80,13 @@
               Aggiungi un contributo</a>
             </div>
             <hr class="mb-4">
-            {% include 'pagine/event_detail_uploads.html' %}
+            {% if event.get_uploads %}
+            <div class="card-deck">
+              {% for upload in event.get_uploads %}
+                {% include 'pagine/uploads.html' %}
+              {% endfor %}
+            </div>
+            {% endif %}
           {% else %}
             <div class="row">
               <p>Esegui il <a href="/admin/login/?next={{ request.get_full_path }}">&nbsp;login&nbsp;</a>
