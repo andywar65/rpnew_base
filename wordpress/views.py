@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 import requests
 from django.views.generic import (TemplateView, )
@@ -73,7 +74,9 @@ def wp_detail_view(request, id):
         for cat in wp_post['categories']:
             categories[cat] = category_dict[cat]
             post['categories'] = categories
-    post['content'] = wp_post['content']['rendered']
+    content = wp_post['content']['rendered']
+    post['content'] = re.sub('<div class="sharedaddy.*</div></div></div>', '',
+        content)
     if wp_post['content']['protected'] == True:
         post['visible'] = False
     else:
