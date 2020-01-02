@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from pagine.models import Location
 
 def user_directory_path(instance, filename):
