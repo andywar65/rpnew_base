@@ -1,8 +1,12 @@
 import re
 from datetime import datetime
+import sys
 import requests
 from django.views.generic import (TemplateView, )
 from django.shortcuts import render
+if not sys.version_info[:2] == (3,7):
+    from backports.datetime_fromisoformat import MonkeyPatch
+    MonkeyPatch.patch_fromisoformat()
 
 target = 'https://rifondazionepodistica.it/wp-json/wp/v2/'
 
@@ -60,7 +64,7 @@ def wp_list_view(request, category=None):
 
 def wp_detail_view(request, id):
     filter = {
-        'id': id,
+        #'id': id,
         '_fields': 'title,content,jetpack_featured_media_url,date,author,categories',
         }
     response = requests.get(target + 'posts/' + str(id), params = filter )
