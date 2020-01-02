@@ -47,6 +47,12 @@
               {% endfor %}
             </li>
             {% endif %}
+            {% if perms.pagine.can_change_event %}
+            <li class="list-inline-item">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+              <a href="/admin/pagine/event/{{ event.id }}/change/">Modifica</a>
+            </li>
+            {% endif %}
           </ul>
           <p>{{ event.intro }}</p>
         </div>
