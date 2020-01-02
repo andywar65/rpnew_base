@@ -63,7 +63,7 @@ STATIC_ROOT = '/home/apperilli/webapps/rpteststatic/'
 STATIC_URL = 'https://digitalkomix.com/static/'
 
 MEDIA_ROOT = '/home/apperilli/webapps/rpteststatic/media/'
-MEDIA_URL = 'https://digitalkomix.com/static/media/'
+MEDIA_URL = 'https://digitalkomix.com/media/'
 
 SECRET_KEY = get_secret('SECRET_KEY')
 
