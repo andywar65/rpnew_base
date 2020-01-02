@@ -1,3 +1,14 @@
 from django.shortcuts import render
+from django.views.generic import (ListView, DetailView, TemplateView)
+from .models import (Convention)
 
-# Create your views here.
+class ConventionListView(ListView):
+    model = Convention
+    ordering = ('title', )
+    context_object_name = 'all_conventions'
+    paginate_by = 12
+
+class ConventionDetailView(DetailView):
+    model = Convention
+    context_object_name = 'convention'
+    slug_field = 'slug'
