@@ -37,6 +37,9 @@ class Convention(models.Model):
         return self.location
     get_location.short_description = 'Sede'
 
+    def get_path(self):
+        return '/convenzioni/' + self.slug
+
     def save(self, *args, **kwargs):
         if not self.slug:  # create
             self.slug = generate_unique_slug(Convention, self.title)
