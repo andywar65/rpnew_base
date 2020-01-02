@@ -67,6 +67,8 @@ MEDIA_URL = 'https://digitalkomix.com/media/'
 
 SECRET_KEY = get_secret('SECRET_KEY')
 
+REST_API_TARGET = 'https://rifondazionepodistica.it/wp-json/wp/v2/'
+
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'https://digitalkomix.com'

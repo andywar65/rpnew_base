@@ -1,14 +1,15 @@
 import re
-from datetime import datetime
 import sys
+from datetime import datetime
 import requests
+from django.conf import settings
 from django.views.generic import (TemplateView, )
 from django.shortcuts import render
 if not sys.version_info[:2] == (3,7):
     from backports.datetime_fromisoformat import MonkeyPatch
     MonkeyPatch.patch_fromisoformat()
 
-target = 'https://rifondazionepodistica.it/wp-json/wp/v2/'
+target = settings.REST_API_TARGET
 
 def get_user_name(id):
     response = requests.get(target + 'users/' + str(id) )

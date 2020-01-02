@@ -56,9 +56,11 @@ STATIC_ROOT = '/home/apperilli/webapps/rpteststatic/'
 STATIC_URL = 'https://rifondazionepodistica.it/static/'
 
 MEDIA_ROOT = '/home/apperilli/webapps/rpteststatic/media/'
-MEDIA_URL = 'https://rifondazionepodistica.it/static/media/'
+MEDIA_URL = 'https://rifondazionepodistica.it/media/'
 
 SECRET_KEY = get_secret('SECRET_KEY')
+
+REST_API_TARGET = 'http://???.webfactional.com/wp-json/wp/v2/'
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
