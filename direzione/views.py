@@ -10,5 +10,5 @@ class ConventionListView(ListView):
 
 class ConventionDetailView(DetailView):
     model = Convention
-    context_object_name = 'convention'
+    context_object_name = 'conv'
     slug_field = 'slug'
