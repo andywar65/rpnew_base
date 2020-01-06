@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import (Convention, ConventionUpload, Society)
+from .forms import SocietyForm
 
 class ConventionUploadInline(admin.TabularInline):
     model = ConventionUpload
@@ -14,3 +15,4 @@ class ConventionAdmin(admin.ModelAdmin):
 @admin.register(Society)
 class SocietyAdmin(admin.ModelAdmin):
     list_display = ('title', )
+    form = SocietyForm
