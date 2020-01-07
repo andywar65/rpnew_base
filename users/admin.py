@@ -98,14 +98,14 @@ class MemberAdmin(admin.ModelAdmin):
     list_display = ('get_thumb', 'get_full_name', 'sector', 'parent',
         'mc_state', 'settled')
     list_filter = ('mc_state', 'settled')
-    search_fields = ('user__first_name', 'user__last_name',
-        'user__username', 'fiscal_code', 'address')
-    ordering = ('user__last_name', 'user__first_name', )
+    search_fields = ('first_name', 'last_name', 'fiscal_code', 'address')
+    ordering = ('last_name', 'first_name', )
     actions = ['control_mc', 'reset_all', 'control_pay']
     fieldsets = (
         ('', {'fields':('sector', 'parent')}),
         ('Anagrafica', {'classes': ('collapse',),
-            'fields':('avatar', 'gender', 'date_of_birth', 'place_of_birth',
+            'fields':('first_name', 'last_name', 'avatar', 'gender',
+            'date_of_birth', 'place_of_birth',
             'nationality', 'fiscal_code')}),
         ('Contatti', {'classes': ('collapse',),
             'fields':('address', 'phone', 'email_2', 'no_spam')}),
@@ -206,7 +206,8 @@ class MemberAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, member):
         readonly = []
         if not request.user.has_perm('users.add_user'):
-            readonly = ['sector', 'parent', 'membership', 'mc_expiry',
+            readonly = ['first_name', 'last_name', 'sector', 'parent',
+                'membership', 'mc_expiry',
                 'mc_state', 'settled', 'total_amount', ]
         if member.parent:
             readonly.extend(['address', 'phone', 'email_2', 'no_spam',

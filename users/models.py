@@ -30,7 +30,8 @@ class User(AbstractUser):
                 memb = Member.objects.get(user_id = self.id)
                 return
             except:
-                memb = Member.objects.create(user = self, )
+                memb = Member.objects.create(user = self,
+                    first_name = self.first_name, last_name = self.last_name,)
                 memb.save()
                 return
         else:
@@ -58,6 +59,10 @@ class Member(models.Model):
     parent = models.ForeignKey(User, on_delete = models.SET_NULL,
         blank = True, null = True, related_name = 'member_parent',
         verbose_name = 'Genitore')
+    first_name = models.CharField('Nome', blank=True, null=True,
+        max_length = 50,)
+    last_name = models.CharField('Cognome', blank=True, null=True,
+        max_length = 50,)
     avatar = models.ImageField(blank = True, null=True,
         upload_to = user_directory_path,)
     thumb = models.CharField(editable=False, blank=True, null=True,
@@ -118,8 +123,13 @@ class Member(models.Model):
         verbose_name = 'In regola?',)
 
     def get_full_name(self):
-        return self.user.get_full_name()
+        full_name = '%s %s' % (self.last_name, self.first_name)
+        return full_name.strip()
     get_full_name.short_description = 'Nome'
+
+    def get_full_name_reverse(self):
+        full_name_reverse = '%s %s' % (self.first_name, self.last_name)
+        return full_name_reverse.strip()
 
     def get_thumb(self):
         if self.thumb:
@@ -131,7 +141,7 @@ class Member(models.Model):
     get_thumb.short_description = ''
 
     def __str__(self):
-        full_name = '%s %s' % (self.user.last_name, self.user.first_name)
+        full_name = '%s %s' % (self.last_name, self.first_name)
         return full_name.strip()
 
     def save(self, *args, **kwargs):
