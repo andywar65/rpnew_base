@@ -10,6 +10,8 @@ from rpnew_prog.utils import send_rp_mail
 class LocationAdmin(admin.ModelAdmin):
     list_display = ('title', 'address', 'get_thumb', 'get_gmap_link')
     readonly_fields = ('slug', )
+    ordering = ('title', )
+    search_fields = ('title', 'address')
 
 @admin.register(ImageEntry)
 class ImageEntryAdmin(admin.ModelAdmin):
@@ -35,6 +37,7 @@ class EventAdmin(admin.ModelAdmin):
     search_fields = ('title', 'date', 'intro', )
     form = EventForm
     actions = ['send_notice', ]
+    autocomplete_fields = ['image', 'location']
 
     def send_notice(self, request, queryset):
         for event in queryset:
@@ -63,3 +66,4 @@ class BlogAdmin(admin.ModelAdmin):
     search_fields = ('title', 'date', 'intro', )
     inlines = [ UserUploadInline,  ]
     form = BlogForm
+    autocomplete_fields = ['image', ]
