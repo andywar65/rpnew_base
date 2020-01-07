@@ -4,13 +4,16 @@ from .models import Society
 from users.models import User
 
 class SocietyForm(ModelForm):
-    president = forms.ModelChoiceField(required = False, label = 'Presidente',
+    president = forms.ModelChoiceField(required = False,
+        label = 'Presidente',
         queryset = User.objects.filter(member__parent = None,
             is_active = True ), )
-    executive = forms.ModelChoiceField(required = False, label = 'Dirigenti',
+    executive = forms.ModelMultipleChoiceField(required = False,
+        label = 'Dirigenti',
         queryset = User.objects.filter(member__parent = None,
             is_active = True ), )
-    trainers = forms.ModelChoiceField(required = False, label = 'Istruttori',
+    trainers = forms.ModelMultipleChoiceField(required = False,
+        label = 'Istruttori',
         queryset = User.objects.filter(member__parent = None,
             is_active = True ), )
 
