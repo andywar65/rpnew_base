@@ -15,6 +15,8 @@ from rpnew_prog.utils import send_rp_mail
 class UserAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff',
         'is_active')
+    search_fields = ('first_name', 'last_name', )
+    ordering = ('first_name', 'last_name', )
 
 admin.site.register(User, UserAdmin)
 
@@ -31,7 +33,7 @@ class UserMessageAdmin(admin.ModelAdmin):
 class ApplicantChildInline(admin.TabularInline):
     model = ApplicantChild
     fields = ('first_name', 'last_name', )
-    extra = 1
+    extra = 0
 
 @admin.register(Applicant)
 class ApplicantAdmin(admin.ModelAdmin):

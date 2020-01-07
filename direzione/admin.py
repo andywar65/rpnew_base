@@ -16,3 +16,4 @@ class ConventionAdmin(admin.ModelAdmin):
 class SocietyAdmin(admin.ModelAdmin):
     list_display = ('title', )
     form = SocietyForm
+    autocomplete_fields = ['location', 'president', 'executive', 'trainers']

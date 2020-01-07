@@ -78,7 +78,7 @@ class Society(models.Model):
         max_length = 4)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL,
         null=True, verbose_name = 'Sede',
-        help_text="Inserire indirizzo e contatti" )
+        help_text="Inserisce indirizzo e contatti" )
     coni = models.CharField('Registro CONI', blank= True, null=True,
         max_length = 10)
     fidal = models.CharField('Affiliazione FIDAL', blank= True, null=True,
