@@ -15,5 +15,5 @@ class ConventionAdmin(admin.ModelAdmin):
 @admin.register(Society)
 class SocietyAdmin(admin.ModelAdmin):
     list_display = ('title', )
-    form = SocietyForm
+    #form = SocietyForm
     autocomplete_fields = ['location', 'president', 'executive', 'trainers']
