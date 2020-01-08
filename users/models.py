@@ -30,8 +30,8 @@ class User(AbstractUser):
                 memb = Member.objects.get(user_id = self.id)
                 return
             except:
-                memb = Member.objects.create(user = self,
-                    first_name = self.first_name, last_name = self.last_name,)
+                memb = Member.objects.create(user = self)
+                    #first_name = self.first_name, last_name = self.last_name,)
                 memb.save()
                 return
         else:
