@@ -13,10 +13,8 @@ from .forms import ChangeMemberForm
 from rpnew_prog.utils import send_rp_mail
 
 class UserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff',
-        'is_active')
-    search_fields = ('first_name', 'last_name', )
-    ordering = ('first_name', 'last_name', )
+    list_display = ('username', 'is_staff', 'is_active', 'is_superuser')
+    list_editable = ('is_staff', 'is_active')
 
 admin.site.register(User, UserAdmin)
 
