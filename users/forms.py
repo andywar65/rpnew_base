@@ -1,13 +1,13 @@
 from django import forms
 from django.forms import ModelForm
 from captcha.fields import ReCaptchaField
-from .models import Member, User, Applicant, UserMessage
+from .models import Member, Applicant, UserMessage
 from .choices import *
 
 class ChangeMemberForm(ModelForm):
     parent = forms.ModelChoiceField(label="Genitore", required = False,
-        queryset = User.objects.filter(member__parent = None,
-        is_active = True), help_text = 'Solo se minore')
+        queryset = Member.objects.filter(parent = None,
+        user__is_active = True), help_text = 'Solo se minore')
 
     def clean(self):
         cd = super().clean()
@@ -33,6 +33,13 @@ class ChangeMemberForm(ModelForm):
     class Meta:
         model = Member
         fields = '__all__'
+
+class ChangeMember0Form(ModelForm):
+
+    class Meta:
+        model = Member
+        fields = ('sector', 'avatar', 'first_name', 'last_name', 'email',
+            'no_spam', 'address', 'phone', 'email_2', 'fiscal_code')
 
 class RegistrationForm(ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))

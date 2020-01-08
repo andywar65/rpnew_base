@@ -9,7 +9,7 @@ from django.db.models import Q
 
 from .models import (User, Member, MemberPayment, Applicant,
     ApplicantChild, UserMessage, CourseSchedule,)
-from .forms import ChangeMemberForm
+from .forms import ChangeMemberForm, ChangeMember0Form
 from rpnew_prog.utils import send_rp_mail
 
 class UserAdmin(UserAdmin):
@@ -98,32 +98,45 @@ class MemberPaymentInline(admin.TabularInline):
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    form = ChangeMemberForm
+    #form = ChangeMemberForm
     list_display = ('get_thumb', 'get_full_name', 'sector', 'parent',
         'mc_state', 'settled')
     list_filter = ('mc_state', 'settled')
     search_fields = ('first_name', 'last_name', 'fiscal_code', 'address')
     ordering = ('last_name', 'first_name', )
     actions = ['control_mc', 'reset_all', 'control_pay']
-    fieldsets = (
-        ('', {'fields':('sector', 'parent')}),
-        ('Anagrafica', {'classes': ('collapse',),
-            'fields':('first_name', 'last_name', 'avatar', 'gender',
-            'date_of_birth', 'place_of_birth',
-            'nationality', 'fiscal_code')}),
-        ('Contatti', {'classes': ('collapse',),
-            'fields':('email', 'address', 'phone', 'email_2', 'no_spam')}),
-        ('Corso/Tesseramento', {'classes': ('collapse',),
-            'fields':('course', 'course_alt', 'course_membership',
-            'no_course_membership')}),
-        ('Uploads', {'classes': ('collapse',),
-            'fields':('sign_up', 'privacy', 'med_cert',)}),
-        ('Amministrazione', {'classes': ('collapse',),
-            'fields':('membership', 'mc_expiry', 'mc_state', 'total_amount',
-            'settled')}),
+    #fieldsets = (
+        #('', {'fields':('sector', 'parent')}),
+        #('Anagrafica', {'classes': ('collapse',),
+            #'fields':('first_name', 'last_name', 'avatar', 'gender',
+            #'date_of_birth', 'place_of_birth',
+            #'nationality', 'fiscal_code')}),
+        #('Contatti', {'classes': ('collapse',),
+            #'fields':('email', 'address', 'phone', 'email_2', 'no_spam')}),
+        #('Corso/Tesseramento', {'classes': ('collapse',),
+            #'fields':('course', 'course_alt', 'course_membership',
+            #'no_course_membership')}),
+        #('Uploads', {'classes': ('collapse',),
+            #'fields':('sign_up', 'privacy', 'med_cert',)}),
+        #('Amministrazione', {'classes': ('collapse',),
+            #'fields':('membership', 'mc_expiry', 'mc_state', 'total_amount',
+            #'settled')}),
+        #)
+
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        member = Member.objects.get(user_id=object_id)
+        if member.sector == '0-NO':
+            self.form = ChangeMember0Form
+            if not request.user.has_perm('users.add_applicant'):
+                self.readonly_fields = ['sector', ]
+        else:
+            self.form = ChangeMemberForm
+            self.inlines = [ MemberPaymentInline, ]
+        #assert False
+        return super().change_view(
+            request, object_id, form_url, extra_context=extra_context,
         )
-        #'grp-collapse grp-closed'
-    inlines = [ MemberPaymentInline, ]
 
     def control_mc(self, request, queryset):
         if not request.user.has_perm('users.add_applicant'):
@@ -207,24 +220,24 @@ class MemberAdmin(admin.ModelAdmin):
         else:
             return qs
 
-    def get_readonly_fields(self, request, member):
-        readonly = []
-        if not request.user.has_perm('users.add_applicant'):
-            readonly = ['sector', 'parent',
-                'membership', 'mc_expiry',
-                'mc_state', 'settled', 'total_amount', ]
-        if member.parent:
-            readonly.extend(['email', 'address', 'phone', 'email_2', 'no_spam',
-                'no_course_membership'])
-        elif member.sector == '0-NO':
-            readonly.extend(['gender', 'date_of_birth', 'place_of_birth',
-                'nationality', 'course', 'course_alt', 'course_membership',
-                'no_course_membership', 'sign_up', 'privacy', 'med_cert',])
-            if request.user.has_perm('users.add_applicant'):
-                readonly.extend(['membership', 'mc_expiry',
-                    'mc_state', 'settled', 'total_amount', ])
-        elif member.sector == '1-YC':
-            readonly.append('no_course_membership')
-        elif member.sector == '2-NC':
-            readonly.extend(['course', 'course_alt', 'course_membership', ])
-        return readonly
+    #def get_readonly_fields(self, request, member):
+        #readonly = []
+        #if not request.user.has_perm('users.add_applicant'):
+            #readonly = ['sector', 'parent',
+                #'membership', 'mc_expiry',
+                #'mc_state', 'settled', 'total_amount', ]
+        #if member.parent:
+            #readonly.extend(['email', 'address', 'phone', 'email_2', 'no_spam',
+                #'no_course_membership'])
+        #elif member.sector == '0-NO':
+            #readonly.extend(['gender', 'date_of_birth', 'place_of_birth',
+                #'nationality', 'course', 'course_alt', 'course_membership',
+                #'no_course_membership', 'sign_up', 'privacy', 'med_cert',])
+            #if request.user.has_perm('users.add_applicant'):
+                #readonly.extend(['membership', 'mc_expiry',
+                    #'mc_state', 'settled', 'total_amount', ])
+        #elif member.sector == '1-YC':
+            #readonly.append('no_course_membership')
+        #elif member.sector == '2-NC':
+            #readonly.extend(['course', 'course_alt', 'course_membership', ])
+        #return readonly
