@@ -53,24 +53,30 @@ class ApplicantAdmin(admin.ModelAdmin):
             password = User.objects.make_random_password()
             hash_password = make_password(password)
             usr = User.objects.create(username = username,
-                first_name = applicant.first_name,
-                last_name = applicant.last_name, email = applicant.email,
+                #first_name = applicant.first_name,
+                #last_name = applicant.last_name, email = applicant.email,
                 password = hash_password, is_staff = True, )
             usr.groups.add(group)
             member = Member.objects.get(user_id=usr.id)
             member.sector = applicant.sector
+            member.first_name = applicant.first_name
+            member.last_name = applicant.last_name
+            member.email = applicant.email
             member.save()
             children = ApplicantChild.objects.filter(parent=applicant.id)
             for child in children:
                 chd_username = child.last_name.lower() + '_' + child.first_name.lower()
                 hash_password = make_password('rifondazionepodistica')
                 chd = User.objects.create(username = chd_username,
-                    first_name = child.first_name,
-                    last_name = child.last_name, email = applicant.email,
+                    #first_name = child.first_name,
+                    #last_name = child.last_name, email = applicant.email,
                     password = hash_password, )
                 member = Member.objects.get(user_id=chd.id)
                 member.sector = '1-YC'
                 member.parent = usr
+                member.first_name = child.first_name
+                member.last_name = child.last_name
+                member.email = applicant.email
                 member.save()
             mail_to = [applicant.email, ]
             message = 'Buongiorno \n'
@@ -83,7 +89,7 @@ class ApplicantAdmin(admin.ModelAdmin):
             send_rp_mail(subject, message, mail_to)
             applicant.delete()
         return
-    applicant_to_user.short_description = 'Crea Utenti'
+    applicant_to_user.short_description = 'Crea Iscritti'
 
 class MemberPaymentInline(admin.TabularInline):
     model = MemberPayment

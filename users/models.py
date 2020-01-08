@@ -12,16 +12,22 @@ def user_directory_path(instance, filename):
 class User(AbstractUser):
 
     def __str__(self):
-        full_name = '%s %s' % (self.last_name, self.first_name)
-        return full_name.strip()
+        if self.member.last_name and self.member.first_name:
+            return self.member.last_name + ' ' + self.member.first_name
+        else:
+            return self.username
 
     def get_full_name(self):
-        full_name = '%s %s' % (self.last_name, self.first_name)
-        return full_name.strip()
+        if self.member.last_name and self.member.first_name:
+            return self.member.last_name + ' ' + self.member.first_name
+        else:
+            return self.username
 
     def get_full_name_reverse(self):
-        full_name_reverse = '%s %s' % (self.first_name, self.last_name)
-        return full_name_reverse.strip()
+        if self.member.last_name and self.member.first_name:
+            return self.member.first_name + ' ' + self.member.last_name
+        else:
+            return self.username
 
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)
