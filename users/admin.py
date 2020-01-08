@@ -126,7 +126,7 @@ class MemberAdmin(admin.ModelAdmin):
     inlines = [ MemberPaymentInline, ]
 
     def control_mc(self, request, queryset):
-        if not request.user.has_perm('users.add_user'):
+        if not request.user.has_perm('users.add_applicant'):
             return
         else:
             for member in queryset:
@@ -170,7 +170,7 @@ class MemberAdmin(admin.ModelAdmin):
     control_mc.short_description = 'Gestisci CM/CMA'
 
     def reset_all(self, request, queryset):
-        if not request.user.has_perm('users.add_user'):
+        if not request.user.has_perm('users.add_applicant'):
             return
         queryset.update(sign_up='', privacy='', settled='', total_amount=0.00)
         for member in queryset:
@@ -178,7 +178,7 @@ class MemberAdmin(admin.ModelAdmin):
     reset_all.short_description = 'Resetta i dati'
 
     def control_pay(self, request, queryset):
-        if not request.user.has_perm('users.add_user'):
+        if not request.user.has_perm('users.add_applicant'):
             return
         for member in queryset:
             if member.sector == '0-NO' or member.settled == 'YES':
@@ -202,14 +202,14 @@ class MemberAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request).filter(user__is_active = True)
-        if not request.user.has_perm('users.add_user'):
+        if not request.user.has_perm('users.add_applicant'):
             return qs.filter(Q(pk=request.user.pk) | Q(parent=request.user.pk))
         else:
             return qs
 
     def get_readonly_fields(self, request, member):
         readonly = []
-        if not request.user.has_perm('users.add_user'):
+        if not request.user.has_perm('users.add_applicant'):
             readonly = ['sector', 'parent',
                 'membership', 'mc_expiry',
                 'mc_state', 'settled', 'total_amount', ]
@@ -220,7 +220,7 @@ class MemberAdmin(admin.ModelAdmin):
             readonly.extend(['gender', 'date_of_birth', 'place_of_birth',
                 'nationality', 'course', 'course_alt', 'course_membership',
                 'no_course_membership', 'sign_up', 'privacy', 'med_cert',])
-            if request.user.has_perm('users.add_user'):
+            if request.user.has_perm('users.add_applicant'):
                 readonly.extend(['membership', 'mc_expiry',
                     'mc_state', 'settled', 'total_amount', ])
         elif member.sector == '1-YC':
