@@ -53,7 +53,7 @@ class EventAdmin(admin.ModelAdmin):
                 user__is_active = True, no_spam = True, )
             mailto = []
             for recipient in recipients:
-                mailto.append(recipient.user.email)
+                mailto.append(recipient.email)
             subject = 'Nuovo appuntamento / aggiornamento RP'
             send_rp_mail(subject, message, mailto)
             event.notice = 'DONE'
