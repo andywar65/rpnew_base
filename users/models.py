@@ -63,6 +63,8 @@ class Member(models.Model):
         max_length = 50,)
     last_name = models.CharField('Cognome', blank=True, null=True,
         max_length = 50,)
+    email = models.EmailField(blank = True, null = True,
+        verbose_name = 'Email',)
     avatar = models.ImageField(blank = True, null=True,
         upload_to = user_directory_path,)
     thumb = models.CharField(editable=False, blank=True, null=True,

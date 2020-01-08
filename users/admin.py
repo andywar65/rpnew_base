@@ -108,7 +108,7 @@ class MemberAdmin(admin.ModelAdmin):
             'date_of_birth', 'place_of_birth',
             'nationality', 'fiscal_code')}),
         ('Contatti', {'classes': ('collapse',),
-            'fields':('address', 'phone', 'email_2', 'no_spam')}),
+            'fields':('email', 'address', 'phone', 'email_2', 'no_spam')}),
         ('Corso/Tesseramento', {'classes': ('collapse',),
             'fields':('course', 'course_alt', 'course_membership',
             'no_course_membership')}),
@@ -206,11 +206,11 @@ class MemberAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, member):
         readonly = []
         if not request.user.has_perm('users.add_user'):
-            readonly = ['first_name', 'last_name', 'sector', 'parent',
+            readonly = ['sector', 'parent',
                 'membership', 'mc_expiry',
                 'mc_state', 'settled', 'total_amount', ]
         if member.parent:
-            readonly.extend(['address', 'phone', 'email_2', 'no_spam',
+            readonly.extend(['email', 'address', 'phone', 'email_2', 'no_spam',
                 'no_course_membership'])
         elif member.sector == '0-NO':
             readonly.extend(['gender', 'date_of_birth', 'place_of_birth',
