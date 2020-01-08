@@ -39,7 +39,7 @@ class ChangeMember0Form(ModelForm):
     class Meta:
         model = Member
         fields = ('sector', 'avatar', 'first_name', 'last_name', 'email',
-            'no_spam', 'address', 'phone', 'email_2', 'fiscal_code')
+            'no_spam', )
 
 class RegistrationForm(ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
