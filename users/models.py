@@ -65,12 +65,12 @@ class Member(models.Model):
     parent = models.ForeignKey(User, on_delete = models.SET_NULL,
         blank = True, null = True, related_name = 'member_parent',
         verbose_name = 'Genitore')
-    first_name = models.CharField('Nome', blank=True, null=True,
+    first_name = models.CharField('Nome', default = 'Nome',
         max_length = 50,)
-    last_name = models.CharField('Cognome', blank=True, null=True,
+    last_name = models.CharField('Cognome', default = 'Cognome',
         max_length = 50,)
-    email = models.EmailField(blank = True, null = True,
-        verbose_name = 'Email',)
+    email = models.EmailField('Email', default = 'me@example.com',
+        )
     avatar = models.ImageField(blank = True, null=True,
         upload_to = user_directory_path,)
     thumb = models.CharField(editable=False, blank=True, null=True,
