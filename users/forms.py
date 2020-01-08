@@ -51,6 +51,17 @@ class RegistrationForm(ModelForm):
         widget=forms.TextInput(attrs={'class': "form-control",
         'placeholder': "Nome e cognome dei figli, separati da una virgola (Mario Rossi, Ada Rossi)"}))
     captcha = ReCaptchaField()
+
+    def clean(self):
+        cd = super().clean()
+        sector = cd.get('sector')
+        children = cd.get('children_str')
+        if sector == '0-NO' and children:
+            self.add_error('sector', forms.ValidationError(
+                'Se hai inserito figli seleziona "No, solo i figli"',
+                code='if_juvenile_set_sector',
+            ))
+
     class Meta:
         model = Applicant
         fields = '__all__'
