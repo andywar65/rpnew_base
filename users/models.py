@@ -248,14 +248,14 @@ class UserMessage(models.Model):
 
     def get_full_name(self):
         if self.user:
-            return self.user.get_full_name()
+            return self.user.member.get_full_name()
         else:
             return self.nickname
     get_full_name.short_description = 'Nome'
 
     def get_email(self):
         if self.user:
-            return self.user.email
+            return self.user.member.email
         else:
             return self.email
     get_email.short_description = 'Indirizzo email'

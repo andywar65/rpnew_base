@@ -27,11 +27,11 @@ def contacts(request):
                 if 'recipient' in request.GET:
                     try:
                         recip = User.objects.get(id=request.GET['recipient'])
-                        mod_form.recipient = recip.email
+                        mod_form.recipient = recip.member.email
                     except:
                         pass
                 mod_form.user = request.user
-                mod_form.email = request.user.email
+                mod_form.email = request.user.member.email
                 mod_form.save()
                 return HttpResponseRedirect('/contacts?submitted=True')
         else:
