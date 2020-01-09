@@ -9,8 +9,8 @@ from django.db.models import Q
 
 from .models import (User, Member, MemberPayment, Applicant,
     ApplicantChild, UserMessage, CourseSchedule,)
-from .forms import (ChangeMemberForm, ChangeMemberChildForm, ChangeMember0Form,
-    ChangeMember3Form)
+from .forms import (ChangeMemberChildForm, ChangeMember0Form,
+    ChangeMember1Form, ChangeMember2Form, ChangeMember3Form)
 from rpnew_prog.utils import send_rp_mail
 
 class UserAdmin(UserAdmin):
@@ -54,8 +54,6 @@ class ApplicantAdmin(admin.ModelAdmin):
             password = User.objects.make_random_password()
             hash_password = make_password(password)
             usr = User.objects.create(username = username,
-                #first_name = applicant.first_name,
-                #last_name = applicant.last_name, email = applicant.email,
                 password = hash_password, is_staff = True, )
             usr.groups.add(group)
             member = Member.objects.get(user_id=usr.id)
@@ -69,8 +67,6 @@ class ApplicantAdmin(admin.ModelAdmin):
                 chd_username = child.last_name.lower() + '_' + child.first_name.lower()
                 hash_password = make_password('rifondazionepodistica')
                 chd = User.objects.create(username = chd_username,
-                    #first_name = child.first_name,
-                    #last_name = child.last_name, email = applicant.email,
                     password = hash_password, )
                 member = Member.objects.get(user_id=chd.id)
                 member.sector = '1-YC'
@@ -99,31 +95,12 @@ class MemberPaymentInline(admin.TabularInline):
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    #form = ChangeMemberForm
     list_display = ('get_thumb', 'get_full_name', 'sector', 'parent',
         'mc_state', 'settled')
     list_filter = ('mc_state', 'settled')
     search_fields = ('first_name', 'last_name', 'fiscal_code', 'address')
     ordering = ('last_name', 'first_name', )
     actions = ['control_mc', 'reset_all', 'control_pay']
-    #fieldsets = (
-        #('', {'fields':('sector', 'parent')}),
-        #('Anagrafica', {'classes': ('collapse',),
-            #'fields':('first_name', 'last_name', 'avatar', 'gender',
-            #'date_of_birth', 'place_of_birth',
-            #'nationality', 'fiscal_code')}),
-        #('Contatti', {'classes': ('collapse',),
-            #'fields':('email', 'address', 'phone', 'email_2', 'no_spam')}),
-        #('Corso/Tesseramento', {'classes': ('collapse',),
-            #'fields':('course', 'course_alt', 'course_membership',
-            #'no_course_membership')}),
-        #('Uploads', {'classes': ('collapse',),
-            #'fields':('sign_up', 'privacy', 'med_cert',)}),
-        #('Amministrazione', {'classes': ('collapse',),
-            #'fields':('membership', 'mc_expiry', 'mc_state', 'total_amount',
-            #'settled')}),
-        #)
-
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         member = Member.objects.get(user_id=object_id)
@@ -133,18 +110,26 @@ class MemberAdmin(admin.ModelAdmin):
                 self.readonly_fields = ['sector', 'parent', 'membership',
                     'mc_expiry', 'mc_state', 'total_amount', 'settled']
             self.inlines = [ MemberPaymentInline, ]
-        elif member.sector == '0-NO':
-            self.form = ChangeMember0Form
+        elif member.sector == '1-YC':
+            self.form = ChangeMember1Form
             if not request.user.has_perm('users.add_applicant'):
-                self.readonly_fields = ['sector', ]
+                self.readonly_fields = ['sector', 'membership',
+                    'mc_expiry', 'mc_state', 'total_amount', 'settled']
+            self.inlines = [ MemberPaymentInline, ]
+        elif member.sector == '2-NC':
+            self.form = ChangeMember2Form
+            if not request.user.has_perm('users.add_applicant'):
+                self.readonly_fields = ['sector', 'membership',
+                    'mc_expiry', 'mc_state', 'total_amount', 'settled']
+            self.inlines = [ MemberPaymentInline, ]
         elif member.sector == '3-FI':
             self.form = ChangeMember3Form
             if not request.user.has_perm('users.add_applicant'):
                 self.readonly_fields = ['sector', ]
         else:
-            self.form = ChangeMemberForm
-            self.inlines = [ MemberPaymentInline, ]
-        #assert False
+            self.form = ChangeMember0Form
+            if not request.user.has_perm('users.add_applicant'):
+                self.readonly_fields = ['sector', ]
         return super().change_view(
             request, object_id, form_url, extra_context=extra_context,
         )
@@ -230,25 +215,3 @@ class MemberAdmin(admin.ModelAdmin):
             return qs.filter(Q(pk=request.user.pk) | Q(parent=request.user.pk))
         else:
             return qs
-
-    #def get_readonly_fields(self, request, member):
-        #readonly = []
-        #if not request.user.has_perm('users.add_applicant'):
-            #readonly = ['sector', 'parent',
-                #'membership', 'mc_expiry',
-                #'mc_state', 'settled', 'total_amount', ]
-        #if member.parent:
-            #readonly.extend(['email', 'address', 'phone', 'email_2', 'no_spam',
-                #'no_course_membership'])
-        #elif member.sector == '0-NO':
-            #readonly.extend(['gender', 'date_of_birth', 'place_of_birth',
-                #'nationality', 'course', 'course_alt', 'course_membership',
-                #'no_course_membership', 'sign_up', 'privacy', 'med_cert',])
-            #if request.user.has_perm('users.add_applicant'):
-                #readonly.extend(['membership', 'mc_expiry',
-                    #'mc_state', 'settled', 'total_amount', ])
-        #elif member.sector == '1-YC':
-            #readonly.append('no_course_membership')
-        #elif member.sector == '2-NC':
-            #readonly.extend(['course', 'course_alt', 'course_membership', ])
-        #return readonly
