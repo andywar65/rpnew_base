@@ -9,7 +9,7 @@ from django.db.models import Q
 
 from .models import (User, Member, MemberPayment, Applicant,
     ApplicantChild, UserMessage, CourseSchedule,)
-from .forms import ChangeMemberForm, ChangeMember0Form
+from .forms import (ChangeMemberForm, ChangeMember0Form, ChangeMember3Form)
 from rpnew_prog.utils import send_rp_mail
 
 class UserAdmin(UserAdmin):
@@ -128,6 +128,10 @@ class MemberAdmin(admin.ModelAdmin):
         member = Member.objects.get(user_id=object_id)
         if member.sector == '0-NO':
             self.form = ChangeMember0Form
+            if not request.user.has_perm('users.add_applicant'):
+                self.readonly_fields = ['sector', ]
+        elif member.sector == '3-FI':
+            self.form = ChangeMember3Form
             if not request.user.has_perm('users.add_applicant'):
                 self.readonly_fields = ['sector', ]
         else:

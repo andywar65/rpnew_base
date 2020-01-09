@@ -41,26 +41,37 @@ class ChangeMember0Form(ModelForm):
         fields = ('sector', 'avatar', 'first_name', 'last_name', 'email',
             'no_spam', )
 
+class ChangeMember3Form(ModelForm):
+
+    class Meta:
+        model = Member
+        fields = ('sector', 'avatar', 'first_name', 'last_name', 'email',
+            'no_spam', 'address', 'phone', 'fiscal_code', 'email_2')
+
 class RegistrationForm(ModelForm):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'class': "form-control",
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': "form-control"}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': "form-control"}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={
+        'class': "form-control",
         'placeholder': "you@example.com"}))
-    sector = forms.ChoiceField(choices = SECTOR, widget=forms.Select(attrs={'class': "form-control"}))
+    sector = forms.ChoiceField(choices = SECTOR,
+        widget=forms.Select(attrs={'class': "form-control"}))
     children_str = forms.CharField(required = False,
         widget=forms.TextInput(attrs={'class': "form-control",
         'placeholder': "Nome e cognome dei figli, separati da una virgola (Mario Rossi, Ada Rossi)"}))
     captcha = ReCaptchaField()
 
-    def clean(self):
-        cd = super().clean()
-        sector = cd.get('sector')
-        children = cd.get('children_str')
-        if sector == '0-NO' and children:
-            self.add_error('sector', forms.ValidationError(
-                'Se hai inserito figli seleziona "No, solo i figli"',
-                code='if_juvenile_set_sector',
-            ))
+    #def clean(self):
+        #cd = super().clean()
+        #sector = cd.get('sector')
+        #children = cd.get('children_str')
+        #if sector == '0-NO' and children:
+            #self.add_error('sector', forms.ValidationError(
+                #'Se hai inserito figli seleziona "No, solo i figli"',
+                #code='if_juvenile_set_sector',
+            #))
 
     class Meta:
         model = Applicant
