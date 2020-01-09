@@ -21,7 +21,8 @@ class EventForm(ModelForm):
 
 class BlogForm(ModelForm):
     author = forms.ModelChoiceField(label="Autore", required = False,
-        queryset = User.objects.filter(groups__name = 'Autori', ), )
+        queryset = User.objects.filter(groups__name = 'Autori',
+            is_active = True, ), )
 
     class Meta:
         model = Blog
