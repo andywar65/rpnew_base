@@ -61,8 +61,10 @@ class ApplicantAdmin(admin.ModelAdmin):
             member.first_name = applicant.first_name
             member.last_name = applicant.last_name
             member.email = applicant.email
-            member.save()
             children = ApplicantChild.objects.filter(parent=applicant.id)
+            if children and member.sector == '0-NO':
+                member.sector = '3-FI'
+            member.save()
             for child in children:
                 chd_username = child.last_name.lower() + '_' + child.first_name.lower()
                 hash_password = make_password('rifondazionepodistica')
