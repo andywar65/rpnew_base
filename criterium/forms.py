@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from .models import Race, Athlete
 from pagine.models import Event
-from users.models import User
+from users.models import Member
 
 class RaceForm(ModelForm):
     event = forms.ModelChoiceField(label="Evento", required = False,
@@ -21,9 +21,9 @@ class RaceForm(ModelForm):
         fields = '__all__'
 
 class AthleteForm(ModelForm):
-    user = forms.ModelChoiceField(label="Iscritto", required = True,
-        queryset = User.objects.filter(member__parent = None,
-            member__sector__in = ['1-YC', '2-NC'], is_active = True ), )
+    member = forms.ModelChoiceField(label="Iscritto", required = True,
+        queryset = Member.objects.filter(parent = None,
+            sector__in = ['1-YC', '2-NC'], user__is_active = True ), )
 
     class Meta:
         model = Athlete

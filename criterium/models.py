@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.db import models
 
-from users.models import User
+from users.models import Member
 from pagine.models import Event, Location, generate_unique_slug
 from .choices import *
 
@@ -50,6 +50,8 @@ class Race(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:  # create
             self.slug = generate_unique_slug(Race, self.title)
+        if not self.date:
+            self.date = self.event.date
         super(Race, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -61,8 +63,8 @@ class Race(models.Model):
         ordering = ('-date', )
 
 class Athlete(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,
-        verbose_name = 'Iscritto')
+    member = models.ForeignKey(Member, on_delete=models.CASCADE,
+        verbose_name = 'Iscritto', null = True, )
     race = models.ForeignKey(Race, on_delete=models.CASCADE,
         editable = False, null = True, )
     points = models.IntegerField('Punti')
@@ -71,7 +73,7 @@ class Athlete(models.Model):
     time = models.TimeField('Tempo', blank = True, null = True, )
 
     def __str__(self):
-        return self.user.get_full_name()
+        return self.member.get_full_name()
 
     class Meta:
         verbose_name = 'Atleta'

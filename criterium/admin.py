@@ -4,7 +4,7 @@ from .forms import RaceForm, AthleteForm
 
 class AthleteInline(admin.TabularInline):
     model = Athlete
-    fields = ('user', 'points', 'placement', 'time')
+    fields = ('member', 'points', 'placement', 'time')
     extra = 0
     form = AthleteForm
 
@@ -14,3 +14,4 @@ class RaceAdmin(admin.ModelAdmin):
     list_filter = ('date', )
     inlines = [ AthleteInline, ]
     form = RaceForm
+    autocomplete_fields = ['location', ]

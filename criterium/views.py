@@ -24,8 +24,8 @@ class RaceDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         race = context['object']
         athletes = Athlete.objects.filter(race_id=race.id)
-        context['females'] = athletes.filter(user__member__gender='F').order_by('-points')
-        context['males'] = athletes.filter(user__member__gender='M').order_by('-points')
+        context['females'] = athletes.filter(member__gender='F').order_by('-points')
+        context['males'] = athletes.filter(member__gender='M').order_by('-points')
         return context
 
 class RaceListView(ListView):
@@ -42,14 +42,15 @@ class RaceListView(ListView):
 
     def get_athlete_dict(self, athletes):
         athl_dict = {}
-        athl_list = athletes.values_list('user_id', flat = True)
+        athl_list = athletes.values_list('member_id', flat = True)
         athl_list = list(dict.fromkeys(athl_list))
         for athl in athl_list:
-            athlete = athletes.filter(user_id=athl)
+            athlete = athletes.filter(member_id=athl)
             point_sum = sum(athlete.values_list('points', flat = True))
             first = athlete.first()
-            athl_dict[first.user.get_full_name_reverse()] = point_sum
-        # thanks to https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value
+            athl_dict[first.member.get_full_name_reverse()] = point_sum
+        # thanks to https://stackoverflow.com/questions/613183/
+        # how-do-i-sort-a-dictionary-by-value
         athl_dict = {k: v for k, v in sorted(athl_dict.items(),
             key=lambda item: item[1], reverse = True)}
         return athl_dict
@@ -67,9 +68,9 @@ class RaceListView(ListView):
         context['year3'] = context['year2'] + 1
         race_list = context['all_races'].values_list('id', flat = True)
         athletes = Athlete.objects.filter(race_id__in = race_list)
-        females = athletes.filter(user__member__gender = 'F')
+        females = athletes.filter(member__gender = 'F')
         context['females'] = self.get_athlete_dict(females)
-        males = athletes.filter(user__member__gender = 'M')
+        males = athletes.filter(member__gender = 'M')
         context['males'] = self.get_athlete_dict(males)
         context['status'] = self.get_status(context['year2'])
         return context
