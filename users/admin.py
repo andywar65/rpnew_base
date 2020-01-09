@@ -9,7 +9,8 @@ from django.db.models import Q
 
 from .models import (User, Member, MemberPayment, Applicant,
     ApplicantChild, UserMessage, CourseSchedule,)
-from .forms import (ChangeMemberForm, ChangeMember0Form, ChangeMember3Form)
+from .forms import (ChangeMemberForm, ChangeMemberChildForm, ChangeMember0Form,
+    ChangeMember3Form)
 from rpnew_prog.utils import send_rp_mail
 
 class UserAdmin(UserAdmin):
@@ -126,7 +127,13 @@ class MemberAdmin(admin.ModelAdmin):
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         member = Member.objects.get(user_id=object_id)
-        if member.sector == '0-NO':
+        if member.parent:
+            self.form = ChangeMemberChildForm
+            if not request.user.has_perm('users.add_applicant'):
+                self.readonly_fields = ['sector', 'parent', 'membership',
+                    'mc_expiry', 'mc_state', 'total_amount', 'settled']
+            self.inlines = [ MemberPaymentInline, ]
+        elif member.sector == '0-NO':
             self.form = ChangeMember0Form
             if not request.user.has_perm('users.add_applicant'):
                 self.readonly_fields = ['sector', ]
