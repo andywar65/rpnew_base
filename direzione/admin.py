@@ -11,9 +11,10 @@ class ConventionUploadInline(admin.TabularInline):
 class ConventionAdmin(admin.ModelAdmin):
     list_display = ('title', 'get_location', )
     inlines = [ ConventionUploadInline, ]
+    autocomplete_fields = ['location', ]
 
 @admin.register(Society)
 class SocietyAdmin(admin.ModelAdmin):
     list_display = ('title', )
     form = SocietyForm
-    autocomplete_fields = ['location', 'president', 'executive', 'trainers']
+    autocomplete_fields = ['location', ]
