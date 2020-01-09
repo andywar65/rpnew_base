@@ -34,6 +34,14 @@ class ApplicantChildInline(admin.TabularInline):
     fields = ('first_name', 'last_name', )
     extra = 0
 
+def generate_unique_username(username):
+    unique_username = username
+    numb = 1
+    while User.objects.filter(username=unique_username).exists():
+        unique_username = '%s_%d' % (username, numb)
+        numb += 1
+    return unique_username
+
 @admin.register(Applicant)
 class ApplicantAdmin(admin.ModelAdmin):
     list_display = ('get_full_name', 'email', 'sector', 'children_str',)
@@ -45,12 +53,9 @@ class ApplicantAdmin(admin.ModelAdmin):
     def applicant_to_user(self, request, queryset):
         group = Group.objects.get(name='Gestione iscrizione')
         for applicant in queryset:
-            username = applicant.last_name.lower() + '_' + applicant.first_name.lower()
-            try:
-                User.objects.get(username=username)
-                username += '_2'
-            except:
-                pass
+            username = (applicant.last_name.lower() + '_' +
+                applicant.first_name.lower())
+            username = generate_unique_username(username)
             password = User.objects.make_random_password()
             hash_password = make_password(password)
             usr = User.objects.create(username = username,
@@ -66,7 +71,9 @@ class ApplicantAdmin(admin.ModelAdmin):
                 member.sector = '3-FI'
             member.save()
             for child in children:
-                chd_username = child.last_name.lower() + '_' + child.first_name.lower()
+                chd_username = (child.last_name.lower() + '_' +
+                    child.first_name.lower())
+                chd_username = generate_unique_username(chd_username)
                 hash_password = make_password('rifondazionepodistica')
                 chd = User.objects.create(username = chd_username,
                     password = hash_password, )
