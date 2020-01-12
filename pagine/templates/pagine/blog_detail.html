@@ -32,7 +32,7 @@
                 {% endfor %}
               </li>
             {% endif %}
-            {% if perms.pagine.can_change_blog %}
+            {% if perms.pagine.change_blog %}
             <li class="list-inline-item">
               <i class="fa fa-pencil" aria-hidden="true"></i>
               <a href="/admin/pagine/blog/{{ post.id }}/change/">Modifica</a>

@@ -12,8 +12,8 @@ class UserUploadForm(ModelForm):
 
 class EventForm(ModelForm):
     manager = forms.ModelChoiceField(label="Responsabile", required = False,
-        queryset = User.objects.filter(groups__name = 'Dirigenti',
-        is_active = True, ), )
+        queryset = User.objects.filter(groups__name__in = ['Dirigenti',
+            'Organizzatori'], is_active = True, ), )
 
     class Meta:
         model = Event
