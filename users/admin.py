@@ -1,5 +1,5 @@
-from datetime import date
-from dateutil.relativedelta import relativedelta
+from datetime import date, timedelta
+#from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -159,7 +159,7 @@ class MemberAdmin(admin.ModelAdmin):
                         member.mc_state = '1-VF'
                         member.save()
                 elif member.mc_state == '2-RE':
-                    if member.mc_expiry<date.today() + relativedelta(months=1):
+                    if member.mc_expiry<date.today() + timedelta(days=30):
                         member.mc_state = '6-IS'
                         member.save()
                     elif member.mc_expiry<date.today():
