@@ -54,6 +54,8 @@ coverage.xml
 # Django stuff:
 *.log
 secrets.json
+secrets_wf.json
+secrets_os.json
 db.sqlite3
 
 # Flask stuff:

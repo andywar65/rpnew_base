@@ -43,13 +43,12 @@ RECAPTCHA_PUBLIC_KEY = get_secret('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = get_secret('RECAPTCHA_PRIVATE_KEY')
 
 # Mail configuration
-# https://docs.webfaction.com/software/django/config.html#configuring-django-to-send-mail
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = get_secret('EMAIL_HOST')
+EMAIL_PORT = get_secret('EMAIL_PORT')
 EMAIL_HOST_USER = get_secret('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = get_secret('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = 'no-reply@rifondazionepodistica.it'
 SERVER_EMAIL = 'no-reply@rifondazionepodistica.it'
 
 STATIC_ROOT = '/home/apperilli/webapps/rpteststatic/'
