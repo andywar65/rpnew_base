@@ -263,7 +263,7 @@ class UserMessage(models.Model):
     def save(self, *args, **kwargs):
         go_spam = False
         if not self.recipient:
-            self.recipient = 'rifondazionepodistica96@gmail.com'
+            self.recipient = settings.DEFAULT_RECIPIENT
         if self.notice == 'SPAM':
             go_spam = True
             self.notice = 'DONE'

@@ -50,6 +50,7 @@ EMAIL_PORT = get_secret('EMAIL_PORT')
 EMAIL_HOST_USER = get_secret('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = get_secret('EMAIL_HOST_PASSWORD')
 SERVER_EMAIL = 'no-reply@rifondazionepodistica.it'
+DEFAULT_RECIPIENT = 'rifondazionepodistica96@gmail.com'
 
 STATIC_ROOT = '/home/apperilli/webapps/rpteststatic/'
 STATIC_URL = 'https://rifondazionepodistica.it/static/'
