@@ -6,7 +6,7 @@ def send_rp_mail(subject, message, mailto):
     send_mail(
         subject,
         message,
-        'no-reply@rifondazionepodistica.it',
+        settings.SERVER_EMAIL,
         mailto,
         connection = con,
     )
