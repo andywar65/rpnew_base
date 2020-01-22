@@ -48,6 +48,7 @@ EMAIL_HOST = get_secret('EMAIL_HOST')
 EMAIL_PORT = get_secret('EMAIL_PORT')
 EMAIL_HOST_USER = get_secret('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = get_secret('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = True
 SERVER_EMAIL = 'rifondazione.podistica@apperilli.opalstacked.com'
 DEFAULT_RECIPIENT = 'rifondazionepodistica96@gmail.com'
 
