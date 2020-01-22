@@ -29,7 +29,7 @@ WSGI_APPLICATION = 'rpnew_prog.wsgi_stag.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',#this is different!
         'NAME': get_secret('NAME'),
         'USER': get_secret('USER'),
         'PASSWORD': get_secret('PASSWORD'),
@@ -48,13 +48,13 @@ EMAIL_HOST = get_secret('EMAIL_HOST')
 EMAIL_PORT = get_secret('EMAIL_PORT')
 EMAIL_HOST_USER = get_secret('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = get_secret('EMAIL_HOST_PASSWORD')
-SERVER_EMAIL = 'no-reply@rifondazionepodistica.it'
+SERVER_EMAIL = 'rifondazione.podistica@apperilli.opalstacked.com'
 DEFAULT_RECIPIENT = 'rifondazionepodistica96@gmail.com'
 
-STATIC_ROOT = '/home/apperilli/webapps/rpteststatic/'
+STATIC_ROOT = '/home/andywar65/apps/rpnew_static'# no trailing slash
 STATIC_URL = 'https://digitalkomix.com/static/'
 
-MEDIA_ROOT = '/home/apperilli/webapps/rpteststatic/media/'
+MEDIA_ROOT = '/home/andywar65/apps/rpnew_static/media'# no trailing slash
 MEDIA_URL = 'https://digitalkomix.com/media/'
 
 SECRET_KEY = get_secret('SECRET_KEY')
