@@ -9,9 +9,9 @@
   <div class="col-md-2"></div>
   <div class="col-md-8">
     {% if success %}
-    <h1>Ricerca per il termine: "{{ search }}"</h1>
+    <h4>Ricerca per il termine: "{{ search }}"</h4>
       {% if all_events %}
-        <h3>Eventi</h3>
+        <h5>Eventi</h5>
         {% for event in all_events %}
           <ul>
             <li>
@@ -22,7 +22,7 @@
         {% endfor %}
       {% endif %}
       {% if all_blogs %}
-        <h3>Approfondimenti</h3>
+        <h5>Approfondimenti</h5>
         {% for blog in all_blogs %}
           <ul>
             <li>
