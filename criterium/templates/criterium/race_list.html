@@ -2,7 +2,7 @@
 
 {% block title %}RP | Criterium {{ year }}-{{ year2 }}{% endblock title %}
 {% block content %}
-<h2>Criterium edizione {{ year }}-{{ year2 }}</h2>
+<h4><strong>Criterium edizione {{ year }}-{{ year2 }}</strong></h4>
 <hr class="mb-4">
 {% if all_races %}
   <h3>Lista delle gare</h3>
@@ -18,7 +18,7 @@
   {% endfor %}
   </ul>
   {% if females %}
-  <h3>Classifica femminile {{ status }}</h3>
+  <h4>Classifica femminile {{ status }}</h4>
     <ol>
     {% for name, points in females.items %}
       <li>
@@ -28,7 +28,7 @@
     </ol>
   {% endif %}
   {% if males %}
-  <h3>Classifica maschile {{ status }}</h3>
+  <h4>Classifica maschile {{ status }}</h4>
     <ol>
     {% for name, points in males.items %}
       <li>
