@@ -13,8 +13,10 @@
   {% endfor %}
   </p>
 {% endif %}
-<h2>Articoli di approfondimento
-{% if tag_filter %} nella categoria: {{ tag_filter|upper }}{% endif %}</h2>
+  <h4><strong>
+    Articoli di approfondimento
+    {% if tag_filter %} nella categoria: {{ tag_filter|upper }}{% endif %}
+  </strong></h4>
 {% if posts %}
 <div class="card-deck">
 {% for post in posts %}
