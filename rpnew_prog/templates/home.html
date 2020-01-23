@@ -12,7 +12,7 @@
 {% endblock image_header %}
 
 {% block content %}
-<h3>RP, Associazione Sportiva Dilettantistica, scuola di atletica e di vita!</h3>
+<h4><em>RP, Associazione Sportiva Dilettantistica, scuola di atletica e di vita!</em></h4>
 <div class="card-deck">
   <div class="card text-center" style="margin-bottom: 20px; min-width: 18rem; ">
     <div class="card-body">
@@ -35,7 +35,7 @@
     </div>
   </div>
 </div>
-<a href="/calendario/"><h2>Appuntamenti e cronache</h2></a>
+<a href="/calendario/"><h4>Appuntamenti e cronache</h4></a>
 {% if all_events %}
 <div class="card-deck">
 {% for event in all_events %}
@@ -86,7 +86,7 @@
 <p>Non ci sono eventi in calendario</p>
 {% endif %}
 <hr class="mb-4">
-<a href="/articoli/"><h2>Articoli di approfondimento</h2></a>
+<a href="/articoli/"><h4>Articoli di approfondimento</h4></a>
 {% if posts %}
 <div class="card-deck">
 {% for post in posts %}

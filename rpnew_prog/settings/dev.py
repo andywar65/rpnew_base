@@ -10,7 +10,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+SERVER_EMAIL = 'me@examplecom'
 DEFAULT_RECIPIENT = 'rifondazionepodistica96@gmail.com'
 
 WSGI_APPLICATION = 'rpnew_prog.wsgi.application'
