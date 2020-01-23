@@ -59,7 +59,8 @@
       </div>
       <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-md-8"
+          style="margin-right: 15px; margin-left: 15px; margin-top: 15px">
         {% if event.get_chronicle %}
           <div class="row">
             <h4><strong>Cronaca</strong></h4>
@@ -104,7 +105,12 @@
           {% if event.get_upgrades %}
             {% for upgrade in event.get_upgrades %}
             <div class="row">
-              <h4><strong>Aggiornamento del {{ upgrade.date|date:"d M Y" }} - {{ upgrade.title }}</strong></h4>
+              <p class="alert alert-warning" role="alert"><strong>
+                <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+                &nbsp;{{ upgrade.date|date:"d M" }} - {{ upgrade.title }}
+              </strong></p>
+            </div>
+            <div class="row">
               {{ upgrade.body|safe }}
             </div>
             <hr class="mb-4">
