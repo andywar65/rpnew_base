@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import (ListView, DetailView, TemplateView)
-from .models import (Convention, ConventionUpload, )
+from .models import (Convention, ConventionUpload, Institutional)
 
 class ConventionListView(ListView):
     model = Convention
@@ -18,4 +18,12 @@ class ConventionDetailView(DetailView):
         conv = context['object']
         uploads = ConventionUpload.objects.filter(convention_id=conv.id)
         context['uploads'] = uploads
+        return context
+
+class PrivacyTemplateView(TemplateView):
+    template_name = 'direzione/privacy.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page'] = Institutional.objects.get(title='Privacy')
         return context
