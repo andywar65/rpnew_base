@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (Convention, ConventionUpload, Society)
+from .models import (Convention, ConventionUpload, Society, Institutional)
 from .forms import SocietyForm
 
 class ConventionUploadInline(admin.TabularInline):
@@ -18,3 +18,7 @@ class SocietyAdmin(admin.ModelAdmin):
     list_display = ('title', )
     form = SocietyForm
     autocomplete_fields = ['location', ]
+
+@admin.register(Institutional)
+class InstitutionalAdmin(admin.ModelAdmin):
+    list_display = ('title', )

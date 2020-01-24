@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from ckeditor_uploader.fields import RichTextUploadingField
 from users.models import Member
 from pagine.models import Location
 from .choices import *
@@ -101,3 +102,18 @@ class Society(models.Model):
     class Meta:
         verbose_name = 'Dati societari'
         verbose_name_plural = 'Dati societari'
+
+class Institutional(models.Model):
+    title = models.CharField('Titolo', max_length = 50)
+    intro = models.CharField('Introduzione',
+        blank= True, null=True, max_length = 100)
+    body = RichTextUploadingField('Testo',
+        help_text = "Scrivi qualcosa.", )
+
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Pagina istituzionale'
+        verbose_name_plural = 'Pagine istituzionali'
