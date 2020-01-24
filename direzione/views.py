@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.views.generic import (ListView, DetailView, TemplateView)
 from .models import (Convention, ConventionUpload, Institutional)
 
@@ -25,5 +26,5 @@ class PrivacyTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['page'] = Institutional.objects.get(title='Privacy')
+        context['page'] = get_object_or_404(Institutional, title='Privacy')
         return context
