@@ -28,3 +28,19 @@ class PrivacyTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['page'] = get_object_or_404(Institutional, title='Privacy')
         return context
+
+class MembershipTemplateView(TemplateView):
+    template_name = 'direzione/membership.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page'] = get_object_or_404(Institutional, title='Iscrizioni')
+        return context
+
+class AboutTemplateView(TemplateView):
+    template_name = 'direzione/about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page'] = get_object_or_404(Institutional, title='Chi siamo')
+        return context

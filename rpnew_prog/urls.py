@@ -21,7 +21,8 @@ from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from users import views as user_views
 from pagine.views import HomeTemplateView
-from direzione.views import (PrivacyTemplateView, )
+from direzione.views import (PrivacyTemplateView, MembershipTemplateView,
+    AboutTemplateView)
 from . import views
 
 admin.site.site_header = 'Amministrazione RP'
@@ -34,11 +35,10 @@ urlpatterns = [
     path('contacts/', user_views.contacts, name='contacts'),
     path('', HomeTemplateView.as_view()),
     path('privacy/', PrivacyTemplateView.as_view(), name='privacy'),
-    path('iscrizioni/',
-        TemplateView.as_view(template_name="direzione/iscrizioni.html")),
+    path('iscrizioni/', MembershipTemplateView.as_view(), name='membership'),
     path('convenzioni/', include('direzione.urls.conventions',
         namespace = 'conventions')),
-    path('storia/', TemplateView.as_view(template_name="direzione/about.html")),
+    path('storia/', AboutTemplateView.as_view(), name='about'),
     path('favicon.ico',
         RedirectView.as_view(url=settings.STATIC_ROOT + 'images/favicon.ico')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
