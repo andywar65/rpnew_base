@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.generic import (ListView, DetailView, TemplateView)
-from .models import (Convention, ConventionUpload, Institutional, Society)
+from .models import (Convention, ConventionUpload, Institutional, Society,
+    Paragraph)
 
 class ConventionListView(ListView):
     model = Convention
@@ -26,11 +27,14 @@ class PrivacyTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['page'] = get_object_or_404(Institutional, type='3-PR')
+        page = get_object_or_404(Institutional, type='3-PR')
+        paragraphs = Paragraph.objects.filter(institutional_id=page.id)
         try:
             context['society'] = Society.objects.get(title='Rifondazione Podistica')
         except:
             pass
+        context['page'] = page
+        context['paragraphs'] = paragraphs
         return context
 
 class MembershipTemplateView(TemplateView):
