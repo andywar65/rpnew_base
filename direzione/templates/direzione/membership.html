@@ -8,8 +8,19 @@
 <div class="row">
   <div class="col-md-2"></div>
   <div class="col-md-8" style="margin-left: 15px; margin-right: 15px; margin-top: 30px;">
-    <h4><strong>Iscrizioni</strong></h4>
-    {{ page.body|safe }}
+    <h4><strong>{{ page.title }}</strong></h4>
+    <p id="sommario">{{ page.intro }}</p>
+    <h4>Sommario</h4>
+    <ul>
+      {% if paragraphs %}{% for paragraph in paragraphs %}
+        <li><a href="#paragraph-{{ paragraph.number }}">{{ paragraph.title }}</a></li>
+      {% endfor %}{% endif %}
+    </ul>
+    {% if paragraphs %}{% for paragraph in paragraphs %}
+      <h4 id="paragraph-{{ paragraph.number }}">{{ paragraph.title }}</h4>
+      {{ paragraph.body|safe }}
+      <a href="#sommario">Torna al sommario</a>
+    {% endfor %}{% endif %}
   </div>
 </div>
 {% endblock content %}
