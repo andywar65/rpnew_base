@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.generic import (ListView, DetailView, TemplateView)
-from .models import (Convention, ConventionUpload, Institutional)
+from .models import (Convention, ConventionUpload, Institutional, Society)
 
 class ConventionListView(ListView):
     model = Convention
@@ -27,6 +27,10 @@ class PrivacyTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page'] = get_object_or_404(Institutional, title='Privacy')
+        try:
+            context['society'] = Society.objects.get(title='Rifondazione Podistica')
+        except:
+            pass
         return context
 
 class MembershipTemplateView(TemplateView):

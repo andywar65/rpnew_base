@@ -9,6 +9,15 @@
   <div class="col-md-2"></div>
   <div class="col-md-8" style="margin-left: 15px; margin-right: 15px; margin-top: 30px;">
     <h4><strong>Informativa sulla privacy</strong></h4>
+    <p>Rifondazione Podistica è una Associazione Sportiva Dilettantistica
+    attiva dal 1996, questo documento è stilato in ottemperanza alle GDPR
+    (Regolamento UE n. 2016/679)</p>
+    <h4>Dati generali</h4>
+    <ul>
+      <li>Titolare: {{ society.president.get_full_name_reverse }} (Presidente)</li>
+      <li>Sede: {{ society.location.address }}</li>
+      <li>Indirizzo Email: {{ society.location.email }}</li>
+    </ul>
     {{ page.body|safe }}
   </div>
 </div>
