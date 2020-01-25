@@ -21,4 +21,4 @@ class SocietyAdmin(admin.ModelAdmin):
 
 @admin.register(Institutional)
 class InstitutionalAdmin(admin.ModelAdmin):
-    list_display = ('title', )
+    list_display = ('title', 'type')

@@ -104,6 +104,7 @@ class Society(models.Model):
         verbose_name_plural = 'Dati societari'
 
 class Institutional(models.Model):
+    type = models.CharField('Tipo', max_length = 4, choices = TYPE, null = True)
     title = models.CharField('Titolo', max_length = 50)
     intro = models.CharField('Introduzione',
         blank= True, null=True, max_length = 100)

@@ -26,7 +26,7 @@ class PrivacyTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['page'] = get_object_or_404(Institutional, title='Privacy')
+        context['page'] = get_object_or_404(Institutional, type='3-PR')
         try:
             context['society'] = Society.objects.get(title='Rifondazione Podistica')
         except:
@@ -38,7 +38,7 @@ class MembershipTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['page'] = get_object_or_404(Institutional, title='Iscrizioni')
+        context['page'] = get_object_or_404(Institutional, type='1-IS')
         return context
 
 class AboutTemplateView(TemplateView):
@@ -46,5 +46,5 @@ class AboutTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['page'] = get_object_or_404(Institutional, title='Chi siamo')
+        context['page'] = get_object_or_404(Institutional, type='2-ST')
         return context
