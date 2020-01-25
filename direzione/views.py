@@ -50,10 +50,7 @@ class MembershipTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        page = get_object_or_404(Institutional, type='1-IS')
-        paragraphs = Paragraph.objects.filter(institutional_id=page.id)
-        context['page'] = page
-        context['paragraphs'] = paragraphs
+        context = get_page(context, '1-IS')
         return context
 
 class AboutTemplateView(TemplateView):
@@ -61,8 +58,6 @@ class AboutTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        page = get_object_or_404(Institutional, type='2-ST')
-        paragraphs = Paragraph.objects.filter(institutional_id=page.id)
-        context['page'] = page
-        context['paragraphs'] = paragraphs
+        context = get_page(context, '2-ST')
+        context = get_society(context)
         return context
