@@ -106,11 +106,8 @@ class Society(models.Model):
 class Institutional(models.Model):
     type = models.CharField('Tipo', max_length = 4, choices = TYPE, null = True)
     title = models.CharField('Titolo', max_length = 50)
-    intro = models.CharField('Introduzione',
-        blank= True, null=True, max_length = 100)
-    body = RichTextUploadingField('Testo',
-        help_text = "Scrivi qualcosa.", )
-
+    intro = models.TextField('Introduzione',
+        blank= True, null=True, max_length = 200)
 
     def __str__(self):
         return self.title
@@ -118,3 +115,21 @@ class Institutional(models.Model):
     class Meta:
         verbose_name = 'Pagina istituzionale'
         verbose_name_plural = 'Pagine istituzionali'
+
+class Paragraph(models.Model):
+    institutional = models.ForeignKey(Institutional, on_delete = models.CASCADE,
+        related_name = 'institutional_paragraph',)
+    number = models.IntegerField('Numero',
+        help_text = "Numero d'ordine, per ora da inserire manualmente")
+    title = models.CharField('Titolo', max_length = 50, null=True,
+        help_text = 'Paragrafo (corpo &lt;h4&gt;) inserito nel sommario')
+    body = RichTextUploadingField('Testo', blank= True, null=True,
+        help_text = "Scrivi qualcosa.", )
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Paragrafo'
+        verbose_name_plural = 'Paragrafi'
+        ordering = ('number', '-id')
