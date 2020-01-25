@@ -22,19 +22,27 @@ class ConventionDetailView(DetailView):
         context['uploads'] = uploads
         return context
 
+def get_page(context, type):
+    page = get_object_or_404(Institutional, type=type)
+    paragraphs = Paragraph.objects.filter(institutional_id=page.id)
+    context['page'] = page
+    context['paragraphs'] = paragraphs
+    return context
+
+def get_society(context):
+    try:
+        context['society'] = Society.objects.get(title='Rifondazione Podistica')
+    except:
+        pass
+    return context
+
 class PrivacyTemplateView(TemplateView):
     template_name = 'direzione/privacy.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        page = get_object_or_404(Institutional, type='3-PR')
-        paragraphs = Paragraph.objects.filter(institutional_id=page.id)
-        try:
-            context['society'] = Society.objects.get(title='Rifondazione Podistica')
-        except:
-            pass
-        context['page'] = page
-        context['paragraphs'] = paragraphs
+        context = get_page(context, '3-PR')
+        context = get_society(context)
         return context
 
 class MembershipTemplateView(TemplateView):
