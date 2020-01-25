@@ -9,18 +9,27 @@
   <div class="col-md-2"></div>
   <div class="col-md-8" style="margin-left: 15px; margin-right: 15px; margin-top: 30px;">
     <h4><strong>{{ page.title }}</strong></h4>
-    <p id="sommario">{{ page.intro }}</p>
+    <p id="sommario"><em>{{ page.intro }}</em></p>
     <h4>Sommario</h4>
     <ul>
       {% if paragraphs %}{% for paragraph in paragraphs %}
         <li><a href="#paragraph-{{ paragraph.number }}">{{ paragraph.title }}</a></li>
       {% endfor %}{% endif %}
+      <li><a href="#sede-sociale">Sede Sociale</a></li>
+      <li><a href="#dirigenti">Dirigenti</a></li>
+      <li><a href="#istruttori">Istruttori</a></li>
     </ul>
     {% if paragraphs %}{% for paragraph in paragraphs %}
       <h4 id="paragraph-{{ paragraph.number }}">{{ paragraph.title }}</h4>
       {{ paragraph.body|safe }}
       <a href="#sommario">Torna al sommario</a>
     {% endfor %}{% endif %}
+    <h4 id="sede-sociale">Sede Sociale</h4>
+    {% if society %}
+    {% else %}
+    {% endif %}
+    <h4 id="dirigenti">Dirigenti</h4>
+    <h4 id="istruttori">Istruttori</h4>
   </div>
 </div>
 {% endblock content %}
