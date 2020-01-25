@@ -15,21 +15,48 @@
       {% if paragraphs %}{% for paragraph in paragraphs %}
         <li><a href="#paragraph-{{ paragraph.number }}">{{ paragraph.title }}</a></li>
       {% endfor %}{% endif %}
-      <li><a href="#sede-sociale">Sede Sociale</a></li>
+      {% if society %}
+      <li><a href="#dati-societari">Dati societari</a></li>
       <li><a href="#dirigenti">Dirigenti</a></li>
       <li><a href="#istruttori">Istruttori</a></li>
+      {% endif %}
     </ul>
     {% if paragraphs %}{% for paragraph in paragraphs %}
       <h4 id="paragraph-{{ paragraph.number }}">{{ paragraph.title }}</h4>
       {{ paragraph.body|safe }}
       <a href="#sommario">Torna al sommario</a>
     {% endfor %}{% endif %}
-    <h4 id="sede-sociale">Sede Sociale</h4>
     {% if society %}
-    {% else %}
-    {% endif %}
+    <h4 id="dati-societari">Dati societari</h4>
+      <ul>
+        <li>Nome: {{ society.title }}</li>
+        <li>Denominazione: {{ society.denomination }}</li>
+        <li>Sede: {{ society.location.address }}</li>
+        <li>Indirizzo Email: {{ society.location.email }}</li>
+        <li>Registro CONI: {{ society.coni }}</li>
+        <li>Affiliazione FIDAL: {{ society.fidal }}</li>
+        <li>Codice Fiscale: {{ society.fiscal_code }}</li>
+        <li>Codice IBAN: {{ society.iban }}</li>
+      </ul>
+      <a href="#sommario">Torna al sommario</a>
     <h4 id="dirigenti">Dirigenti</h4>
+      <ul>
+        <li>{{ society.president.get_full_name_reverse }} (Presidente)</li>
+        {% for member in society.executive.all %}
+        <li>{{ member.get_full_name_reverse }}</li>
+        {% endfor %}
+      </ul>
+      <a href="#sommario">Torna al sommario</a>
     <h4 id="istruttori">Istruttori</h4>
+      <ul>
+        {% for member in society.trainers.all %}
+        <li>{{ member.get_full_name_reverse }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+    <p>Mancano i dati societari</p>
+    {% endif %}
+    <a href="#sommario">Torna al sommario</a>
   </div>
 </div>
 {% endblock content %}
