@@ -122,12 +122,12 @@ class Paragraph(models.Model):
     number = models.IntegerField('Numero',
         help_text = "Numero d'ordine, per ora da inserire manualmente")
     title = models.CharField('Titolo', max_length = 50, null=True,
-        help_text = 'Paragrafo (corpo &lt;h4&gt;) inserito nel sommario')
+        help_text = 'Paragrafo (corpo H4) inserito nel sommario')
     body = RichTextUploadingField('Testo', blank= True, null=True,
         help_text = "Scrivi qualcosa.", )
 
     def __str__(self):
-        return self.title
+        return 'Paragrafo-' + str(self.number)
 
     class Meta:
         verbose_name = 'Paragrafo'
