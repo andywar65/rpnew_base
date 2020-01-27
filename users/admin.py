@@ -100,7 +100,7 @@ class ApplicantAdmin(admin.ModelAdmin):
 class MemberPaymentInline(admin.TabularInline):
     model = MemberPayment
     fields = ('date', 'amount')
-    extra = 1
+    extra = 0
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
