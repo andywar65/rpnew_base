@@ -5,10 +5,12 @@ GENDER = [('F', 'Femmina'), ('M', 'Maschio'), ]
 NOTICE = [('SPAM', 'Da inviare'), ('DONE', 'Già inviata'), ]
 
 SECTOR = [('0-NO', 'No'), ('3-FI', 'No, solo i figli'),
-    ('1-YC', 'Sì, con il corso'), ('2-NC', 'Sì, senza corso'), ]
+    ('1-YC', 'Sì, con il corso'), ('2-NC', 'Sì, senza corso'),
+    ('4-MI', 'Sono un minore'), ]
 
 SECTOR_DICT = {'0-NO': 'No', '3-FI': 'No, solo i figli',
     '1-YC': 'Sì, con il corso', '2-NC': 'Sì, senza corso',
+    '4-MI': 'Sono un minore',
     }
 
 COURSE = [

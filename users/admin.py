@@ -113,7 +113,7 @@ class MemberAdmin(admin.ModelAdmin):
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         member = Member.objects.get(user_id=object_id)
-        if member.parent:
+        if member.parent or member.sector == '4-MI':
             self.form = ChangeMemberChildForm
             if not request.user.has_perm('users.add_applicant'):
                 self.readonly_fields = ['sector', 'parent', 'membership',

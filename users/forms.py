@@ -18,6 +18,11 @@ class ChangeMemberChildForm(ModelForm):
                 'Se è minore segue un corso!',
                 code='juvenile_follows_course',
             ))
+        elif sector == '4-MI' and not parent:
+            self.add_error('parent', forms.ValidationError(
+                'Se è minore bisogna indicare il genitore!',
+                code='juvenile_needs_parent',
+            ))
         try:
             course = cd.get('course')
             course_alt = cd.get('course_alt')
@@ -49,6 +54,20 @@ class ChangeMember0Form(ModelForm):
             'email', 'no_spam', )
 
 class ChangeMember1Form(ModelForm):
+
+    def clean(self):
+        cd = super().clean()
+        try:
+            course = cd.get('course')
+            course_alt = cd.get('course_alt')
+            for sched in course:
+                if sched.full == 'Altro' and course_alt == None:
+                    self.add_error('course_alt', forms.ValidationError(
+                        'Scrivi qualcosa!',
+                        code='describe_course_alternative',
+                    ))
+        except:
+            pass
 
     class Meta:
         model = Member
