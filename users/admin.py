@@ -3,6 +3,7 @@ from datetime import date, timedelta
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Permission
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from django.db.models import Q
@@ -51,16 +52,23 @@ class ApplicantAdmin(admin.ModelAdmin):
     actions = ['applicant_to_user', ]
 
     def applicant_to_user(self, request, queryset):
-        group = Group.objects.get(name='Gestione iscrizione')
         for applicant in queryset:
             username = (applicant.last_name.lower() + '_' +
                 applicant.first_name.lower())
             username = generate_unique_username(username)
             password = User.objects.make_random_password()
             hash_password = make_password(password)
-            usr = User.objects.create(username = username,
-                password = hash_password, is_staff = True, )
-            usr.groups.add(group)
+            if not applicant.sector == '4-MI':
+                usr = User.objects.create(username = username,
+                    password = hash_password, is_staff = True, )
+                perm_1 = Permission.objects.get(codename='view_member')
+                perm_2 = Permission.objects.get(codename='change_member')
+                usr.user_permissions.add(perm_1, perm_2)
+            else:
+                password = 'rifondazionepodistica'
+                hash_password = make_password( password )
+                usr = User.objects.create(username = username,
+                    password = hash_password, is_staff = False, )
             member = Member.objects.get(user_id=usr.id)
             member.sector = applicant.sector
             member.first_name = applicant.first_name
