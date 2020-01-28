@@ -10,7 +10,6 @@ from rpnew_prog.utils import send_rp_mail
 class LocationAdmin(admin.ModelAdmin):
     list_display = ('title', 'address', 'get_thumb', 'get_gmap_link')
     readonly_fields = ('slug', )
-    ordering = ('title', )
     search_fields = ('title', 'address')
 
 @admin.register(ImageEntry)

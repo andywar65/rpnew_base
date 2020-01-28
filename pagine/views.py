@@ -21,7 +21,6 @@ class HomeTemplateView(TemplateView):
 
 class ListLocation(ListView):
     model = Location
-    ordering = ('title', )
     context_object_name = 'all_locations'
     paginate_by = 12
 
