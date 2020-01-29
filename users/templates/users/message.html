@@ -8,8 +8,9 @@
     <p>A breve riceverai una risposta via mail.
     Non è un processo automatico, per cui può richiedere tempo.</p>
   </div>
+  <p>Volendo puoi inviare un altro messaggio.</p>
+  {% endif %}
 
-  {% else %}
   <p>Non sei un utente riconosciuto. Ti puoi
     <a href="/registration/" style="color: #24890d;">iscrivere </a>
     al sito oppure effettuare il
@@ -67,5 +68,4 @@
             <hr class="mb-4">
     {% csrf_token %}
   </form>
-  {% endif %}
 {% endblock contact_msg %}
