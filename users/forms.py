@@ -18,11 +18,6 @@ class ChangeMemberChildForm(ModelForm):
                 'Se è minore segue un corso!',
                 code='juvenile_follows_course',
             ))
-        elif sector == '4-MI' and not parent:
-            self.add_error('parent', forms.ValidationError(
-                'Se è minore bisogna indicare il genitore!',
-                code='juvenile_needs_parent',
-            ))
         try:
             course = cd.get('course')
             course_alt = cd.get('course_alt')

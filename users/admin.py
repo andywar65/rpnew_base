@@ -58,7 +58,7 @@ class ApplicantAdmin(admin.ModelAdmin):
             username = generate_unique_username(username)
             password = User.objects.make_random_password()
             hash_password = make_password(password)
-            if not applicant.sector == '4-MI':
+            if not applicant.parent:
                 usr = User.objects.create(username = username,
                     password = hash_password, is_staff = True, )
                 perm_1 = Permission.objects.get(codename='view_member')
@@ -74,6 +74,7 @@ class ApplicantAdmin(admin.ModelAdmin):
             member.first_name = applicant.first_name
             member.last_name = applicant.last_name
             member.email = applicant.email
+            member.parent = applicant.parent
             children = ApplicantChild.objects.filter(parent=applicant.id)
             if children and member.sector == '0-NO':
                 member.sector = '3-FI'
@@ -121,7 +122,7 @@ class MemberAdmin(admin.ModelAdmin):
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         member = Member.objects.get(user_id=object_id)
-        if member.parent or member.sector == '4-MI':
+        if member.parent:
             self.form = ChangeMemberChildForm
             if not request.user.has_perm('users.add_applicant'):
                 self.readonly_fields = ['sector', 'parent', 'membership',
