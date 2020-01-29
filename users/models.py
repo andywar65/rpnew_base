@@ -200,12 +200,17 @@ class Applicant(models.Model):
         verbose_name = 'Nome',)
     last_name = models.CharField(max_length = 50,
         verbose_name = 'Cognome',)
-    email = models.EmailField(verbose_name = 'Indirizzo email',)
+    email = models.EmailField(verbose_name = 'Indirizzo email', null = True,
+        blank = True, )
     sector = models.CharField(max_length = 4, choices = SECTOR,
         default = '0-NO', verbose_name = 'Vuoi correre con noi?')
     children_str = models.TextField(max_length = 200,
         verbose_name = 'Figli', blank = True, null = True,
         help_text='Nome e cognome dei figli che si intende iscrivere, separati da una virgola.')
+    parent = models.ForeignKey(User, on_delete = models.SET_NULL,
+        blank = True, null = True, related_name = 'applicant_parent',
+        verbose_name = 'Genitore',
+        help_text = 'Solo se minore')
 
     def get_full_name(self):
         full_name = '%s %s' % (self.last_name, self.first_name)
