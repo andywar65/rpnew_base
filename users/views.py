@@ -5,7 +5,7 @@ from .forms import (RegistrationForm, RegistrationLogForm, ContactLogForm,
     ContactForm)
 from .models import User
 
-class RegisterFormView(FormView):
+class RegistrationFormView(FormView):
     template_name = 'users/registration.html'
     success_url = '/registration?submitted=True'
 

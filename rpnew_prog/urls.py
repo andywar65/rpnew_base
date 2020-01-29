@@ -30,7 +30,8 @@ admin.site.site_title = 'Amministrazione RP'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('registration/', user_views.registration, name='registration'),
+    path('registration/', user_views.RegistrationFormView.as_view(),
+        name='registration'),
     path('search/', views.search_results, name='search_results'),
     path('contacts/', user_views.contacts, name='contacts'),
     path('', HomeTemplateView.as_view()),
