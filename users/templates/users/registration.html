@@ -10,10 +10,36 @@
     <p>A breve riceverai una mail con le credenziali di accesso.
     Non è un processo automatico, per cui può richiedere tempo.</p>
   </div>
+  <p>Puoi effettuare un'altra iscrizione.</p>
   {% endif %}
 
   {% if user.is_authenticated %}
-  goo
+  <p>Bentrovato {{ user.member.first_name }}, questo modulo può servire per
+    iscrivere i propri figli. Se vuoi semplicemente
+    inviarci un messaggio, usa quest'altro
+    <a href="/contacts/">modulo.</a></p>
+  <form action="" method="post" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="first-name">Nome</label>
+                {{ form.first_name }}
+                <div class="invalid-feedback">
+                  E' necessario inserire il nome.
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="last-name">Cognome</label>
+                {{ form.last_name }}
+                <div class="invalid-feedback">
+                  E' necessario inserire il cognome.
+                </div>
+              </div>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
+            <hr class="mb-4">
+    {% csrf_token %}
+  </form>
   {% else %}
   <p>Questo modulo può servire sia per iscriversi a Rifondazione Podistica e
     correre con noi, sia per iscrivere i propri figli e rimanere a guardare
