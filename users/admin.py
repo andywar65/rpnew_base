@@ -74,7 +74,10 @@ class ApplicantAdmin(admin.ModelAdmin):
             member.first_name = applicant.first_name
             member.last_name = applicant.last_name
             member.email = applicant.email
-            member.parent = applicant.parent
+            if applicant.parent:
+                member.parent = applicant.parent
+                member.sector = '1-YC'
+                member.email = applicant.parent.member.email
             children = ApplicantChild.objects.filter(parent=applicant.id)
             if children and member.sector == '0-NO':
                 member.sector = '3-FI'
