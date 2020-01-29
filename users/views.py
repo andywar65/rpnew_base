@@ -1,7 +1,19 @@
 from django.shortcuts import render
+from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect
-from .forms import RegistrationForm, ContactLogForm, ContactForm
+from .forms import (RegistrationForm, RegistrationLogForm, ContactLogForm,
+    ContactForm)
 from .models import User
+
+class RegisterFormView(FormView):
+    template_name = 'users/registration.html'
+    success_url = '/registration?submitted=True'
+
+    def get_form_class(self):
+        if self.request.user.is_authenticated:
+            return RegistrationLogForm
+        else:
+            return RegistrationForm
 
 def registration(request):
     submitted = False

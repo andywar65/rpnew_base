@@ -98,9 +98,9 @@ class ChangeMember3Form(ModelForm):
 
 class RegistrationForm(ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': "form-control"}))
+        'class': "form-control", 'placeholder': 'Nome del genitore', }))
     last_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': "form-control"}))
+        'class': "form-control", 'placeholder': 'Cognome del genitore', }))
     email = forms.EmailField(widget=forms.TextInput(attrs={
         'class': "form-control",
         'placeholder': "you@example.com"}))
@@ -108,22 +108,22 @@ class RegistrationForm(ModelForm):
         widget=forms.Select(attrs={'class': "form-control"}))
     children_str = forms.CharField(required = False,
         widget=forms.TextInput(attrs={'class': "form-control",
-        'placeholder': "Nome e cognome dei figli, separati da una virgola (Mario Rossi, Ada Rossi)"}))
+        'placeholder': "Nome e cognome figlio 1, nome e cognome figlio 2, ..."}))
     captcha = ReCaptchaField()
-
-    #def clean(self):
-        #cd = super().clean()
-        #sector = cd.get('sector')
-        #children = cd.get('children_str')
-        #if sector == '0-NO' and children:
-            #self.add_error('sector', forms.ValidationError(
-                #'Se hai inserito figli seleziona "No, solo i figli"',
-                #code='if_juvenile_set_sector',
-            #))
 
     class Meta:
         model = Applicant
-        fields = '__all__'
+        fields = ('first_name', 'last_name', 'email', 'sector', 'children_str')
+
+class RegistrationLogForm(ModelForm):
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': "form-control", 'placeholder': 'Nome del figlio', }))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': "form-control", 'placeholder': 'Cognome del figlio', }))
+
+    class Meta:
+        model = Applicant
+        fields = ('first_name', 'last_name', )
 
 class ContactLogForm(ModelForm):
     subject = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))

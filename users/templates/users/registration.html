@@ -10,14 +10,19 @@
     <p>A breve riceverai una mail con le credenziali di accesso.
     Non è un processo automatico, per cui può richiedere tempo.</p>
   </div>
+  {% endif %}
 
+  {% if user.is_authenticated %}
+  goo
   {% else %}
   <p>Questo modulo può servire sia per iscriversi a Rifondazione Podistica e
     correre con noi, sia per iscrivere i propri figli e rimanere a guardare
     (NON corri con noi ma inserisci i dati dei figli), sia per iscriversi
     semplicemente al sito (NON corri con noi e basta). Se vuoi semplicemente
     inviarci un messaggio, usa quest'altro
-    <a href="/contacts/" style="color: #24890d;">modulo.</a></p>
+    <a href="/contacts/">modulo.</a></p>
+  <p>Se invece sei già registrato, effettua il
+    <a href="/admin/login/?next={{ request.get_full_path }}">login.</a></p>
   <form action="" method="post" class="needs-validation" novalidate>
             <div class="row">
               <div class="col-md-6 mb-3">
@@ -58,7 +63,8 @@
             <div class="row">
               <div class="col-md-6 mb-3 custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="privacy" required>
-                <label class="custom-control-label" for="privacy">Ho letto l'Informativa sulla Privacy</label>
+                <label class="custom-control-label" for="privacy">
+                  Ho letto <a href="/privacy/">l'Informativa sulla Privacy.</a></label>
               </div>
               <div class="col-md-6 mb-3">
               {{ form.captcha }}
