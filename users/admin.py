@@ -63,7 +63,8 @@ class ApplicantAdmin(admin.ModelAdmin):
                     password = hash_password, is_staff = True, )
                 perm_1 = Permission.objects.get(codename='view_member')
                 perm_2 = Permission.objects.get(codename='change_member')
-                usr.user_permissions.add(perm_1, perm_2)
+                perm_3 = Permission.objects.get(codename='view_memberpayment')
+                usr.user_permissions.add(perm_1, perm_2, perm_3)
             else:
                 password = 'rifondazionepodistica'
                 hash_password = make_password( password )
@@ -132,6 +133,10 @@ class MemberAdmin(admin.ModelAdmin):
                 self.readonly_fields = ['sector', 'parent', 'membership',
                     'mc_expiry', 'mc_state', 'total_amount', 'settled']
             self.inlines = [ MemberPaymentInline, ]
+        elif member.sector == '0-NO':
+            self.form = ChangeMember0Form
+            if not request.user.has_perm('users.add_applicant'):
+                self.readonly_fields = ['sector', ]
         elif member.sector == '1-YC':
             self.form = ChangeMember1Form
             if not request.user.has_perm('users.add_applicant'):
@@ -146,10 +151,6 @@ class MemberAdmin(admin.ModelAdmin):
             self.inlines = [ MemberPaymentInline, ]
         elif member.sector == '3-FI':
             self.form = ChangeMember3Form
-            if not request.user.has_perm('users.add_applicant'):
-                self.readonly_fields = ['sector', ]
-        else:
-            self.form = ChangeMember0Form
             if not request.user.has_perm('users.add_applicant'):
                 self.readonly_fields = ['sector', ]
         return super().change_view(
