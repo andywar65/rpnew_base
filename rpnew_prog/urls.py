@@ -17,7 +17,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from users import views as user_views
 from pagine.views import HomeTemplateView
@@ -33,7 +32,7 @@ urlpatterns = [
     path('registration/', user_views.RegistrationFormView.as_view(),
         name='registration'),
     path('search/', views.search_results, name='search_results'),
-    path('contacts/', user_views.contacts, name='contacts'),
+    path('contacts/', user_views.ContactFormView.as_view(), name='contacts'),
     path('', HomeTemplateView.as_view()),
     path('privacy/', PrivacyTemplateView.as_view(), name='privacy'),
     path('iscrizioni/', MembershipTemplateView.as_view(), name='membership'),

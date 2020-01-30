@@ -6,11 +6,38 @@
   <div class="alert alert-success" role="alert">
     <p><strong>Il tuo messaggio è stato inoltrato con successo, grazie!</strong></p>
     <p>A breve riceverai una risposta via mail.
-    Non è un processo automatico, per cui può richiedere tempo.</p>
+    Non è un processo automatico, per cui può richiedere tempo. Nel frattempo
+    ne puoi inviare un altro</p>
   </div>
-  <p>Volendo puoi inviare un altro messaggio.</p>
+  
   {% endif %}
-
+  {% if user.is_authenticated %}
+  <p>Bentrovato {{ user.member.first_name }}, scrivi qui sotto il tuo messaggio e poi invia.</p>
+  <form action="" method="post" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-9 mb-3">
+                <label for="subject">Soggetto</label>
+                {{ form.subject }}
+                <div class="invalid-feedback">
+                  E' necessario inserire il soggetto.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-9 mb-3">
+                <label for="message">Messaggio </label>
+                {{ form.body }}
+                <div class="invalid-feedback">
+                  E' necessario inserire il messaggio.
+                </div>
+              </div>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
+            <hr class="mb-4">
+    {% csrf_token %}
+  </form>
+  {% else %}
   <p>Non sei un utente riconosciuto. Ti puoi
     <a href="/registration/" style="color: #24890d;">iscrivere </a>
     al sito oppure effettuare il
@@ -68,4 +95,5 @@
             <hr class="mb-4">
     {% csrf_token %}
   </form>
+  {% endif %}
 {% endblock contact_msg %}

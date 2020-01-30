@@ -30,22 +30,8 @@ class RegistrationFormView(FormView):
         applicant.save()
         return HttpResponseRedirect(self.get_success_url())
 
-#def registration(request):
-    #submitted = False
-    #if request.method == 'POST':
-        #form = RegistrationForm(request.POST)
-        #if form.is_valid():
-            #form.save()
-            #return HttpResponseRedirect('/registration?submitted=True')
-    #else:
-        #form = RegistrationForm()
-        #if 'submitted' in request.GET:
-            #submitted = True
-    #return render(request, 'users/registration.html', {
-        #'form': form, 'submitted': submitted})
-
 class ContactFormView(FormView):
-    template_name = 'users/messagr.html'
+    template_name = 'users/message.html'
     success_url = '/contacts?submitted=True'
 
     def get_form_class(self):
@@ -73,39 +59,3 @@ class ContactFormView(FormView):
                     pass
         message.save()
         return HttpResponseRedirect(self.get_success_url())
-
-def contacts(request):
-    submitted = False
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            form = ContactLogForm(request.POST)
-            if form.is_valid():
-                mod_form = form.save(commit=False)
-                if 'recipient' in request.GET:
-                    try:
-                        recip = User.objects.get(id=request.GET['recipient'])
-                        mod_form.recipient = recip.member.email
-                    except:
-                        pass
-                mod_form.user = request.user
-                mod_form.email = request.user.member.email
-                mod_form.save()
-                return HttpResponseRedirect('/contacts?submitted=True')
-        else:
-            form = ContactLogForm()
-            if 'submitted' in request.GET:
-                submitted = True
-        return render(request, 'users/message-log.html', {
-            'form': form, 'submitted': submitted, })
-    else:
-        if request.method == 'POST':
-            form = ContactForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return HttpResponseRedirect('/contacts?submitted=True')
-        else:
-            form = ContactForm()
-            if 'submitted' in request.GET:
-                submitted = True
-        return render(request, 'users/message.html', {
-            'form': form, 'submitted': submitted})
