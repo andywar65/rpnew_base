@@ -53,7 +53,7 @@ class ContactFormView(FormView):
             message.email = self.request.user.member.email
             if 'recipient' in self.request.GET:
                 try:
-                    recip = User.objects.get(id=request.GET['recipient'])
+                    recip = User.objects.get(id=self.request.GET['recipient'])
                     message.recipient = recip.member.email
                 except:
                     pass
