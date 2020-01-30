@@ -44,6 +44,36 @@ class RegistrationFormView(FormView):
     #return render(request, 'users/registration.html', {
         #'form': form, 'submitted': submitted})
 
+class ContactFormView(FormView):
+    template_name = 'users/messagr.html'
+    success_url = '/contacts?submitted=True'
+
+    def get_form_class(self):
+        if self.request.user.is_authenticated:
+            return ContactLogForm
+        else:
+            return ContactForm
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        if 'submitted' in request.GET:
+            context['submitted'] = request.GET['submitted']
+        return self.render_to_response(context)
+
+    def form_valid(self, form):
+        message = form.save(commit=False)
+        if self.request.user.is_authenticated:
+            message.user = self.request.user
+            message.email = self.request.user.member.email
+            if 'recipient' in self.request.GET:
+                try:
+                    recip = User.objects.get(id=request.GET['recipient'])
+                    message.recipient = recip.member.email
+                except:
+                    pass
+        message.save()
+        return HttpResponseRedirect(self.get_success_url())
+
 def contacts(request):
     submitted = False
     if request.user.is_authenticated:
