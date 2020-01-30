@@ -190,7 +190,7 @@ class MemberAdmin(admin.ModelAdmin):
                     if member.parent:
                         mail_to = [member.parent.email, ]
                     else:
-                        mail_to = [member.user.email, ]
+                        mail_to = [member.email, ]
                     message = 'Buongiorno \n'
                     message += f'Il CM/CMA di {member.get_full_name()} '
                     message += 'risulta scaduto o inesistente. \n'
