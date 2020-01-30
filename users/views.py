@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect
-from .forms import (RegistrationForm, RegistrationLogForm, ContactLogForm,
-    ContactForm)
+from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
+    ContactLogForm)
 from .models import User
 
 class RegistrationFormView(FormView):
@@ -14,6 +14,12 @@ class RegistrationFormView(FormView):
             return RegistrationLogForm
         else:
             return RegistrationForm
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        if 'submitted' in request.GET:
+            context['submitted'] = request.GET['submitted']
+        return self.render_to_response(context)
 
 def registration(request):
     submitted = False
