@@ -96,15 +96,16 @@ class ApplicantAdmin(admin.ModelAdmin):
                 member.last_name = child.last_name
                 member.email = applicant.email
                 member.save()
-            mail_to = [applicant.email, ]
-            message = 'Buongiorno \n'
-            message += 'potete loggarvi al sito di RP \n'
-            message += f'con nome utente = {username} \n'
-            message += f'e password = {password} (da cambiare). \n'
-            message += 'Una volta loggati potrete gestire la vostra iscrizione. Grazie. \n'
-            message += 'Lo staff di RP'
-            subject = 'Credenziali di accesso'
-            send_rp_mail(subject, message, mail_to)
+            if not applicant.parent:
+                mail_to = [applicant.email, ]
+                message = 'Buongiorno \n'
+                message += 'potete loggarvi al sito di RP \n'
+                message += f'con nome utente = {username} \n'
+                message += f'e password = {password} (da cambiare). \n'
+                message += 'Una volta loggati potrete gestire la vostra iscrizione. Grazie. \n'
+                message += 'Lo staff di RP'
+                subject = 'Credenziali di accesso'
+                send_rp_mail(subject, message, mail_to)
             applicant.delete()
         return
     applicant_to_user.short_description = 'Crea Iscritti'
