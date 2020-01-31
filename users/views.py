@@ -5,7 +5,15 @@ from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
     ContactLogForm)
 from .models import User
 
-class RegistrationFormView(FormView):
+class GetMixin:
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        if 'submitted' in request.GET:
+            context['submitted'] = request.GET['submitted']
+        return self.render_to_response(context)
+
+class RegistrationFormView(GetMixin, FormView):
     template_name = 'users/registration.html'
     success_url = '/registration?submitted=True'
 
@@ -14,12 +22,6 @@ class RegistrationFormView(FormView):
             return RegistrationLogForm
         else:
             return RegistrationForm
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        if 'submitted' in request.GET:
-            context['submitted'] = request.GET['submitted']
-        return self.render_to_response(context)
 
     def form_valid(self, form):
         applicant = form.save(commit=False)
@@ -30,7 +32,7 @@ class RegistrationFormView(FormView):
         applicant.save()
         return HttpResponseRedirect(self.get_success_url())
 
-class ContactFormView(FormView):
+class ContactFormView(GetMixin, FormView):
     template_name = 'users/message.html'
     success_url = '/contacts?submitted=True'
 
@@ -39,12 +41,6 @@ class ContactFormView(FormView):
             return ContactLogForm
         else:
             return ContactForm
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        if 'submitted' in request.GET:
-            context['submitted'] = request.GET['submitted']
-        return self.render_to_response(context)
 
     def form_valid(self, form):
         message = form.save(commit=False)
