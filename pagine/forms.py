@@ -12,7 +12,7 @@ class UserUploadForm(ModelForm):
 
 class EventForm(ModelForm):
     manager = forms.ModelChoiceField(label="Responsabile", required = False,
-        queryset = User.objects.with_perm('pagine.add_event'), )
+        queryset = User.objects.with_perm('pagine.add_event').order_by('username'), )
 
     class Meta:
         model = Event
@@ -20,7 +20,7 @@ class EventForm(ModelForm):
 
 class BlogForm(ModelForm):
     author = forms.ModelChoiceField(label="Autore", required = False,
-        queryset = User.objects.with_perm('pagine.add_blog'), )
+        queryset = User.objects.filter(is_active = True, ).order_by('username'), )
 
     class Meta:
         model = Blog
