@@ -43,6 +43,23 @@ def generate_unique_username(username):
         numb += 1
     return unique_username
 
+def registration_message( name, username, password ):
+    message = f"""
+        Ciao {name}! \n
+        Abbiamo ricevuto la tua registrazione al sito di Rifondazione
+        Podistica. Puoi effettuare il Login al seguente link: \n
+        {settings.BASE_URL}/admin/login/ \n
+        Usa questo nome utente: {username}
+        e questa password: {password} (possibilmente da cambiare).
+        Una volta effettuato il login potrai gestire il tuo profilo.
+        Grazie.
+        Lo staff di RP \n
+        Link utili:
+        Informativa per la privacy: {settings.BASE_URL}/privacy/
+        Cambio password: {settings.BASE_URL}/admin/password_change/
+        """
+    return message
+
 @admin.register(Applicant)
 class ApplicantAdmin(admin.ModelAdmin):
     list_display = ('get_full_name', 'email', 'sector', 'children_str',)
@@ -99,13 +116,9 @@ class ApplicantAdmin(admin.ModelAdmin):
                 member.save()
             if not applicant.parent:
                 mail_to = [applicant.email, ]
-                message = 'Buongiorno \n'
-                message += 'potete loggarvi al sito di RP \n'
-                message += f'con nome utente = {username} \n'
-                message += f'e password = {password} (da cambiare). \n'
-                message += 'Una volta loggati potrete gestire la vostra iscrizione. Grazie. \n'
-                message += 'Lo staff di RP'
-                subject = 'Credenziali di accesso'
+                message = registration_message( member.first_name, username,
+                    password )
+                subject = 'Credenziali di accesso ad RP'
                 send_rp_mail(subject, message, mail_to)
             applicant.delete()
         return
