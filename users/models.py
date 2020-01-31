@@ -274,8 +274,9 @@ class UserMessage(models.Model):
             self.notice = 'DONE'
         super(UserMessage, self).save(*args, **kwargs)
         if go_spam:
-            subject = self.subject + ' da ' + self.get_email()
-            message = self.body
+            subject = self.subject
+            message = (self.body + '\n\n'+ self.get_full_name() +
+                ' (' + self.get_email() + ')')
             mailto = [self.recipient, ]
             send_rp_mail(subject, message, mailto)
 
