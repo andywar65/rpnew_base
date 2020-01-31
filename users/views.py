@@ -30,7 +30,7 @@ class RegistrationFormView(GetMixin, FormView):
             applicant.email = self.request.user.member.email
             applicant.sector = '1-YC'
         applicant.save()
-        return HttpResponseRedirect(self.get_success_url())
+        return super(RegistrationFormView, self).form_valid(form)
 
 class ContactFormView(GetMixin, FormView):
     template_name = 'users/message.html'
@@ -54,4 +54,4 @@ class ContactFormView(GetMixin, FormView):
                 except:
                     pass
         message.save()
-        return HttpResponseRedirect(self.get_success_url())
+        return super(ContactFormView, self).form_valid(form)
