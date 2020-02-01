@@ -279,7 +279,7 @@ class UserMessage(models.Model):
         super(UserMessage, self).save(*args, **kwargs)
         if go_spam:
             subject = self.subject
-            message = (self.body + '\n\n'+ self.get_full_name() +
+            message = (self.body + '\n\nDa: '+ self.get_full_name() +
                 ' (' + self.get_email() + ')')
             mailto = [self.recipient, ]
             email = EmailMessage(subject, message, settings.SERVER_EMAIL,
