@@ -62,6 +62,11 @@ class Race(models.Model):
         verbose_name_plural = 'Gare'
         ordering = ('-date', )
 
+class AthleteManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by('member__last_name',
+            'member__first_name')
+
 class Athlete(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE,
         verbose_name = 'Iscritto', null = True, )
@@ -72,10 +77,14 @@ class Athlete(models.Model):
         null = True, )
     time = models.TimeField('Tempo', blank = True, null = True, )
 
+    objects = AthleteManager()
+
     def __str__(self):
+        return self.member.get_full_name()
+
+    def get_full_name(self):
         return self.member.get_full_name()
 
     class Meta:
         verbose_name = 'Atleta'
         verbose_name_plural = 'Atleti/e'
-        ordering = ('-id', )
