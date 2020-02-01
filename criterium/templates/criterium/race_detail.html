@@ -19,6 +19,12 @@
         <li class="list-inline-item"><i class="fa fa-link" aria-hidden="true"></i>
         <a href="{{ race.event.get_path }}">{{ race.event.title }}</a></li>
       {% endif %}
+      {% if perms.criterium.change_race %}
+      <li class="list-inline-item">
+        <i class="fa fa-pencil" aria-hidden="true"></i>
+        <a href="/admin/criterium/race/{{ race.id }}/change/">Modifica</a>
+      </li>
+      {% endif %}
     </ul>
     <p>{{ race.description }}</p>
   </div>
