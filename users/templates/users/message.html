@@ -9,11 +9,11 @@
     Non è un processo automatico, per cui può richiedere tempo. Nel frattempo
     ne puoi inviare un altro</p>
   </div>
-  
+
   {% endif %}
   {% if user.is_authenticated %}
-  <p>Bentrovato {{ user.member.first_name }}, scrivi qui sotto il tuo messaggio e poi invia.</p>
-  <form action="" method="post" class="needs-validation" novalidate>
+  <p>Ciao {{ user.member.first_name }}, scrivi qui sotto il tuo messaggio e poi invia.</p>
+  <form action="" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
             <div class="row">
               <div class="col-md-9 mb-3">
                 <label for="subject">Soggetto</label>
@@ -30,6 +30,12 @@
                 <div class="invalid-feedback">
                   E' necessario inserire il messaggio.
                 </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-9 mb-3">
+                <label for="attachment">Allegato (opzionale)</label>
+                {{ form.attachment }}
               </div>
             </div>
             <hr class="mb-4">

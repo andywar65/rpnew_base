@@ -248,6 +248,10 @@ class UserMessage(models.Model):
     subject = models.CharField(max_length = 200,
         verbose_name = 'Soggetto', )
     body = models.TextField(verbose_name = 'Messaggio', )
+    attachment = models.FileField(
+        upload_to = user_directory_path,
+        blank = True, null = True, verbose_name = 'Allegato',
+        )
     notice = models.CharField(max_length = 4, choices = NOTICE,
         default = 'SPAM', verbose_name = 'Notifica via email')
 
