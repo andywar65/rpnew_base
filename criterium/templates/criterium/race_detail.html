@@ -49,7 +49,7 @@
           <tr>
             <td>{{ female.member.get_full_name_reverse }}</td>
             <td>{{ female.points }}</td>
-            <td>{{ female.placement }}</td>
+            <td>{{ female.placement|default_if_none:"--" }}</td>
             <td>{{ female.time|time:"H:i:s" }}</td>
           </tr>
           {% endfor %}
@@ -74,7 +74,7 @@
           <tr>
             <td>{{ male.member.get_full_name_reverse }}</td>
             <td>{{ male.points }}</td>
-            <td>{{ male.placement }}</td>
+            <td>{{ male.placement|default_if_none:"--" }}</td>
             <td>{{ male.time|time:"H:i:s" }}</td>
           </tr>
           {% endfor %}
