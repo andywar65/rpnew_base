@@ -5,7 +5,7 @@
 <h4><strong>Criterium edizione {{ year }}-{{ year2 }}</strong></h4>
 <hr class="mb-4">
 {% if all_races %}
-  <h3>Lista delle gare</h3>
+  <h4>Lista delle gare</h4>
   <ul>
   {% for race in all_races %}
     <li>
@@ -18,7 +18,7 @@
   {% endfor %}
   </ul>
   {% if females %}
-  <h4>Classifica femminile {{ status }}</h4>
+  <h5>Classifica femminile {{ status }}</h5>
     <ol>
     {% for name, points in females.items %}
       <li>
@@ -28,7 +28,7 @@
     </ol>
   {% endif %}
   {% if males %}
-  <h4>Classifica maschile {{ status }}</h4>
+  <h5>Classifica maschile {{ status }}</h5>
     <ol>
     {% for name, points in males.items %}
       <li>
