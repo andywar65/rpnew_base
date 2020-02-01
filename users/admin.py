@@ -36,6 +36,7 @@ class ApplicantChildInline(admin.TabularInline):
     extra = 0
 
 def generate_unique_username(username):
+    username = username.replace(' ', '_')
     unique_username = username
     numb = 1
     while User.objects.filter(username=unique_username).exists():
