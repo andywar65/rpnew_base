@@ -3,8 +3,8 @@ from PIL import Image
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.mail import EmailMessage
 from .choices import *
-from rpnew_prog.utils import send_rp_mail
 
 def user_directory_path(instance, filename):
     return 'user_uploads/{0}/{1}'.format(instance.user.username, filename)
@@ -282,7 +282,11 @@ class UserMessage(models.Model):
             message = (self.body + '\n\n'+ self.get_full_name() +
                 ' (' + self.get_email() + ')')
             mailto = [self.recipient, ]
-            send_rp_mail(subject, message, mailto)
+            email = EmailMessage(subject, message, settings.SERVER_EMAIL,
+                mailto)
+            if self.attachment:
+                email.attach_file(self.attachment.path)
+            email.send()
 
     def __str__(self):
         return 'Messaggio - %s' % (self.id)
