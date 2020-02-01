@@ -24,8 +24,12 @@ class RaceDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         race = context['object']
         athletes = Athlete.objects.filter(race_id=race.id)
-        context['females'] = athletes.filter(member__gender='F').order_by('-points')
-        context['males'] = athletes.filter(member__gender='M').order_by('-points')
+        females = athletes.filter(member__gender='F').order_by('-points',
+            'member__last_name', 'member__first_name')
+        males = athletes.filter(member__gender='M').order_by('-points',
+            'member__last_name', 'member__first_name')
+        context['females'] = females
+        context['males'] = males
         return context
 
 class RaceListView(ListView):
