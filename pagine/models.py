@@ -162,7 +162,7 @@ class Event(models.Model):
     body = RichTextUploadingField('Lancio',
         help_text = "Scrivi qualcosa.", )
     chronicle = RichTextUploadingField('Cronaca',
-        default = "Inserisci qui la cronaca dell'evento", )
+        default = "Al momento nessuna cronaca disponibile", )
     restricted = RichTextUploadingField('Area riservata',
         blank= True, null=True,
         help_text="Inserisci qui materiale riservato ai soci",)

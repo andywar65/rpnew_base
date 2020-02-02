@@ -14,7 +14,8 @@
       {% if race.type %}
         <li class="list-inline-item"><i class="fa fa-wheelchair-alt" aria-hidden="true"></i> {{ race.get_type_display }}</li>
       {% endif %}
-      <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{ race.get_location }}</li>
+      <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i>
+        {{ race.get_location|default_if_none:"--" }}</li>
       {% if race.event %}
         <li class="list-inline-item"><i class="fa fa-link" aria-hidden="true"></i>
         <a href="{{ race.event.get_path }}">{{ race.event.title }}</a></li>
