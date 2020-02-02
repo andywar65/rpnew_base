@@ -10,7 +10,10 @@
   {% for race in all_races %}
     <li>
       <a href="{{ race.get_path }}">{{ race.title }}, </a>
-      {{ race.date|date:"d M Y"}}, {{ race.get_location|default_if_none:"--" }}
+      {{ race.date|date:"d M Y"}},
+      {% if race.location %}
+        {{ race.get_location }}
+      {% endif %}
       {% if race.event %}
         <a href="{{ race.event.get_path }}">(leggi la cronaca)</a>
       {% endif %}
