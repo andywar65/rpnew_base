@@ -36,6 +36,12 @@ class ContactFormView(GetMixin, FormView):
     template_name = 'users/message.html'
     success_url = '/contacts?submitted=True'
 
+    def get_initial(self):
+        initial = super(ContactFormView, self).get_initial()
+        if 'subject' in self.request.GET:
+            initial.update({'subject': self.request.GET['subject']})
+        return initial
+
     def get_form_class(self):
         if self.request.user.is_authenticated:
             return ContactLogForm
