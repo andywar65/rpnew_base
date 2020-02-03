@@ -32,10 +32,7 @@ class RaceDetailView(DetailView):
         context['males'] = males
         return context
 
-class RaceListView(ListView):
-    model = Race
-    ordering = ('date', )
-    context_object_name = 'all_races'
+class RaceListMixin:
 
     def get_queryset(self):
         year1 = self.kwargs['year']
@@ -43,6 +40,17 @@ class RaceListView(ListView):
         qs = Race.objects.filter(date__gte = datetime(year1, 11, 1),
             date__lt = datetime(year2, 11, 1)).order_by('date')
         return qs
+
+class RaceListAthleteView(RaceListMixin, ListView):
+    model = Race
+    ordering = ('date', )
+    context_object_name = 'all_races'
+    template_name = 'criterium/race_list_athlete.html'
+
+class RaceListView(RaceListMixin, ListView):
+    model = Race
+    ordering = ('date', )
+    context_object_name = 'all_races'
 
     def get_athlete_dict(self, athletes):
         athl_dict = {}
