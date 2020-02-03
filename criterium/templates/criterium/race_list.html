@@ -23,9 +23,10 @@
   {% if females %}
   <h5>Classifica femminile {{ status }}</h5>
     <ol>
-    {% for name, points in females.items %}
+    {% for id, points in females.items %}
       <li>
-        {{ name }}, {{ points }}
+        <a href="/criterium/{{ year }}-{{ year2 }}/?member={{ id }}">{{ points.0 }}</a>,
+        {{ points.1 }}
       </li>
     {% endfor %}
     </ol>
@@ -33,9 +34,10 @@
   {% if males %}
   <h5>Classifica maschile {{ status }}</h5>
     <ol>
-    {% for name, points in males.items %}
+    {% for id, points in males.items %}
       <li>
-        {{ name }}, {{ points }}
+        <a href="/criterium/{{ year }}-{{ year2 }}/?member={{ id }}">{{ points.0 }}</a>,
+        {{ points.1 }}
       </li>
     {% endfor %}
     </ol>

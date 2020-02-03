@@ -46,17 +46,21 @@ class RaceListView(ListView):
 
     def get_athlete_dict(self, athletes):
         athl_dict = {}
+        name_dict = {}
         athl_list = athletes.values_list('member_id', flat = True)
         athl_list = list(dict.fromkeys(athl_list))
         for athl in athl_list:
             athlete = athletes.filter(member_id=athl)
             point_sum = sum(athlete.values_list('points', flat = True))
             first = athlete.first()
-            athl_dict[first.member.get_full_name_reverse()] = point_sum
+            athl_dict[first.member.pk] = point_sum
+            name_dict[first.member.pk] = first.member.get_full_name_reverse()
         # thanks to https://stackoverflow.com/questions/613183/
         # how-do-i-sort-a-dictionary-by-value
         athl_dict = {k: v for k, v in sorted(athl_dict.items(),
             key=lambda item: item[1], reverse = True)}
+        for id, point_sum in athl_dict.items():
+            athl_dict[id] = (name_dict[id], point_sum)
         return athl_dict
 
     def get_status(self, year):
