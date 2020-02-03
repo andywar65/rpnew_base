@@ -1,7 +1,8 @@
 from datetime import datetime
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.views.generic import (DetailView, RedirectView, ListView)
 from .models import (Race, Athlete, )
+from users.models import Member
 
 class RaceDetailView(DetailView):
     model = Race
@@ -34,6 +35,14 @@ class RaceListMixin:
             return 'provvisoria'
         return 'definitiva'
 
+    def get_context_years(self, context):
+        context['year']= self.kwargs['year']
+        context['year2']= self.kwargs['year2']
+        context['year0'] = context['year'] - 1
+        context['year3'] = context['year2'] + 1
+        context['status'] = self.get_status(context['year2'])
+        return context
+
 class RaceListAthleteView(RaceListMixin, ListView):
     model = Race
     ordering = ('date', )
@@ -42,17 +51,15 @@ class RaceListAthleteView(RaceListMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year']= self.kwargs['year']
-        context['year2']= self.kwargs['year2']
-        context['year0'] = context['year'] - 1
-        context['year3'] = context['year2'] + 1
+        context = self.get_context_years(context)
+        member = get_object_or_404(Member, pk=self.kwargs['id'])
+        context['name'] = member.get_full_name_reverse()
+        context['id'] = member.pk
         race_list = context['all_races'].values_list('id', flat = True)
         athletes = Athlete.objects.filter(race_id__in = race_list,
-            member_id = self.kwargs['id'])
+            member_id = context['id'])
         if athletes:
             first = athletes.first()
-            context['name'] = first.member.get_full_name_reverse()
-            context['id'] = first.member.pk
             race_dict = {}
             for race in context['all_races']:
                 athlete = athletes.get(race_id = race.id )
@@ -88,17 +95,13 @@ class RaceListView(RaceListMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year']= self.kwargs['year']
-        context['year2']= self.kwargs['year2']
-        context['year0'] = context['year'] - 1
-        context['year3'] = context['year2'] + 1
+        context = self.get_context_years(context)
         race_list = context['all_races'].values_list('id', flat = True)
         athletes = Athlete.objects.filter(race_id__in = race_list)
         females = athletes.filter(member__gender = 'F')
         context['females'] = self.get_athlete_dict(females)
         males = athletes.filter(member__gender = 'M')
         context['males'] = self.get_athlete_dict(males)
-        context['status'] = self.get_status(context['year2'])
         return context
 
 def get_edition_years():
