@@ -11,7 +11,11 @@
       <ul>
       {% for conv in all_conventions %}
         <li>
-          <a href="{{ conv.get_path }}">{{ conv.title }}</a>, {{ conv.location }}
+          <a href="{{ conv.get_path }}">{{ conv.title }}</a>,
+          {{ conv.location.address }}
+          {% if conv.location.gmap_link %}
+            <a href="{{ conv.location.gmap_link }}" target="_blank">Mappa</a>
+          {% endif %}
         </li>
       {% endfor %}
     {% else %}
