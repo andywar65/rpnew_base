@@ -3,18 +3,6 @@ from django.shortcuts import render
 from django.views.generic import (DetailView, RedirectView, ListView)
 from .models import (Race, Athlete, )
 
-def get_edition_years():
-    date = datetime.now()
-    year = date.year
-    month = date.month
-    if month >= 11:
-        year1 = year
-        year2 = year + 1
-    else:
-        year1 = year - 1
-        year2 = year
-    return year1, year2
-
 class RaceDetailView(DetailView):
     model = Race
     context_object_name = 'race'
@@ -41,11 +29,38 @@ class RaceListMixin:
             date__lt = datetime(year2, 11, 1)).order_by('date')
         return qs
 
+    def get_status(self, year):
+        if datetime(year, 10, 31) > datetime.now():
+            return 'provvisoria'
+        return 'definitiva'
+
 class RaceListAthleteView(RaceListMixin, ListView):
     model = Race
     ordering = ('date', )
     context_object_name = 'all_races'
     template_name = 'criterium/race_list_athlete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year']= self.kwargs['year']
+        context['year2']= self.kwargs['year2']
+        context['year0'] = context['year'] - 1
+        context['year3'] = context['year2'] + 1
+        race_list = context['all_races'].values_list('id', flat = True)
+        athletes = Athlete.objects.filter(race_id__in = race_list,
+            member_id = self.kwargs['id'])
+        if athletes:
+            first = athletes.first()
+            context['name'] = first.member.get_full_name_reverse()
+            context['id'] = first.member.pk
+            race_dict = {}
+            for race in context['all_races']:
+                athlete = athletes.get(race_id = race.id )
+                race_dict[race] = athlete.points
+            context['all_races'] = race_dict
+        else:
+            context['all_races'] = None
+        return context
 
 class RaceListView(RaceListMixin, ListView):
     model = Race
@@ -71,11 +86,6 @@ class RaceListView(RaceListMixin, ListView):
             athl_dict[id] = (name_dict[id], point_sum)
         return athl_dict
 
-    def get_status(self, year):
-        if datetime(year, 10, 31) > datetime.now():
-            return 'provvisoria'
-        return 'definitiva'
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['year']= self.kwargs['year']
@@ -90,6 +100,18 @@ class RaceListView(RaceListMixin, ListView):
         context['males'] = self.get_athlete_dict(males)
         context['status'] = self.get_status(context['year2'])
         return context
+
+def get_edition_years():
+    date = datetime.now()
+    year = date.year
+    month = date.month
+    if month >= 11:
+        year1 = year
+        year2 = year + 1
+    else:
+        year1 = year - 1
+        year2 = year
+    return year1, year2
 
 class RaceRedirectView(RedirectView):
     """redirects simple /criterium/ url to current edition url"""
