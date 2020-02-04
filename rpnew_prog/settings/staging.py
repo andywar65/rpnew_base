@@ -55,8 +55,8 @@ DEFAULT_RECIPIENT = 'rifondazionepodistica96@gmail.com'
 STATIC_ROOT = '/home/andywar65/apps/rpnew_static'# no trailing slash
 STATIC_URL = 'https://digitalkomix.com/static/'
 
-MEDIA_ROOT = '/home/andywar65/apps/rpnew_static/media'# no trailing slash
-MEDIA_URL = 'https://digitalkomix.com/static/media/'
+MEDIA_ROOT = '/home/andywar65/apps/rpnew_media'# no trailing slash
+MEDIA_URL = 'https://digitalkomix.com/media/'
 
 SECRET_KEY = get_secret('SECRET_KEY')
 
