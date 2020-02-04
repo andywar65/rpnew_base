@@ -1,6 +1,5 @@
 from datetime import datetime
-from django.http import Http404
-#from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.views.generic import (DetailView, RedirectView, ListView)
 from .models import (Race, Athlete, )
 from users.models import Member
@@ -53,11 +52,7 @@ class RaceListAthleteView(RaceListMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = self.get_context_years(context)
-        try:
-            member = Member.objects.get(pk=self.kwargs['id'])
-        except Member.DoesNotExist:
-            raise Http404("Non ci sono atleti con quel nome.")
-        #member = get_object_or_404(Member, pk=self.kwargs['id'])
+        member = get_object_or_404(Member, pk=self.kwargs['id'])
         context['name'] = member.get_full_name_reverse()
         context['id'] = member.pk
         race_list = context['all_races'].values_list('id', flat = True)
@@ -67,8 +62,11 @@ class RaceListAthleteView(RaceListMixin, ListView):
             first = athletes.first()
             race_dict = {}
             for race in context['all_races']:
-                athlete = athletes.get(race_id = race.id )
-                race_dict[race] = athlete.points
+                try:
+                    athlete = athletes.get(race_id = race.id )
+                    race_dict[race] = athlete.points
+                except:
+                    pass
             context['all_races'] = race_dict
         else:
             context['all_races'] = None
