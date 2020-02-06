@@ -49,6 +49,7 @@ urlpatterns = [
     path('luoghi/', include('pagine.urls.locations')),
     path('criterium/', include('criterium.urls', namespace = 'criterium')),
     path('archivio/', include('wordpress.urls', namespace = 'wordpress')),
+    path('streamfield/', include('streamfield.urls')),
 ]
 
 if settings.DEBUG:

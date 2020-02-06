@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'criterium.apps.CriteriumConfig',
     'wordpress.apps.WordpressConfig',
     'direzione.apps.DirezioneConfig',
+    'streamblocks',
+    'streamfield',
     'captcha',
     'ckeditor',
     'ckeditor_uploader',
