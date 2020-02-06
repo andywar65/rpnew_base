@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
+from streamfield.fields import StreamField
+from streamblocks.models import IndexedParagraph, CaptionedImage
 from ckeditor_uploader.fields import RichTextUploadingField
 from users.models import Member
 from pagine.models import Location
@@ -108,6 +110,13 @@ class Institutional(models.Model):
     title = models.CharField('Titolo', max_length = 50)
     intro = models.TextField('Introduzione',
         blank= True, null=True, max_length = 200)
+    stream = StreamField(
+        model_list=[
+            IndexedParagraph,
+            CaptionedImage,
+        ],
+        verbose_name="Blocchi"
+        )
 
     def __str__(self):
         return self.title

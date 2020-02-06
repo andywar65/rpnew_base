@@ -28,4 +28,4 @@ class ParagraphInline(admin.TabularInline):
 @admin.register(Institutional)
 class InstitutionalAdmin(admin.ModelAdmin):
     list_display = ('title', 'type')
-    inlines = [ ParagraphInline, ]
+    #inlines = [ ParagraphInline, ]

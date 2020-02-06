@@ -23,11 +23,9 @@
       <li>Sede: {{ society.location.address }}</li>
       <li>Indirizzo Email: {{ society.location.email }}</li>
     </ul>
-    {% if paragraphs %}{% for paragraph in paragraphs %}
-      <h4 id="paragraph-{{ paragraph.number }}">{{ paragraph.title }}</h4>
-      {{ paragraph.body|safe }}
-      <a href="#sommario">Torna al sommario</a>
-    {% endfor %}{% endif %}
+    <div>
+      {{ page.stream.render }}
+    </div>
   </div>
 </div>
 {% endblock content %}
