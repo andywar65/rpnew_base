@@ -96,7 +96,7 @@
         <h4 class="card-title">{{ post.title }}</h4></a>
     </div>
     <a href="/articoli/{{ post.slug }}">
-      <img class="card-img-top" src="{{ post.image.image.url }}" alt="{{ post.image.image.description }}">
+      <img class="card-img-top" src="{{ post.fb_image.url }}" alt="{{ post.intro }}">
     </a>
     <div class="card-body">
       <em class="card-text">{{ post.intro }}</em>

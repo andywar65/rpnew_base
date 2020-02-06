@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.html import format_html
 from django.utils.text import slugify
+from filebrowser.fields import FileBrowseField
 from taggit.managers import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
 from .choices import *
@@ -244,8 +245,8 @@ class EventUpgrade(models.Model):
         ordering = ('-date', )
 
 class Blog(models.Model):
-    image = models.ForeignKey(ImageEntry, on_delete=models.SET_NULL,
-        blank= True, null=True, verbose_name = 'Immagine')
+    fb_image = FileBrowseField("Immagine", max_length=200, directory="blog/",
+        extensions=[".jpg", ".png"], null=True, blank=True)
     title = models.CharField('Titolo',
         help_text="Il titolo dell'articolo",
         max_length = 50)
@@ -260,9 +261,6 @@ class Blog(models.Model):
     tags = TaggableManager(verbose_name="Categorie",
         help_text="Lista di categorie separate da virgole",
         through=None, blank=True)
-
-    def get_uploads(self):
-        return UserUpload.objects.filter(post_id=self.id)
 
     def get_path(self):
         return '/articoli/' + self.slug

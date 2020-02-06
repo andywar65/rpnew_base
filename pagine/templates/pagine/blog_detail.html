@@ -3,9 +3,9 @@
 {% block title %}RP | {{ post.title }}{% endblock title %}
 
 {% block content %}
-      {% if post.image %}
+      {% if post.fb_image %}
         <div class="row">
-          <img src="{{ post.image.image.url }}" width="100%" alt="{{ post.image.image.description }}" />
+          <img src="{{ post.fb_image.url }}" width="100%" alt="{{ post.intro }}" />
         </div>
       {% endif %}
       <div class="row row-striped">

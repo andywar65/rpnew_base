@@ -65,4 +65,4 @@ class BlogAdmin(admin.ModelAdmin):
     search_fields = ('title', 'date', 'intro', )
     inlines = [ UserUploadInline,  ]
     form = BlogForm
-    autocomplete_fields = ['image', ]
+    #autocomplete_fields = ['image', ]
