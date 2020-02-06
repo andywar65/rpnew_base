@@ -124,21 +124,3 @@ class Institutional(models.Model):
     class Meta:
         verbose_name = 'Pagina istituzionale'
         verbose_name_plural = 'Pagine istituzionali'
-
-class Paragraph(models.Model):
-    institutional = models.ForeignKey(Institutional, on_delete = models.CASCADE,
-        related_name = 'institutional_paragraph',)
-    number = models.IntegerField('Numero',
-        help_text = "Numero d'ordine, per ora da inserire manualmente")
-    title = models.CharField('Titolo', max_length = 50, null=True,
-        help_text = 'Paragrafo (corpo H4) inserito nel sommario')
-    body = RichTextUploadingField('Testo', blank= True, null=True,
-        help_text = "Scrivi qualcosa.", )
-
-    def __str__(self):
-        return 'Paragrafo-' + str(self.number)
-
-    class Meta:
-        verbose_name = 'Paragrafo'
-        verbose_name_plural = 'Paragrafi'
-        ordering = ('number', '-id')

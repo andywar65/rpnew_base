@@ -36,7 +36,6 @@
         <li>Codice Fiscale: {{ society.fiscal_code }}</li>
         <li>Codice IBAN: {{ society.iban }}</li>
       </ul>
-      <a href="#sommario">Torna al sommario</a>
     <h4 id="dirigenti">Dirigenti</h4>
       <ul>
         <li>{{ society.president.get_full_name_reverse }} (Presidente)</li>
@@ -44,7 +43,6 @@
         <li>{{ member.get_full_name_reverse }}</li>
         {% endfor %}
       </ul>
-      <a href="#sommario">Torna al sommario</a>
     <h4 id="istruttori">Istruttori</h4>
       <ul>
         {% for member in society.trainers.all %}

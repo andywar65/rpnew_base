@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.generic import (ListView, DetailView, TemplateView)
-from .models import (Convention, ConventionUpload, Institutional, Society,
-    Paragraph)
+from .models import (Convention, ConventionUpload, Institutional, Society, )
 
 class ConventionListView(ListView):
     model = Convention
@@ -24,9 +23,7 @@ class ConventionDetailView(DetailView):
 
 def get_page(context, type):
     page = get_object_or_404(Institutional, type=type)
-    paragraphs = Paragraph.objects.filter(institutional_id=page.id)
     context['page'] = page
-    context['paragraphs'] = paragraphs
     return context
 
 def get_society(context):
