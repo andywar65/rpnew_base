@@ -16,11 +16,9 @@
         <li><a href="#paragraph-{{ paragraph.number }}">{{ paragraph.title }}</a></li>
       {% endfor %}{% endif %}
     </ul>
-    {% if paragraphs %}{% for paragraph in paragraphs %}
-      <h4 id="paragraph-{{ paragraph.number }}">{{ paragraph.title }}</h4>
-      {{ paragraph.body|safe }}
-      <a href="#sommario">Torna al sommario</a>
-    {% endfor %}{% endif %}
+    <div>
+      {{ page.stream.render }}
+    </div>
   </div>
 </div>
 {% endblock content %}
