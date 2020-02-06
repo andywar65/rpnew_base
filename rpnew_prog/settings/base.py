@@ -25,7 +25,7 @@ APPLICATION_DIR = os.path.dirname(BASE_DIR)
 # Application definition
 
 INSTALLED_APPS = [
-    #'grappelli',
+    'filebrowser',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

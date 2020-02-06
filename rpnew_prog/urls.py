@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import RedirectView
+from filebrowser.sites import site
 from users import views as user_views
 from pagine.views import HomeTemplateView
 from direzione.views import (PrivacyTemplateView, MembershipTemplateView,
@@ -28,6 +29,7 @@ admin.site.site_header = 'Amministrazione RP'
 admin.site.site_title = 'Amministrazione RP'
 
 urlpatterns = [
+    path('admin/filebrowser/', site.urls),
     path('admin/', admin.site.urls),
     path('registration/', user_views.RegistrationFormView.as_view(),
         name='registration'),
