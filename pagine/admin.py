@@ -8,7 +8,7 @@ from rpnew_prog.utils import send_rp_mail
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ('title', 'address', 'get_thumb', 'get_gmap_link')
+    list_display = ('title', 'address', 'get_gmap_link')
     readonly_fields = ('slug', )
     search_fields = ('title', 'address')
 

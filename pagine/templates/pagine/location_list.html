@@ -12,7 +12,7 @@
         <a href="/luoghi/{{ location.slug }}">
           {{ location.title }}</a></h4>
       </div>
-      <img class="card-img-top" src="{{ location.image.image.url }}" alt="{{ location.image.image.description }}">
+      <img class="card-img-top" src="{{ location.fb_image.url }}" alt="{{ location.address }}">
       <div class="card-body">
         <p><em class="card-text">{{ location.address }}</em></p>
         {% if location.gmap_link %}

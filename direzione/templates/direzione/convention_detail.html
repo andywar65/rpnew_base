@@ -38,8 +38,8 @@
   {% endif %}
   </div>
   <div class="col-md-6">
-    {% if conv.location.image %}
-    <img src="{{ conv.location.image.image.url }}" width="100%" alt="{{ conv.location.image.description }}" />
+    {% if conv.location.fb_image %}
+    <img src="{{ conv.location.fb_image.url }}" width="100%" alt="{{ conv.location.address }}" />
     {% endif %}
   </div>
 </div>

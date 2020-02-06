@@ -85,8 +85,9 @@ class ImageEntry(models.Model):
         verbose_name_plural = 'Immagini'
 
 class Location(models.Model):
-    image = models.ForeignKey(ImageEntry, on_delete=models.SET_NULL,
-        blank= True, null=True, verbose_name = 'Immagine')
+    fb_image = FileBrowseField("Immagine", max_length=200,
+        directory="locations/", extensions=[".jpg", ".png"], null=True,
+        blank=True)
     title = models.CharField('Titolo',
         help_text='Il nome del luogo',
         max_length = 50)
@@ -129,15 +130,6 @@ class Location(models.Model):
             link = '-'
         return link
     get_gmap_link.short_description = 'Link di Google Maps'
-
-    def get_thumb(self):
-        if self.image:
-            thumb = format_html('<img src="{}" alt="{}" />', self.image.thumb,
-                self.image.description)
-        else:
-            thumb = ''
-        return thumb
-    get_thumb.short_description = 'Immagine'
 
     def __str__(self):
         return self.title
@@ -190,8 +182,8 @@ class Event(models.Model):
     def get_image(self):
         if self.fb_image:
             return self.fb_image
-        elif self.location.image:
-            return self.location.image
+        elif self.location.fb_image:
+            return self.location.fb_image
         return
 
     def get_tags(self):
