@@ -45,7 +45,7 @@
       <a href="/calendario/{{ event.date|date:"Y/m" }}/"><h4>{{ event.date|date:"M-Y" }}</h4></a>
     </div>
     <a href="/calendario/{{ event.date|date:"Y/m/d" }}/{{ event.slug }}">
-      <img class="card-img-top" src="{{ event.get_image.image.url }}" alt="{{ event.get_image.image.description }}">
+      <img class="card-img-top" src="{{ event.get_image.url }}" alt="{{ event.intro }}">
     </a>
     <div class="card-body">
       <a href="/calendario/{{ event.date|date:"Y/m/d" }}/{{ event.slug }}">

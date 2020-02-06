@@ -36,7 +36,7 @@ class EventAdmin(admin.ModelAdmin):
     search_fields = ('title', 'date', 'intro', )
     form = EventForm
     actions = ['send_notice', ]
-    autocomplete_fields = ['image', 'location', ]
+    autocomplete_fields = ['location', ]
 
     def send_notice(self, request, queryset):
         for event in queryset:

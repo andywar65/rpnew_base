@@ -4,7 +4,7 @@
 {% block content %}
       {% if event.get_image %}
         <div class="row">
-          <img src="{{ event.get_image.image.url }}" width="100%" alt="{{ event.get_image.image.description }}" />
+          <img src="{{ event.get_image.url }}" width="100%" alt="{{ event.intro }}" />
         </div>
       {% endif %}
       <div class="row row-striped">

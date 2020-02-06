@@ -149,8 +149,8 @@ class Location(models.Model):
 
 
 class Event(models.Model):
-    image = models.ForeignKey(ImageEntry, on_delete=models.SET_NULL,
-        blank= True, null=True, verbose_name = 'Immagine')
+    fb_image = FileBrowseField("Immagine", max_length=200, directory="events/",
+        extensions=[".jpg", ".png"], null=True, blank=True)
     title = models.CharField('Titolo',
         help_text="Il titolo dell'evento",
         max_length = 50)
@@ -188,8 +188,8 @@ class Event(models.Model):
             return 'warning'
 
     def get_image(self):
-        if self.image:
-            return self.image
+        if self.fb_image:
+            return self.fb_image
         elif self.location.image:
             return self.location.image
         return
@@ -245,7 +245,7 @@ class EventUpgrade(models.Model):
         ordering = ('-date', )
 
 class Blog(models.Model):
-    fb_image = FileBrowseField("Immagine", max_length=200, directory="blog/",
+    fb_image = FileBrowseField("Immagine", max_length=200, directory="blogs/",
         extensions=[".jpg", ".png"], null=True, blank=True)
     title = models.CharField('Titolo',
         help_text="Il titolo dell'articolo",
