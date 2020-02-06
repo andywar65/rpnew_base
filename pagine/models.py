@@ -39,51 +39,6 @@ def generate_unique_slug(klass, field):
         numb += 1
     return unique_slug
 
-class ImageEntry(models.Model):
-    name = models.CharField('Nome', editable=False, blank=True, null=True,
-        max_length = 50,)
-    date = models.DateTimeField(blank=True, null=True, editable=False)
-    image = models.ImageField(upload_to = date_directory_path,)
-    thumb = models.CharField(editable=False, blank=True, null=True,
-        max_length = 200,)
-    description = models.CharField('Descrizione', max_length = 200,
-        blank=True, null=True,)
-
-    def __str__(self):
-        if self.description:
-            return self.name + '-' + self.description
-        return self.name
-
-    def get_thumb(self):
-        thumb = format_html('<img src="{}" alt="{}" />', self.thumb,
-            self.description)
-        return thumb
-    get_thumb.short_description = 'Anteprima'
-
-    def save(self, *args, **kwargs):
-        if not self.date:
-            self.date = datetime.now()
-            super(ImageEntry, self).save(*args, **kwargs)
-        if not self.name:
-            self.name = 'IMG-' + self.date.strftime("%Y%m%d") + '-' + str(self.pk)
-        url_extension = os.path.splitext(self.image.url)
-        thumb_name = url_extension[0] + "_thumb" + url_extension[1]
-        if not self.thumb == thumb_name:
-            try:
-                root_extension = os.path.splitext(self.image.path)
-                size = (128, 128)
-                img = Image.open(root_extension[0] + root_extension[1])
-                img.thumbnail(size)
-                img.save(root_extension[0] + "_thumb" + root_extension[1])
-                self.thumb = thumb_name
-            except:
-                pass
-        super(ImageEntry, self).save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = 'Immagine'
-        verbose_name_plural = 'Immagini'
-
 class Location(models.Model):
     fb_image = FileBrowseField("Immagine", max_length=200,
         directory="locations/", extensions=[".jpg", ".png"], null=True,

@@ -1,15 +1,11 @@
 from datetime import datetime
 from django.test import TestCase
-from .models import (Location, ImageEntry)
+from .models import (Location, )
 
 class LocationTestCase(TestCase):
     #@classmethod
     #def setUpTestData(cls):
     def setUp(self):
-        # Set up data for the whole TestCase
-        #cls.img = ImageEntry.objects.create(name='IMG', image='image.jpg',
-            #thumb='image_thumb.jpg',
-            #description = 'Description')
         Location.objects.create(title="Marco",
             #image = cls.img,
             address="Via Agnelli",

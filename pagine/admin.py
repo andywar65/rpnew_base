@@ -1,8 +1,7 @@
 from django.contrib import admin
 from django.conf import settings
 from users.models import Member
-from .models import ( Location, ImageEntry, Event,
-    EventUpgrade, UserUpload, Blog)
+from .models import ( Location, Event, EventUpgrade, UserUpload, Blog)
 from .forms import EventForm, BlogForm
 from rpnew_prog.utils import send_rp_mail
 
@@ -11,13 +10,6 @@ class LocationAdmin(admin.ModelAdmin):
     list_display = ('title', 'address', 'get_gmap_link')
     readonly_fields = ('slug', )
     search_fields = ('title', 'address')
-
-@admin.register(ImageEntry)
-class ImageEntryAdmin(admin.ModelAdmin):
-    list_display = ('get_thumb', 'name', 'description', )
-    list_filter = ('date', )
-    ordering = ('-date', )
-    search_fields = ('description', 'name', )
 
 class EventUpgradeInline(admin.TabularInline):
     model = EventUpgrade
