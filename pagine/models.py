@@ -182,7 +182,7 @@ class EventUpgrade(models.Model):
         max_length = 50)
     date = models.DateTimeField('Data', default = now)
     body = models.TextField('Aggiornamento',
-        help_text = "Scrivi qualcosa.", )
+        help_text = "Accetta tag HTML.", )
 
     def __str__(self):
         return self.title

@@ -67,7 +67,7 @@
           </div>
           <div class="row">
           {% if event.chron_stream.render %}
-            {{ event.chron_stream.render|safe }}
+            {{ event.chron_stream.render }}
           {% else %}
           <p>Ci stiamo lavorando! intanto aggiungete qualche contributo.</p>
           {% endif %}
@@ -79,7 +79,7 @@
               <h4><strong>Area riservata</strong></h4>
             </div>
             <div class="row">
-              {{ event.restr_stream.render|safe }}
+              {{ event.restr_stream.render }}
             </div>
             <hr class="mb-4">
             {% endif %}
@@ -123,7 +123,7 @@
             <h4><strong>Articolo originale</strong></h4></div>
           {% endif %}
           <div class="row">
-            {{ event.stream.render|safe }}
+            {{ event.stream.render }}
           </div>
         {% endif %}
         </div>
