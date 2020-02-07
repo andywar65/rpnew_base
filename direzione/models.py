@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.text import slugify
 from streamfield.fields import StreamField
 from streamblocks.models import (IndexedParagraph, CaptionedImage,
-    DownloadableFile)
+    DownloadableFile, LinkableList)
 from users.models import Member
 from pagine.models import Location
 from .choices import *
@@ -96,7 +96,8 @@ class Institutional(models.Model):
     title = models.CharField('Titolo', max_length = 50)
     intro = models.TextField('Introduzione',
         blank= True, null=True, max_length = 200)
-    stream = StreamField( model_list=[ IndexedParagraph, CaptionedImage, ],
+    stream = StreamField( model_list=[ IndexedParagraph, CaptionedImage,
+        DownloadableFile, LinkableList, ],
         verbose_name="Testo" )
 
     def get_paragraphs(self):

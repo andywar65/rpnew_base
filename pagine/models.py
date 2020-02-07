@@ -10,7 +10,7 @@ from filebrowser.fields import FileBrowseField
 from taggit.managers import TaggableManager
 from streamfield.fields import StreamField
 from streamblocks.models import (IndexedParagraph, CaptionedImage,
-    DownloadableFile)
+    DownloadableFile, LinkableList)
 from .choices import *
 from users.models import User, Member
 
@@ -110,13 +110,13 @@ class Event(models.Model):
     intro = models.CharField('Introduzione',
         default = 'Un altro appuntamento con RP!', max_length = 100)
     stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
-        DownloadableFile],
+        DownloadableFile, LinkableList],
         verbose_name="Lancio")
     chron_stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
-        DownloadableFile],
+        DownloadableFile, LinkableList],
         verbose_name="Cronaca")
     restr_stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
-        DownloadableFile],
+        DownloadableFile, LinkableList],
         verbose_name="Area riservata",
         help_text="Inserisci qui materiale riservato ai soci",)
     manager = models.ForeignKey(User, on_delete=models.SET_NULL,
@@ -207,7 +207,7 @@ class Blog(models.Model):
     intro = models.CharField('Introduzione',
         default = 'Un altro articolo di approfondimento da RP!', max_length = 100)
     stream = StreamField( model_list=[ IndexedParagraph, CaptionedImage,
-            DownloadableFile,], verbose_name="Testo" )
+            DownloadableFile, LinkableList], verbose_name="Testo" )
     author = models.ForeignKey(User, on_delete=models.SET_NULL,
         blank= True, null=True, verbose_name = 'Autore')
     tags = TaggableManager(verbose_name="Categorie",
