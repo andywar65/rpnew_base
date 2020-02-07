@@ -1,8 +1,8 @@
+import json
 from django.db import models
 from django.utils.text import slugify
 from streamfield.fields import StreamField
 from streamblocks.models import IndexedParagraph, CaptionedImage
-from ckeditor_uploader.fields import RichTextUploadingField
 from users.models import Member
 from pagine.models import Location
 from .choices import *
@@ -117,6 +117,14 @@ class Institutional(models.Model):
         ],
         verbose_name="Blocchi"
         )
+
+    def get_paragraphs(self):
+        paragraphs = []
+        for block in self.stream.from_json():
+            if block['model_name'] == 'IndexedParagraph':
+                par = IndexedParagraph.objects.get(id=block['id'])
+                paragraphs.append( (par.get_slug, par.title) )
+        return paragraphs
 
     def __str__(self):
         return self.title

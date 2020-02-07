@@ -13,9 +13,9 @@
     <h4>Sommario</h4>
     <ul>
       <li><a href="#dati-generali">Dati generali</a></li>
-      {% if paragraphs %}{% for paragraph in paragraphs %}
-        <li><a href="#paragraph-{{ paragraph.number }}">{{ paragraph.title }}</a></li>
-      {% endfor %}{% endif %}
+      {% with paragraphs=page.get_paragraphs %}{% for paragraph in paragraphs %}
+        <li><a href="#{{ paragraph.0 }}">{{ paragraph.1 }}</a></li>
+      {% endfor %}{% endwith %}
     </ul>
     <h4 id="dati-generali">Dati generali</h4>
     <ul>
