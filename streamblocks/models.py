@@ -4,9 +4,11 @@ from filebrowser.fields import FileBrowseField
 from .choices import *
 
 class IndexedParagraph(models.Model):
-    height = models.CharField(max_length=1, choices = HEIGHT, default='4')
-    title = models.CharField(max_length = 100, blank=True, null=True)
-    body = models.TextField(blank=True, null=True)
+    height = models.CharField('Altezza titolo', max_length=1, choices = HEIGHT,
+        default='4')
+    title = models.CharField('Titolo', max_length = 100, blank=True, null=True)
+    body = models.TextField('Testo', blank=True, null=True,
+        help_text="Accetta tag HTML")
 
     def get_slug(self):
         return slugify( self.title )
@@ -18,7 +20,8 @@ class IndexedParagraph(models.Model):
 class CaptionedImage(models.Model):
     fb_image = FileBrowseField("Immagine", max_length=200,
         extensions=[".jpg", ".png"], null=True, blank=True)
-    caption = models.CharField(max_length = 200, blank=True, null=True)
+    caption = models.CharField("Didascalia", max_length = 200, blank=True,
+        null=True)
 
     class Meta:
         verbose_name="Immagine con didascalia"

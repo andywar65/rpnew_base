@@ -1,2 +1,7 @@
-<h{{ block_content.height }} id="{{ block_content.get_slug }}">{{ block_content.title }}</h{{ block_content.height }}>
-<p> {{ block_content.body|safe }} </p>
+{% if block_content.title %}
+  <h{{ block_content.height }} id="{{ block_content.get_slug }}">{{ block_content.title }}
+  </h{{ block_content.height }}>
+{% endif %}
+{% if block_content.body %}
+  <p> {{ block_content.body|safe }} </p>
+{% endif %}
