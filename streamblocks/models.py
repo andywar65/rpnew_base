@@ -20,7 +20,8 @@ class IndexedParagraph(models.Model):
 
 class CaptionedImage(models.Model):
     fb_image = FileBrowseField("Immagine", max_length=200,
-        extensions=[".jpg", ".png"], null=True)
+        extensions=[".jpg", ".png", ".jpeg", ".gif", ".tif", ".tiff"],
+        null=True)
     caption = models.CharField("Didascalia", max_length = 200, blank=True,
         null=True)
 
@@ -66,10 +67,21 @@ class LinkableList(models.Model):
         verbose_name="Lista con link"
         verbose_name_plural="Liste con link"
 
+class BoxedText(models.Model):
+    color = models.CharField('Colore', max_length=10, choices = COLOR,
+        default='success')
+    body = models.TextField('Testo', null=True,
+        help_text="Accetta tag HTML")
+
+    class Meta:
+        verbose_name="Testo in un box"
+        verbose_name_plural="Testi in un box"
+
 # Register blocks for StreamField as list of models
 STREAMBLOCKS_MODELS = [
     IndexedParagraph,
     CaptionedImage,
     DownloadableFile,
     LinkableList,
+    BoxedText,
 ]

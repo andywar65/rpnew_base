@@ -10,7 +10,7 @@ from filebrowser.fields import FileBrowseField
 from taggit.managers import TaggableManager
 from streamfield.fields import StreamField
 from streamblocks.models import (IndexedParagraph, CaptionedImage,
-    DownloadableFile, LinkableList)
+    DownloadableFile, LinkableList, BoxedText)
 from .choices import *
 from users.models import User, Member
 
@@ -43,8 +43,8 @@ def generate_unique_slug(klass, field):
 
 class Location(models.Model):
     fb_image = FileBrowseField("Immagine", max_length=200,
-        directory="locations/", extensions=[".jpg", ".png"], null=True,
-        blank=True)
+        directory="locations/", extensions=[".jpg", ".png", ".jpeg", ".gif",
+        ".tif", ".tiff"], null=True, blank=True)
     title = models.CharField('Titolo',
         help_text='Il nome del luogo',
         max_length = 50)
@@ -99,7 +99,8 @@ class Location(models.Model):
 
 class Event(models.Model):
     fb_image = FileBrowseField("Immagine", max_length=200, directory="events/",
-        extensions=[".jpg", ".png"], null=True, blank=True)
+        extensions=[".jpg", ".png", ".jpeg", ".gif", ".tif", ".tiff"],
+        null=True, blank=True)
     title = models.CharField('Titolo',
         help_text="Il titolo dell'evento",
         max_length = 50)
@@ -110,13 +111,13 @@ class Event(models.Model):
     intro = models.CharField('Introduzione',
         default = 'Un altro appuntamento con RP!', max_length = 100)
     stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
-        DownloadableFile, LinkableList],
+        DownloadableFile, LinkableList, BoxedText],
         verbose_name="Lancio")
     chron_stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
-        DownloadableFile, LinkableList],
+        DownloadableFile, LinkableList, BoxedText],
         verbose_name="Cronaca")
     restr_stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
-        DownloadableFile, LinkableList],
+        DownloadableFile, LinkableList, BoxedText],
         verbose_name="Area riservata",
         help_text="Inserisci qui materiale riservato ai soci",)
     manager = models.ForeignKey(User, on_delete=models.SET_NULL,
@@ -198,7 +199,8 @@ class EventUpgrade(models.Model):
 
 class Blog(models.Model):
     fb_image = FileBrowseField("Immagine", max_length=200, directory="blogs/",
-        extensions=[".jpg", ".png"], null=True, blank=True)
+        extensions=[".jpg", ".png", ".jpeg", ".gif", ".tif", ".tiff"],
+        null=True, blank=True)
     title = models.CharField('Titolo',
         help_text="Il titolo dell'articolo",
         max_length = 50)
@@ -207,7 +209,7 @@ class Blog(models.Model):
     intro = models.CharField('Introduzione',
         default = 'Un altro articolo di approfondimento da RP!', max_length = 100)
     stream = StreamField( model_list=[ IndexedParagraph, CaptionedImage,
-            DownloadableFile, LinkableList], verbose_name="Testo" )
+            DownloadableFile, LinkableList, BoxedText], verbose_name="Testo" )
     author = models.ForeignKey(User, on_delete=models.SET_NULL,
         blank= True, null=True, verbose_name = 'Autore')
     tags = TaggableManager(verbose_name="Categorie",
