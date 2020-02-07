@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.generic import (ListView, DetailView, TemplateView)
-from .models import (Convention, ConventionUpload, Institutional, Society, )
+from .models import (Convention, Institutional, Society, )
 
 class ConventionListView(ListView):
     model = Convention
@@ -13,13 +13,6 @@ class ConventionDetailView(DetailView):
     model = Convention
     context_object_name = 'conv'
     slug_field = 'slug'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        conv = context['object']
-        uploads = ConventionUpload.objects.filter(convention_id=conv.id)
-        context['uploads'] = uploads
-        return context
 
 def get_page(context, type):
     page = get_object_or_404(Institutional, type=type)

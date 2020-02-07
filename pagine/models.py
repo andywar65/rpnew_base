@@ -206,13 +206,8 @@ class Blog(models.Model):
     date = models.DateTimeField('Data', default = now)
     intro = models.CharField('Introduzione',
         default = 'Un altro articolo di approfondimento da RP!', max_length = 100)
-    stream = StreamField(
-        model_list=[
-            IndexedParagraph,
-            CaptionedImage,
-        ],
-        verbose_name="Blocchi"
-        )
+    stream = StreamField( model_list=[ IndexedParagraph, CaptionedImage,
+            DownloadableFile,], verbose_name="Testo" )
     author = models.ForeignKey(User, on_delete=models.SET_NULL,
         blank= True, null=True, verbose_name = 'Autore')
     tags = TaggableManager(verbose_name="Categorie",

@@ -2,7 +2,8 @@ import json
 from django.db import models
 from django.utils.text import slugify
 from streamfield.fields import StreamField
-from streamblocks.models import IndexedParagraph, CaptionedImage
+from streamblocks.models import (IndexedParagraph, CaptionedImage,
+    DownloadableFile)
 from users.models import Member
 from pagine.models import Location
 from .choices import *
@@ -37,6 +38,8 @@ class Convention(models.Model):
         help_text="Inserire indirizzo e contatti" )
     description = models.TextField('Descrizione', blank= True, null=True,
         max_length = 500)
+    file_stream = StreamField( model_list=[
+            DownloadableFile,], verbose_name="File" )
 
     def get_location(self):
         return self.location
@@ -56,23 +59,6 @@ class Convention(models.Model):
     class Meta:
         verbose_name = 'Convenzione'
         verbose_name_plural = 'Convenzioni'
-
-class ConventionUpload(models.Model):
-    convention = models.ForeignKey(Convention, on_delete=models.CASCADE,
-        related_name = 'convention_upload' )
-    title = models.CharField('Nome', help_text="Il nome file",
-        max_length = 50)
-    upload = models.FileField('File',
-        upload_to = user_directory_path,
-        help_text="File da caricare",
-        )
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = 'File'
-        verbose_name_plural = 'Files'
 
 class Society(models.Model):
     title = models.CharField('Nome', help_text="Il nome della società",

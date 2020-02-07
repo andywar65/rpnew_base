@@ -20,7 +20,7 @@ class IndexedParagraph(models.Model):
 
 class CaptionedImage(models.Model):
     fb_image = FileBrowseField("Immagine", max_length=200,
-        extensions=[".jpg", ".png"], )
+        extensions=[".jpg", ".png"], null=True)
     caption = models.CharField("Didascalia", max_length = 200, blank=True,
         null=True)
 
@@ -30,9 +30,10 @@ class CaptionedImage(models.Model):
 
 class DownloadableFile(models.Model):
     fb_file = FileBrowseField("File", max_length=200, directory="documents/",
-        extensions=[".pdf", ".doc", ".rtf", ".txt", ".xls", ".csv", ".docx"], )
+        extensions=[".pdf", ".doc", ".rtf", ".txt", ".xls", ".csv", ".docx"],
+        null=True )
     description = models.CharField("Descrizione", max_length = 200, blank=True,
-        null=True)
+        null=True )
 
     def get_description(self):
         if self.description:

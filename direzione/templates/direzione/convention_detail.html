@@ -16,15 +16,9 @@
 <p><i class="fa fa-envelope-o" aria-hidden="true"></i>
   Mail: <a href="mailto:{{ conv.location.email }}">{{ conv.location.email }}</a>
 </p>{% endif %}
-{% if uploads %}
+{% if conv.file_stream.render %}
 <h4>File caricati</h4>
-<ul>
-  {% for upload in uploads %}
-  <li>
-    <a href="{{ upload.upload.url }}" target="_blank">{{ upload.title }}</a>
-  </li>
-  {% endfor %}
-</ul>
+{{ conv.file_stream.render }}
 {% endif %}
 <hr class="mb-4">
 <div class="row">
