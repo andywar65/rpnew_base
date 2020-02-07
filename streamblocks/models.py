@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.text import slugify
 from filebrowser.fields import FileBrowseField
+from .choices import *
 
 class IndexedParagraph(models.Model):
+    height = models.CharField(max_length=1, choices = HEIGHT, default='4')
     title = models.CharField(max_length = 100, blank=True, null=True)
     body = models.TextField(blank=True, null=True)
 
