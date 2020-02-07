@@ -10,7 +10,6 @@ from filebrowser.fields import FileBrowseField
 from taggit.managers import TaggableManager
 from streamfield.fields import StreamField
 from streamblocks.models import IndexedParagraph, CaptionedImage
-from ckeditor_uploader.fields import RichTextUploadingField
 from .choices import *
 from users.models import User, Member
 

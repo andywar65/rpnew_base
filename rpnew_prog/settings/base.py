@@ -40,8 +40,6 @@ INSTALLED_APPS = [
     'streamblocks',
     'streamfield',
     'captcha',
-    'ckeditor',
-    'ckeditor_uploader',
     'taggit',
 ]
 
@@ -95,11 +93,6 @@ AUTH_PASSWORD_VALIDATORS = [
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
 ]
-
-CKEDITOR_UPLOAD_PATH = "uploads/"
-CKEDITOR_BROWSE_SHOW_DIRS = True
-CKEDITOR_RESTRICT_BY_DATE = True
-CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 TAGGIT_CASE_INSENSITIVE = True
 
