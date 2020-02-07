@@ -110,13 +110,8 @@ class Institutional(models.Model):
     title = models.CharField('Titolo', max_length = 50)
     intro = models.TextField('Introduzione',
         blank= True, null=True, max_length = 200)
-    stream = StreamField(
-        model_list=[
-            IndexedParagraph,
-            CaptionedImage,
-        ],
-        verbose_name="Blocchi"
-        )
+    stream = StreamField( model_list=[ IndexedParagraph, CaptionedImage, ],
+        verbose_name="Testo" )
 
     def get_paragraphs(self):
         paragraphs = []
