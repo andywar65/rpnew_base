@@ -66,16 +66,20 @@
             <h4><strong>Cronaca</strong></h4>
           </div>
           <div class="row">
-            {{ event.chronicle|safe }}
+          {% if event.chron_stream.render %}
+            {{ event.chron_stream.render|safe }}
+          {% else %}
+          <p>Ci stiamo lavorando! intanto aggiungete qualche contributo.</p>
+          {% endif %}
           </div>
           <hr class="mb-4">
           {% if user.is_authenticated %}
-            {% if event.restricted %}
+            {% if event.restr_stream.render %}
             <div class="row">
               <h4><strong>Area riservata</strong></h4>
             </div>
             <div class="row">
-              {{ event.restricted|safe }}
+              {{ event.restr_stream.render|safe }}
             </div>
             <hr class="mb-4">
             {% endif %}
@@ -119,7 +123,7 @@
             <h4><strong>Articolo originale</strong></h4></div>
           {% endif %}
           <div class="row">
-            {{ event.body|safe }}
+            {{ event.stream.render|safe }}
           </div>
         {% endif %}
         </div>

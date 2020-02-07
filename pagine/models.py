@@ -109,12 +109,12 @@ class Event(models.Model):
         null = True, verbose_name = 'Dove', )
     intro = models.CharField('Introduzione',
         default = 'Un altro appuntamento con RP!', max_length = 100)
-    body = RichTextUploadingField('Lancio',
-        help_text = "Scrivi qualcosa.", )
-    chronicle = RichTextUploadingField('Cronaca',
-        default = "Al momento nessuna cronaca disponibile", )
-    restricted = RichTextUploadingField('Area riservata',
-        blank= True, null=True,
+    stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage, ],
+        verbose_name="Lancio")
+    chron_stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage, ],
+        verbose_name="Cronaca")
+    restr_stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage, ],
+        verbose_name="Area riservata",
         help_text="Inserisci qui materiale riservato ai soci",)
     manager = models.ForeignKey(User, on_delete=models.SET_NULL,
         blank= True, null=True, verbose_name = 'Responsabile')
