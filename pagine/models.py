@@ -8,6 +8,8 @@ from django.utils.html import format_html
 from django.utils.text import slugify
 from filebrowser.fields import FileBrowseField
 from taggit.managers import TaggableManager
+from streamfield.fields import StreamField
+from streamblocks.models import IndexedParagraph, CaptionedImage
 from ckeditor_uploader.fields import RichTextUploadingField
 from .choices import *
 from users.models import User, Member
@@ -201,8 +203,13 @@ class Blog(models.Model):
     date = models.DateTimeField('Data', default = now)
     intro = models.CharField('Introduzione',
         default = 'Un altro articolo di approfondimento da RP!', max_length = 100)
-    body = RichTextUploadingField('Testo',
-        help_text = "Scrivi qualcosa.", )
+    stream = StreamField(
+        model_list=[
+            IndexedParagraph,
+            CaptionedImage,
+        ],
+        verbose_name="Blocchi"
+        )
     author = models.ForeignKey(User, on_delete=models.SET_NULL,
         blank= True, null=True, verbose_name = 'Autore')
     tags = TaggableManager(verbose_name="Categorie",
