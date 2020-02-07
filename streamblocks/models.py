@@ -44,9 +44,32 @@ class DownloadableFile(models.Model):
         verbose_name="File scaricabile"
         verbose_name_plural="File scaricabili"
 
+class LinkableList(models.Model):
+    text = models.CharField("Elemento", max_length = 200, null=True )
+    link = models.URLField("Link", max_length = 200, null=True, blank=True )
+
+    as_list = True
+
+    options = {
+        'ol_ul': {
+            'label': 'Tipo',
+            'type': 'select',
+            'default': 'ul',
+            'options': [
+                {'value': 'ul', 'name': 'Lista non ordinata'},
+                {'value': 'ol', 'name': 'Lista ordinata'},
+            ]
+        }
+    }
+
+    class Meta:
+        verbose_name="Lista con link"
+        verbose_name_plural="Liste con link"
+
 # Register blocks for StreamField as list of models
 STREAMBLOCKS_MODELS = [
     IndexedParagraph,
     CaptionedImage,
     DownloadableFile,
+    LinkableList,
 ]
