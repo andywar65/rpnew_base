@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage
 from .choices import *
 
 def user_directory_path(instance, filename):
-    return 'user_uploads/{0}/{1}'.format(instance.user.username, filename)
+    return 'uploads/users/{0}/{1}'.format(instance.user.username, filename)
 
 class User(AbstractUser):
 
