@@ -8,9 +8,6 @@ from users.models import Member
 from pagine.models import Location
 from .choices import *
 
-def user_directory_path(instance, filename):
-    return 'conventions/{0}'.format(filename)
-
 def generate_unique_slug(klass, field):
     """
     return unique slug if origin slug exists.
