@@ -22,7 +22,7 @@ from filebrowser.sites import site
 from users import views as user_views
 from pagine.views import HomeTemplateView
 from direzione.views import (PrivacyTemplateView, MembershipTemplateView,
-    AboutTemplateView)
+    AboutTemplateView, InstructionsTemplateView, )#
 from . import views
 
 admin.site.site_header = 'Amministrazione RP'
@@ -38,6 +38,7 @@ urlpatterns = [
     path('', HomeTemplateView.as_view()),
     path('privacy/', PrivacyTemplateView.as_view(), name='privacy'),
     path('iscrizioni/', MembershipTemplateView.as_view(), name='membership'),
+    path('istruzioni/', InstructionsTemplateView.as_view(), name='instructions'),
     path('convenzioni/', include('direzione.urls.conventions',
         namespace = 'conventions')),
     path('storia/', AboutTemplateView.as_view(), name='about'),

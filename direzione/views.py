@@ -51,3 +51,11 @@ class AboutTemplateView(TemplateView):
         context = get_page(context, '2-ST')
         context = get_society(context)
         return context
+
+class InstructionsTemplateView(TemplateView):
+    template_name = 'direzione/instructions.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context = get_page(context, '4-IN')
+        return context
