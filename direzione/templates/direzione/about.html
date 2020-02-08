@@ -12,9 +12,9 @@
     <p id="sommario"><em>{{ page.intro }}</em></p>
     <h4>Sommario</h4>
     <ul>
-      {% if paragraphs %}{% for paragraph in paragraphs %}
-        <li><a href="#paragraph-{{ paragraph.number }}">{{ paragraph.title }}</a></li>
-      {% endfor %}{% endif %}
+      {% with paragraphs=page.get_paragraphs %}{% for paragraph in paragraphs %}
+        <li><a href="#{{ paragraph.0 }}">{{ paragraph.1 }}</a></li>
+      {% endfor %}{% endwith %}
       {% if society %}
       <li><a href="#dati-societari">Dati societari</a></li>
       <li><a href="#dirigenti">Dirigenti</a></li>
