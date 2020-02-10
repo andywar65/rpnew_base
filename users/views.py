@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django.contrib.auth.views import LoginView
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
-    ContactLogForm)
+    ContactLogForm, FrontAuthenticationForm)
 from .models import User
 
 class GetMixin:
@@ -61,3 +62,7 @@ class ContactFormView(GetMixin, FormView):
                     pass
         message.save()
         return super(ContactFormView, self).form_valid(form)
+
+class FrontLoginView(LoginView):
+    template_name = 'users/front_login.html'
+    form_class = FrontAuthenticationForm

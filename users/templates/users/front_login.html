@@ -1,0 +1,30 @@
+{% extends 'contact.html' %}
+
+{% block title %}RP | Login{%endblock title %}
+
+{% block contact_msg %}
+<h4><strong>Login</strong></h4>
+  <form action="" method="post" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="username">Nome utente</label>
+                {{ form.username }}
+                <div class="invalid-feedback">
+                  {{ form.username.errors }}
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="last-name">Password</label>
+                {{ form.password }}
+                <div class="invalid-feedback">
+                  {{ form.password.errors }}
+                </div>
+              </div>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
+            <hr class="mb-4">
+            <a href="/password/reset">Dimenticato la password?</a>
+    {% csrf_token %}
+  </form>
+{% endblock contact_msg %}

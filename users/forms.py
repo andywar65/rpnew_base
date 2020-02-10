@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from django.forms import ModelForm
 from captcha.fields import ReCaptchaField
 from .models import User, Member, Applicant, UserMessage
@@ -97,7 +98,7 @@ class ChangeMember3Form(ModelForm):
             'email', 'no_spam', 'address', 'phone', 'fiscal_code', 'email_2')
 
 class RegistrationForm(ModelForm):
-    
+
     captcha = ReCaptchaField()
 
     class Meta:
@@ -149,3 +150,12 @@ class ContactForm(ModelForm):
             'subject': forms.TextInput(attrs={'class': 'form-control'}),
             'body': forms.Textarea(attrs={'class': 'form-control',
                     'placeholder': "Scrivi qui il messaggio"}), }
+
+class FrontAuthenticationForm(AuthenticationForm):
+    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True,
+        'class': 'form-control'}))
+    password = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password',
+            'class': 'form-control'}),
+    )

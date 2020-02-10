@@ -31,6 +31,8 @@ admin.site.site_title = 'Amministrazione RP'
 urlpatterns = [
     path('admin/filebrowser/', site.urls),
     path('admin/', admin.site.urls),
+    path('login/', user_views.FrontLoginView.as_view(),
+        name='front_login'),
     path('registration/', user_views.RegistrationFormView.as_view(),
         name='registration'),
     path('search/', views.search_results, name='search_results'),
