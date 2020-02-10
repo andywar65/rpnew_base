@@ -126,25 +126,26 @@ class RegistrationLogForm(ModelForm):
         fields = ('first_name', 'last_name', )
 
 class ContactLogForm(ModelForm):
-    #subject = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
-    #body = forms.CharField(widget=forms.Textarea(attrs={'class': "form-control",
-        #'placeholder': ""}))
+
     class Meta:
         model = UserMessage
         fields = ('user', 'email', 'subject', 'body', 'attachment', 'recipient')
         widgets = {
             'subject': forms.TextInput(attrs={'class': 'form-control'}),
             'body': forms.Textarea(attrs={'class': 'form-control',
-                    'placeholder': "Scrivi qui il messaggio"}), }
+                'placeholder': "Scrivi qui il messaggio"}), }
 
 class ContactForm(ModelForm):
-    nickname = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'class': "form-control",
-        'placeholder': "you@example.com"}))
-    subject = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
-    body = forms.CharField(widget=forms.Textarea(attrs={'class': "form-control",
-        'placeholder': "Scrivi qui il messaggio"}))
+
     captcha = ReCaptchaField()
+    
     class Meta:
         model = UserMessage
         fields = ('nickname', 'email', 'subject', 'body')
+        widgets = {
+            'nickname': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control',
+                'placeholder': "you@example.com"}),
+            'subject': forms.TextInput(attrs={'class': 'form-control'}),
+            'body': forms.Textarea(attrs={'class': 'form-control',
+                    'placeholder': "Scrivi qui il messaggio"}), }
