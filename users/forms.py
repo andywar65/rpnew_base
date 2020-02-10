@@ -97,29 +97,24 @@ class ChangeMember3Form(ModelForm):
             'email', 'no_spam', 'address', 'phone', 'fiscal_code', 'email_2')
 
 class RegistrationForm(ModelForm):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': "form-control", 'placeholder': 'Nome del genitore', }))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': "form-control", 'placeholder': 'Cognome del genitore', }))
-    email = forms.EmailField(widget=forms.TextInput(attrs={
-        'class': "form-control",
-        'placeholder': "you@example.com"}))
-    sector = forms.ChoiceField(choices = SECTOR,
-        widget=forms.Select(attrs={'class': "form-control"}))
-    children_str = forms.CharField(required = False,
-        widget=forms.TextInput(attrs={'class': "form-control",
-        'placeholder': "Nome e cognome figlio 1, nome e cognome figlio 2, ..."}))
+    
     captcha = ReCaptchaField()
 
     class Meta:
         model = Applicant
         fields = ('first_name', 'last_name', 'email', 'sector', 'children_str')
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control',
+                'placeholder': "Nome del genitore"}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control',
+                'placeholder': "Cognome del genitore"}),
+            'email': forms.TextInput(attrs={'class': 'form-control',
+                'placeholder': "you@example.com"}),
+            'sector': forms.Select(attrs={'class': 'form-control',}),
+            'children_str': forms.TextInput(attrs={'class': 'form-control',
+                'placeholder': "Nome e cognome figlio 1, nome e cognome figlio 2, ..."}),}
 
 class RegistrationLogForm(ModelForm):
-    #first_name = forms.CharField(widget=forms.TextInput(attrs={
-        #'class': "form-control", 'placeholder': 'Nome del figlio', }))
-    #last_name = forms.CharField(widget=forms.TextInput(attrs={
-        #'class': "form-control", 'placeholder': 'Cognome del figlio', }))
 
     class Meta:
         model = Applicant
