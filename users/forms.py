@@ -159,3 +159,17 @@ class FrontAuthenticationForm(AuthenticationForm):
         widget=forms.PasswordInput(attrs={'autocomplete': 'current-password',
             'class': 'form-control'}),
     )
+
+    def clean(self):
+        cd = super().clean()
+        try:
+            username = cd.get('username')
+            user = User.objects.get(username = username)
+            if user.member.parent:
+                self.add_error(None, forms.ValidationError(
+                    """I minori non possono effettuare il login autonomamente!
+                    Il loro account è gestito dai genitori.""",
+                    code='minor_no_login',
+                ))
+        except:
+            pass
