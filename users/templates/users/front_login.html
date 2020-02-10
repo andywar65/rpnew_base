@@ -4,6 +4,14 @@
 
 {% block contact_msg %}
 <h4><strong>Effettua il Login</strong></h4>
+
+{% if user.is_authenticated %}
+<p class="alert alert-warning" role="alert">
+Guarda che sei già autenticato come {{ user.member.first_name }}.
+Se vuoi fare il login con un account diverso devi prima uscire dall'account.
+</p>
+<hr class="mb-4">
+{% else %}
 {% if form.errors and not form.non_field_errors %}
 <p class="alert alert-danger" role="alert">
 {% if form.errors.items|length == 1 %}Correggi l'errore qui sotto
@@ -18,14 +26,6 @@
 </p>
 {% endfor %}
 {% endif %}
-
-{% if user.is_authenticated %}
-<p class="alert alert-warning" role="alert">
-Guarda che sei già autenticato come {{ user.member.first_name }}.
-Se vuoi fare il login con un account diverso devi prima uscire dall'account.
-</p>
-<hr class="mb-4">
-{% else %}
   <form action="" method="post" class="needs-validation" novalidate>
             <div class="row">
               <div class="col-md-6 mb-3">
