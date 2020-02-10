@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetView
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
-    ContactLogForm, FrontAuthenticationForm)
+    ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm)
 from .models import User
 
 class GetMixin:
@@ -66,3 +67,10 @@ class ContactFormView(GetMixin, FormView):
 class FrontLoginView(LoginView):
     template_name = 'users/front_login.html'
     form_class = FrontAuthenticationForm
+
+class FrontPasswordResetView(PasswordResetView):
+    template_name = 'users/reset_password.html'
+    form_class = FrontPasswordResetForm
+
+class TemplateResetView(TemplateView):
+    template_name = 'users/reset_password_done.html'

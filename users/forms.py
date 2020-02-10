@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UsernameField
+from django.contrib.auth.forms import (AuthenticationForm, UsernameField,
+    PasswordResetForm)
 from django.forms import ModelForm
 from captcha.fields import ReCaptchaField
 from .models import User, Member, Applicant, UserMessage
@@ -173,3 +174,10 @@ class FrontAuthenticationForm(AuthenticationForm):
                 ))
         except:
             pass
+
+class FrontPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        max_length=254,
+        widget=forms.EmailInput(attrs={'autocomplete': 'email',
+            'class': 'form-control'})
+    )
