@@ -116,14 +116,19 @@ class RegistrationForm(ModelForm):
         fields = ('first_name', 'last_name', 'email', 'sector', 'children_str')
 
 class RegistrationLogForm(ModelForm):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': "form-control", 'placeholder': 'Nome del figlio', }))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': "form-control", 'placeholder': 'Cognome del figlio', }))
+    #first_name = forms.CharField(widget=forms.TextInput(attrs={
+        #'class': "form-control", 'placeholder': 'Nome del figlio', }))
+    #last_name = forms.CharField(widget=forms.TextInput(attrs={
+        #'class': "form-control", 'placeholder': 'Cognome del figlio', }))
 
     class Meta:
         model = Applicant
         fields = ('first_name', 'last_name', )
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control',
+                'placeholder': "Nome del figlio"}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control',
+                'placeholder': "Cognome del figlio"}), }
 
 class ContactLogForm(ModelForm):
 
@@ -138,7 +143,7 @@ class ContactLogForm(ModelForm):
 class ContactForm(ModelForm):
 
     captcha = ReCaptchaField()
-    
+
     class Meta:
         model = UserMessage
         fields = ('nickname', 'email', 'subject', 'body')
