@@ -1,14 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.http import Http404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetView,
     PasswordResetConfirmView, PasswordChangeView, PasswordChangeDoneView)
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from django.http import HttpResponseRedirect
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
     ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm,
     FrontSetPasswordForm, FrontPasswordChangeForm)
-from .models import User
+from .models import User, Member
 
 class GetMixin:
 
@@ -121,3 +121,14 @@ class FrontPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
 class ProfileChangeFormView(LoginRequiredMixin, FormView):
     template_name = 'users/profile_change.html'
     form_class = RegistrationForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = get_object_or_404(Member, pk=self.kwargs['id'])
+        target_id = member.pk
+        if member.parent:
+            target_id = member.parent.pk
+        if self.request.user.id != target_id:
+            raise Http404("User is not authorized to manage this profile")
+        context['member'] = member
+        return context
