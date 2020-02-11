@@ -1,6 +1,7 @@
 from django import forms
+from django.contrib.auth import (password_validation, )
 from django.contrib.auth.forms import (AuthenticationForm, UsernameField,
-    PasswordResetForm)
+    PasswordResetForm, SetPasswordForm)
 from django.forms import ModelForm
 from captcha.fields import ReCaptchaField
 from .models import User, Member, Applicant, UserMessage
@@ -180,4 +181,17 @@ class FrontPasswordResetForm(PasswordResetForm):
         max_length=254,
         widget=forms.EmailInput(attrs={'autocomplete': 'email',
             'class': 'form-control'})
+    )
+
+class FrontSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password',
+            'class': 'form-control'}),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password',
+            'class': 'form-control'}),
     )

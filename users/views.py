@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from django.contrib.auth.views import LoginView, PasswordResetView
+from django.contrib.auth.views import (LoginView, PasswordResetView,
+    PasswordResetConfirmView)
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
-    ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm)
+    ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm,
+    FrontSetPasswordForm)
 from .models import User
 
 class GetMixin:
@@ -85,6 +87,10 @@ class FrontPasswordResetView(PasswordResetView):
             if u.has_usable_password() and
             _unicode_ci_compare(email, getattr(u, email_field_name))
         )
+
+class FrontPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'users/reset_password_confirm.html'
+    form_class = FrontSetPasswordForm
 
 class TemplateResetView(TemplateView):
     template_name = 'users/reset_password_done.html'
