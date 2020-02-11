@@ -12,11 +12,11 @@
   (consigliabile farlo sempre alla fine della sessione).</p>
 <ul>
   <li><a href="/accounts/profile/{{ user.id }}/change">Cambia i tuoi dati</a></li>
-  <li><a href="{% url 'password_change' %}">Cambia la tua password</a></li>
   {% if children %}{% for child in children %}
   <li><a href="/accounts/profile/{{ child.id }}/change">
     Cambia i dati di {{ child.member.first_name }}</a></li>
   {% endfor %}{% endif %}
+  <li><a href="{% url 'password_change' %}">Cambia la tua password</a></li>
   <li><a href="{% url 'front_logout' %}">Effettua il logout</a></li>
 </ul>
 {% else %}

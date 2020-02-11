@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetView,
-    PasswordResetConfirmView, PasswordChangeView)
+    PasswordResetConfirmView, PasswordChangeView, PasswordChangeDoneView)
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect
@@ -114,3 +114,6 @@ class TemplateAccountView(LoginRequiredMixin, TemplateView):
 class FrontPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     template_name = 'users/password_change.html'
     form_class = FrontPasswordChangeForm
+
+class FrontPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
+    template_name = 'users/password_change_done.html'
