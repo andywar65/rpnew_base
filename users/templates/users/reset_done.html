@@ -6,8 +6,12 @@
 
 {% if user.is_authenticated %}
 <p class="alert alert-warning" role="alert">
-  Ancora qui? perché non ti vai a fare un giro?
+  Ancora qui? Perché non ti vai a fare un giro?
 </p>
+<ul>
+  <li>Modifica il tuo <a href="/accounts/profile/">account</a></li>
+  <li>Esegui il <a href="/accounts/logout/">logout</a></li>
+</ul>
 {% else %}
 <h4><strong>Password resettata</strong></h4>
 <p class="alert alert-success" role="alert">

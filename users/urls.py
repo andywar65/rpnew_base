@@ -1,11 +1,13 @@
 from django.urls import path
-from .views import (FrontLoginView, FrontPasswordResetView, TemplateResetView,
-    FrontPasswordResetConfirmView, TemplateResetDoneView)
+from .views import (FrontLoginView, FrontLogoutView, FrontPasswordResetView,
+    TemplateResetView, FrontPasswordResetConfirmView, TemplateResetDoneView)
 
 #namespace is '/accounts/'
 urlpatterns = [
     path('login/', FrontLoginView.as_view(),
         name='front_login'),
+    path('logout/', FrontLogoutView.as_view(),
+        name='front_logout'),
     path('password_reset/', FrontPasswordResetView.as_view(),
         name='front_password_reset'),
     path('password_reset/done/', TemplateResetView.as_view(),

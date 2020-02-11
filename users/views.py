@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth.views import (LoginView, PasswordResetView,
+from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetView,
     PasswordResetConfirmView)
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -69,6 +69,9 @@ class ContactFormView(GetMixin, FormView):
 class FrontLoginView(LoginView):
     template_name = 'users/front_login.html'
     form_class = FrontAuthenticationForm
+
+class FrontLogoutView(LogoutView):
+    template_name = 'users/front_logout.html'
 
 class FrontPasswordResetView(PasswordResetView):
     template_name = 'users/reset_password.html'
