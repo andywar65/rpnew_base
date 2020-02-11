@@ -1,9 +1,12 @@
 from django.urls import path
 from .views import (FrontLoginView, FrontLogoutView, FrontPasswordResetView,
-    TemplateResetView, FrontPasswordResetConfirmView, TemplateResetDoneView)
+    TemplateResetView, FrontPasswordResetConfirmView, TemplateResetDoneView,
+    TemplateAccountView)
 
 #namespace is '/accounts/'
 urlpatterns = [
+    path('profile/', TemplateAccountView.as_view(),
+        name='profile'),
     path('login/', FrontLoginView.as_view(),
         name='front_login'),
     path('logout/', FrontLogoutView.as_view(),

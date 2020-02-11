@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}RP | Account{%endblock title %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<h4><strong>Account</strong></h4>
+<p>Da questa pagina si accede ai propri dati personali,
+  {% if children %}a quelli dei propri figli,{% endif %}
+  si può cambiare la propria password oppure si può effettuare il logout
+  (consigliabile farlo sempre alla fine della sessione).</p>
+<ul>
+  <li><a href="/accounts/profile/{{ user.id }}/change">Cambia i tuoi dati</a></li>
+  <li><a href="/accounts/profile/password_change/">Cambia la tua password</a></li>
+  {% if children %}{% for child in children %}
+  <li><a href="/accounts/profile/{{ child.id }}/change">
+    Cambia i dati di {{ child.member.first_name }}</a></li>
+  {% endfor %}{% endif %}
+  <li><a href="/accounts/logout/">Effettua il logout</a></li>
+</ul>
+{% else %}
+<p class="alert alert-danger" role="alert">
+  ATTENZIONE! Per accedere a quest'area bisogna essere autenticati.
+</p>
+<p>Fai clic qui per effettuare il <a href="/accounts/login/">login</a>.</p>
+{% endif %}
+<hr class="mb-4">
+
+{% endblock content %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetView,
     PasswordResetConfirmView)
 from django.views.generic import TemplateView
@@ -100,3 +101,12 @@ class FrontPasswordResetConfirmView(PasswordResetConfirmView):
 
 class TemplateResetDoneView(TemplateView):
     template_name = 'users/reset_done.html'
+
+class TemplateAccountView(LoginRequiredMixin, TemplateView):
+    template_name = 'users/account.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['children'] = User.objects.filter(member__parent__id = self.request.user.id ,
+            is_active = True)
+        return context
