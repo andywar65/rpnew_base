@@ -88,9 +88,12 @@ class FrontPasswordResetView(PasswordResetView):
             _unicode_ci_compare(email, getattr(u, email_field_name))
         )
 
+class TemplateResetView(TemplateView):
+    template_name = 'users/reset_password_done.html'
+
 class FrontPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'users/reset_password_confirm.html'
     form_class = FrontSetPasswordForm
 
-class TemplateResetView(TemplateView):
-    template_name = 'users/reset_password_done.html'
+class TemplateResetDoneView(TemplateView):
+    template_name = 'users/reset_done.html'
