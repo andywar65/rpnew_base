@@ -195,3 +195,10 @@ class FrontSetPasswordForm(SetPasswordForm):
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password',
             'class': 'form-control'}),
     )
+
+class FrontPasswordChangeForm(FrontSetPasswordForm):
+    old_password = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password',
+            'autofocus': True, 'class': 'form-control'}),
+    )

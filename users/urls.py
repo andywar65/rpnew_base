@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (FrontLoginView, FrontLogoutView, FrontPasswordResetView,
     TemplateResetView, FrontPasswordResetConfirmView, TemplateResetDoneView,
-    TemplateAccountView)
+    TemplateAccountView, FrontPasswordChangeView)
 
 #namespace is '/accounts/'
 urlpatterns = [
@@ -18,5 +18,7 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', FrontPasswordResetConfirmView.as_view(),
         name='password_reset_confirm'),
     path('reset/done/', TemplateResetDoneView.as_view(),
-        name='password_reset_complete')
+        name='password_reset_complete'),
+    path('password_change/', FrontPasswordChangeView.as_view(),
+        name='password_change'),
     ]

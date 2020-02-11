@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetView,
-    PasswordResetConfirmView)
+    PasswordResetConfirmView, PasswordChangeView)
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
     ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm,
-    FrontSetPasswordForm)
+    FrontSetPasswordForm, FrontPasswordChangeForm)
 from .models import User
 
 class GetMixin:
@@ -110,3 +110,7 @@ class TemplateAccountView(LoginRequiredMixin, TemplateView):
         context['children'] = User.objects.filter(member__parent__id = self.request.user.id ,
             is_active = True)
         return context
+
+class FrontPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'users/password_change.html'
+    form_class = FrontPasswordChangeForm
