@@ -1,12 +1,15 @@
 from django.urls import path
 from .views import (FrontLoginView, FrontLogoutView, FrontPasswordResetView,
     TemplateResetView, FrontPasswordResetConfirmView, TemplateResetDoneView,
-    TemplateAccountView, FrontPasswordChangeView, FrontPasswordChangeDoneView)
+    TemplateAccountView, FrontPasswordChangeView, FrontPasswordChangeDoneView,
+    ProfileChangeFormView)
 
 #namespace is '/accounts/'
 urlpatterns = [
     path('profile/', TemplateAccountView.as_view(),
         name='profile'),
+    path('profile/<int:id>/change', ProfileChangeFormView.as_view(),
+        name='profile_change'),
     path('login/', FrontLoginView.as_view(),
         name='front_login'),
     path('logout/', FrontLogoutView.as_view(),

@@ -117,3 +117,7 @@ class FrontPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
 class FrontPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
     template_name = 'users/password_change_done.html'
+
+class ProfileChangeFormView(LoginRequiredMixin, FormView):
+    template_name = 'users/profile_change.html'
+    form_class = RegistrationForm
