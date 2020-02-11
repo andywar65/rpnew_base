@@ -10,15 +10,17 @@
   {% if children %}a quelli dei propri figli,{% endif %}
   si può cambiare la propria password oppure si può effettuare il logout
   (consigliabile farlo sempre alla fine della sessione).</p>
-<ul>
-  <li><a href="/accounts/profile/{{ user.id }}/change">Cambia i tuoi dati</a></li>
+  <a class="btn btn-success center" role="button" href="/accounts/profile/{{ user.id }}/change">
+    Cambia i tuoi dati</a>
+    <hr class="mb-4">
   {% if children %}{% for child in children %}
-  <li><a href="/accounts/profile/{{ child.id }}/change">
-    Cambia i dati di {{ child.member.first_name }}</a></li>
-  {% endfor %}{% endif %}
-  <li><a href="{% url 'password_change' %}">Cambia la tua password</a></li>
-  <li><a href="{% url 'front_logout' %}">Effettua il logout</a></li>
-</ul>
+    <a class="btn btn-success" role="button" href="/accounts/profile/{{ child.id }}/change">
+      Cambia i dati di {{ child.member.first_name }}</a>
+  {% endfor %}<hr class="mb-4">{% endif %}
+    <a class="btn btn-warning" role="button" href="{% url 'password_change' %}">
+      Cambia la tua password</a>
+    <a class="btn btn-danger" role="button" href="{% url 'front_logout' %}">
+      Effettua il logout</a>
 {% else %}
 <p class="alert alert-danger" role="alert">
   ATTENZIONE! Per accedere a quest'area bisogna essere autenticati.
