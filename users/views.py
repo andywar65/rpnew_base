@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
     ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm,
-    FrontSetPasswordForm, FrontPasswordChangeForm, ChangeMember0Form)
+    FrontSetPasswordForm, FrontPasswordChangeForm, ChangeProfile0Form)
 from .models import User, Member
 
 class GetMixin:
@@ -102,7 +102,7 @@ class FrontPasswordResetConfirmView(PasswordResetConfirmView):
 class TemplateResetDoneView(TemplateView):
     template_name = 'users/reset_done.html'
 
-class TemplateAccountView(LoginRequiredMixin, TemplateView):
+class TemplateAccountView(LoginRequiredMixin, GetMixin, TemplateView):
     template_name = 'users/account.html'
 
     def get_context_data(self, **kwargs):
@@ -134,5 +134,18 @@ class ProfileChangeFormView(LoginRequiredMixin, FormView):
 
     def get_form_class(self):
         if self.member.sector == '0-NO':
-            return ChangeMember0Form
+            return ChangeProfile0Form
         return super(ProfileChangeFormView, self).get_form_class()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['member'] = self.member
+        return context
+
+    def get_template_names(self):
+        if self.member.sector == '0-NO':
+            return 'users/profile_change_0.html'
+        return super(ProfileChangeFormView, self).get_template_names()
+
+    def get_success_url(self):
+        return f'/accounts/profile/?submitted={self.member.get_full_name_reverse()}'

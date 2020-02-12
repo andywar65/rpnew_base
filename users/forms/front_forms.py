@@ -4,7 +4,7 @@ from django.contrib.auth.forms import (AuthenticationForm, UsernameField,
     PasswordResetForm, SetPasswordForm)
 from django.forms import ModelForm
 from captcha.fields import ReCaptchaField
-from users.models import (Member, Applicant, UserMessage, )#User, 
+from users.models import (Member, Applicant, UserMessage, )#User,
 #from .choices import *
 
 class RegistrationForm(ModelForm):
@@ -110,3 +110,11 @@ class FrontPasswordChangeForm(FrontSetPasswordForm):
         widget=forms.PasswordInput(attrs={'autocomplete': 'current-password',
             'autofocus': True, 'class': 'form-control'}),
     )
+
+class ChangeProfile0Form(ModelForm):
+
+    class Meta:
+        model = Member
+        fields = ('sector',
+            'avatar', 'first_name', 'last_name',
+            'email', 'no_spam', )
