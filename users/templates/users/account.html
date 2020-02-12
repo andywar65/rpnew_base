@@ -8,6 +8,11 @@
 <div class="row">
   <div class="col-md-2"></div>
   <div class="col-md-8">
+    {% if submitted %}
+    <p class="alert alert-success" role="alert">
+      Il profilo di {{ submitted }} è stato modificato con successo!
+    </p>
+    {% endif %}
     <h4><strong>Account</strong></h4>
     <p>Da questa pagina si accede ai propri dati personali,
       {% if children %}a quelli dei propri figli,{% endif %}
