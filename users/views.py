@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetView,
     PasswordResetConfirmView, PasswordChangeView, PasswordChangeDoneView)
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
     ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm,
     FrontSetPasswordForm, FrontPasswordChangeForm, ChangeProfile0Form)
@@ -118,34 +118,35 @@ class FrontPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 class FrontPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
     template_name = 'users/password_change_done.html'
 
-class ProfileChangeFormView(LoginRequiredMixin, FormView):
-    template_name = 'users/profile_change.html'#just a placeholder
-    form_class = RegistrationForm#just a placeholder
-    success_url = '/accounts/profile/'
+class ProfileChangeFormView(LoginRequiredMixin, UpdateView):
+    model = Member
 
     def get(self, request, *args, **kwargs):
-        self.member = get_object_or_404(Member, pk=kwargs['id'])
-        target_id = self.member.pk
-        if self.member.parent:
-            target_id = self.member.parent.pk
+        member = self.get_object()
+        target_id = member.pk
+        if member.parent:
+            target_id = member.parent.pk
         if request.user.id != target_id:
             raise Http404("User is not authorized to manage this profile")
         return super(ProfileChangeFormView, self).get(request, *args, **kwargs)
 
     def get_form_class(self):
-        if self.member.sector == '0-NO':
+        member = self.get_object()
+        if member.sector == '0-NO':
             return ChangeProfile0Form
         return super(ProfileChangeFormView, self).get_form_class()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['member'] = self.member
+        context['member'] = self.get_object()
         return context
 
     def get_template_names(self):
-        if self.member.sector == '0-NO':
+        member = self.get_object()
+        if member.sector == '0-NO':
             return 'users/profile_change_0.html'
         return super(ProfileChangeFormView, self).get_template_names()
 
     def get_success_url(self):
-        return f'/accounts/profile/?submitted={self.member.get_full_name_reverse()}'
+        member = self.get_object()
+        return f'/accounts/profile/?submitted={member.get_full_name_reverse()}'

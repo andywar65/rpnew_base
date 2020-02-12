@@ -1,0 +1,49 @@
+{% extends 'contact.html' %}
+
+{% block title %}RP | Modifica profilo{%endblock title %}
+
+{% block contact_msg %}
+<h4><strong>Modifica profilo di {{ member.get_full_name_reverse }}</strong></h4>
+<p>{{ member.first_name }}, tu non corri con noi.</p>
+<form action="" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+          <div class="row">
+            <div class="col-md-9 mb-3">
+              <label for="avatar">Avatar (opzionale)</label>
+              {{ form.avatar }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="first-name">Nome</label>
+              {{ form.first_name }}
+              <div class="invalid-feedback">
+                E' necessario inserire il nome.
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="last-name">Cognome</label>
+              {{ form.last_name }}
+              <div class="invalid-feedback">
+                E' necessario inserire il cognome.
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="email">Email </label>
+              {{ form.email }}
+              <div class="invalid-feedback">
+                Inserisci una email valida.
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="no_spam">Mailing list </label>
+              {{ form.no_spam }}
+            </div>
+          </div>
+          <hr class="mb-4">
+          <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
+          <hr class="mb-4">
+  {% csrf_token %}
+</form>
+{% endblock contact_msg %}

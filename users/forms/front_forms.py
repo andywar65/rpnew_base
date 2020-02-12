@@ -118,9 +118,9 @@ class ChangeProfile0Form(ModelForm):
         fields = ('avatar', 'first_name', 'last_name', 'email', 'no_spam', )
         widgets = {
             'avatar' : forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', }),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'autocomplete': 'email',
                 'class': 'form-control'}),
-            'no_spam': forms.CheckboxInput(attrs={'class': 'form-control',
+            'no_spam': forms.CheckboxInput(attrs={
                 'help_text': "Vuoi essere inserito nella mailing list?"}), }
