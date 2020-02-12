@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.http import Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetView,
+    PasswordResetConfirmView, PasswordChangeView, PasswordChangeDoneView)
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from django.http import HttpResponseRedirect
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
-    ContactLogForm)
-from .models import User
+    ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm,
+    FrontSetPasswordForm, FrontPasswordChangeForm, ChangeMember0Form)
+from .models import User, Member
 
 class GetMixin:
 
@@ -61,3 +66,73 @@ class ContactFormView(GetMixin, FormView):
                     pass
         message.save()
         return super(ContactFormView, self).form_valid(form)
+
+class FrontLoginView(LoginView):
+    template_name = 'users/front_login.html'
+    form_class = FrontAuthenticationForm
+
+class FrontLogoutView(LogoutView):
+    template_name = 'users/front_logout.html'
+
+class FrontPasswordResetView(PasswordResetView):
+    template_name = 'users/reset_password.html'
+    form_class = FrontPasswordResetForm
+
+    def get_users(self, email):
+        """Given an email, return matching user(s) who should receive a reset.
+        """
+        #email_field_name = UserModel.get_email_field_name()
+        active_users = User.objects.filter(**{
+            'member__email': email,
+            'is_active': True,
+        })
+        return (
+            u for u in active_users
+            if u.has_usable_password() and
+            _unicode_ci_compare(email, getattr(u, email_field_name))
+        )
+
+class TemplateResetView(TemplateView):
+    template_name = 'users/reset_password_done.html'
+
+class FrontPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'users/reset_password_confirm.html'
+    form_class = FrontSetPasswordForm
+
+class TemplateResetDoneView(TemplateView):
+    template_name = 'users/reset_done.html'
+
+class TemplateAccountView(LoginRequiredMixin, TemplateView):
+    template_name = 'users/account.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['children'] = User.objects.filter(member__parent__id = self.request.user.id ,
+            is_active = True)
+        return context
+
+class FrontPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'users/password_change.html'
+    form_class = FrontPasswordChangeForm
+
+class FrontPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
+    template_name = 'users/password_change_done.html'
+
+class ProfileChangeFormView(LoginRequiredMixin, FormView):
+    template_name = 'users/profile_change.html'#just a placeholder
+    form_class = RegistrationForm#just a placeholder
+    success_url = '/accounts/profile/'
+
+    def get(self, request, *args, **kwargs):
+        self.member = get_object_or_404(Member, pk=kwargs['id'])
+        target_id = self.member.pk
+        if self.member.parent:
+            target_id = self.member.parent.pk
+        if request.user.id != target_id:
+            raise Http404("User is not authorized to manage this profile")
+        return super(ProfileChangeFormView, self).get(request, *args, **kwargs)
+
+    def get_form_class(self):
+        if self.member.sector == '0-NO':
+            return ChangeMember0Form
+        return super(ProfileChangeFormView, self).get_form_class()

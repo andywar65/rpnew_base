@@ -78,7 +78,7 @@ class ApplicantAdmin(admin.ModelAdmin):
             hash_password = make_password(password)
             if not applicant.parent:
                 usr = User.objects.create(username = username,
-                    password = hash_password, is_staff = True, )
+                    password = hash_password, is_staff = False, )
                 perm_1 = Permission.objects.get(codename='view_member')
                 perm_2 = Permission.objects.get(codename='change_member')
                 perm_3 = Permission.objects.get(codename='view_memberpayment')
