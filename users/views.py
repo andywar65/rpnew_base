@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
     ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm,
-    FrontSetPasswordForm, FrontPasswordChangeForm)
+    FrontSetPasswordForm, FrontPasswordChangeForm, ChangeMember0Form)
 from .models import User, Member
 
 class GetMixin:
@@ -119,16 +119,20 @@ class FrontPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
     template_name = 'users/password_change_done.html'
 
 class ProfileChangeFormView(LoginRequiredMixin, FormView):
-    template_name = 'users/profile_change.html'
-    form_class = RegistrationForm
+    template_name = 'users/profile_change.html'#just a placeholder
+    form_class = RegistrationForm#just a placeholder
+    success_url = '/accounts/profile/'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        member = get_object_or_404(Member, pk=self.kwargs['id'])
-        target_id = member.pk
-        if member.parent:
-            target_id = member.parent.pk
-        if self.request.user.id != target_id:
+    def get(self, request, *args, **kwargs):
+        self.member = get_object_or_404(Member, pk=kwargs['id'])
+        target_id = self.member.pk
+        if self.member.parent:
+            target_id = self.member.parent.pk
+        if request.user.id != target_id:
             raise Http404("User is not authorized to manage this profile")
-        context['member'] = member
-        return context
+        return super(ProfileChangeFormView, self).get(request, *args, **kwargs)
+
+    def get_form_class(self):
+        if self.member.sector == '0-NO':
+            return ChangeMember0Form
+        return super(ProfileChangeFormView, self).get_form_class()
