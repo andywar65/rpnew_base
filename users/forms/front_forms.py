@@ -151,10 +151,15 @@ class ChangeProfileChildForm(ModelForm):
     class Meta:
         model = Member
         fields = ('avatar', 'first_name', 'last_name',
-            'fiscal_code')
+            'gender', 'date_of_birth', 'place_of_birth', 'nationality',
+            'fiscal_code',
+            'course', 'course_alt', 'course_membership',
+            'sign_up', 'privacy', 'med_cert', )
         widgets = {
             'avatar' : SmallClearableFileInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', }),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'place_of_birth': forms.TextInput(attrs={'class': 'form-control'}),
+            'nationality': forms.TextInput(attrs={'class': 'form-control'}),
             'fiscal_code': forms.TextInput(attrs={'class': 'form-control', }),
             }

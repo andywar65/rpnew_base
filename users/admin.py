@@ -49,7 +49,7 @@ def registration_message( name, username, password ):
         Ciao {name}! \n
         Abbiamo ricevuto la tua registrazione al sito di Rifondazione
         Podistica. Puoi effettuare il Login al seguente link: \n
-        {settings.BASE_URL}/admin/login/ \n
+        {settings.BASE_URL}/accounts/login/ \n
         Usa questo nome utente: {username}
         e questa password: {password} (possibilmente da cambiare).
         Una volta effettuato il login potrai gestire il tuo profilo.
@@ -57,7 +57,7 @@ def registration_message( name, username, password ):
         Lo staff di RP \n
         Link utili:
         Informativa per la privacy: {settings.BASE_URL}/privacy/
-        Cambio password: {settings.BASE_URL}/admin/password_change/
+        Cambio password: {settings.BASE_URL}/accounts/password_change/
         """
     return message
 
