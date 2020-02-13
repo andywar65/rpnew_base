@@ -4,11 +4,20 @@
 
 {% block contact_msg %}
 <h4><strong>Modifica il profilo di {{ member.get_full_name_reverse }}</strong></h4>
-<p>Tu non corri con noi.</p>
+<p>Corre con noi e segue un corso.</p>
+<p>I dettagli di contatto sono quelli del genitore ({{ user.member.get_full_name_reverse }})</p>
 {% include 'users/form_errors.html' %}
 <form action="" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
           {% include 'users/profile_includes/name.html' %}
-          {% include 'users/profile_includes/email.html' %}
+          <hr class="mb-4">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="fiscal_code">Codice Fiscale</label>
+              {{ form.fiscal_code }}
+              <small id="address-help" class="form-text text-muted">
+                Per eventuali ricevute</small>
+            </div>
+          </div>
           {% include 'users/profile_includes/button.html' %}
   {% csrf_token %}
 </form>

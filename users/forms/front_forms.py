@@ -145,3 +145,16 @@ class ChangeProfile3Form(ModelForm):
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'fiscal_code': forms.TextInput(attrs={'class': 'form-control', }),
             }
+
+class ChangeProfileChildForm(ModelForm):
+
+    class Meta:
+        model = Member
+        fields = ('avatar', 'first_name', 'last_name',
+            'fiscal_code')
+        widgets = {
+            'avatar' : SmallClearableFileInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', }),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'fiscal_code': forms.TextInput(attrs={'class': 'form-control', }),
+            }

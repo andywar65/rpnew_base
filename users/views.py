@@ -8,9 +8,9 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, UpdateView
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
     ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm,
-    FrontSetPasswordForm, FrontPasswordChangeForm, ChangeProfile0Form,
-    ChangeProfile3Form)
-from .models import User, Member
+    FrontSetPasswordForm, FrontPasswordChangeForm, ChangeProfileChildForm,
+    ChangeProfile0Form, ChangeProfile3Form)
+from .models import User, Member, MemberPayment
 
 class GetMixin:
 
@@ -142,7 +142,9 @@ class ProfileChangeUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_form_class(self):
         member = self.object
-        if member.sector == '0-NO':
+        if member.parent:
+            return ChangeProfileChildForm
+        elif member.sector == '0-NO':
             return ChangeProfile0Form
         elif member.sector == '3-FI':
             return ChangeProfile3Form
@@ -151,11 +153,14 @@ class ProfileChangeUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['member'] = self.object
+        context['payments'] = MemberPayment.objects.filter(member_id=self.object.pk)
         return context
 
     def get_template_names(self):
         member = self.object
-        if member.sector == '0-NO':
+        if member.parent:
+            return 'users/profile_change_child.html'
+        elif member.sector == '0-NO':
             return 'users/profile_change_0.html'
         elif member.sector == '3-FI':
             return 'users/profile_change_3.html'
