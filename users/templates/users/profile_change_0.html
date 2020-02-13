@@ -7,44 +7,8 @@
 <p>{{ member.first_name }}, tu non corri con noi.</p>
 {% include 'users/form_errors.html' %}
 <form action="" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
-          <div class="row">
-            <div class="col-md-9 mb-3">
-              {% if member.avatar %}{{ member.get_thumb }}{% endif %}
-              <label for="avatar">Avatar (opzionale)</label>
-              {{ form.avatar }}
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="first-name">Nome</label>
-              {{ form.first_name }}
-              <div class="invalid-feedback">
-                E' necessario inserire il nome.
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="last-name">Cognome</label>
-              {{ form.last_name }}
-              <div class="invalid-feedback">
-                E' necessario inserire il cognome.
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="email">Email </label>
-              {{ form.email }}
-              <div class="invalid-feedback">
-                Inserisci una email valida.
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="no_spam">Mailing list </label>
-              {{ form.no_spam }}
-              <small id="no-spam-help" class="form-text text-muted">
-                {{ form.no_spam.help_text }}</small>
-            </div>
-          </div>
+          {% include 'users/profile_includes/name.html' %}
+          {% include 'users/profile_includes/email.html' %}
           <hr class="mb-4">
           <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
           <hr class="mb-4">
