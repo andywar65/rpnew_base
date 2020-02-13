@@ -131,22 +131,22 @@ class ProfileChangeFormView(LoginRequiredMixin, UpdateView):
         return super(ProfileChangeFormView, self).get(request, *args, **kwargs)
 
     def get_form_class(self):
-        member = self.get_object()
+        member = self.object
         if member.sector == '0-NO':
             return ChangeProfile0Form
         return super(ProfileChangeFormView, self).get_form_class()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['member'] = self.get_object()
+        context['member'] = self.object
         return context
 
     def get_template_names(self):
-        member = self.get_object()
+        member = self.object
         if member.sector == '0-NO':
             return 'users/profile_change_0.html'
         return super(ProfileChangeFormView, self).get_template_names()
 
     def get_success_url(self):
-        member = self.get_object()
+        member = self.object
         return f'/accounts/profile/?submitted={member.get_full_name_reverse()}'
