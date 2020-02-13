@@ -4,22 +4,12 @@
 
 {% block contact_msg %}
 <h4><strong>Modifica profilo di {{ member.get_full_name_reverse }}</strong></h4>
-<p>{% if member.avatar %}{{ member.get_thumb }}{% endif %}
-{{ member.first_name }}, tu non corri con noi.</p>
-{% if form.errors %}
-  <p class="alert alert-danger" role="alert">
-    {% if form.errors.items|length == 1 %}Correggi l'errore qui sotto
-    {% else %}Correggi gli errori qui sotto{% endif %}
-  </p>
-  {% for key, value in form.errors.items %}
-    <p>
-      {{ value }}
-    </p>
-  {% endfor %}
-{% endif %}
+<p>{{ member.first_name }}, tu non corri con noi.</p>
+{% include 'users/form_errors.html' %}
 <form action="" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
           <div class="row">
             <div class="col-md-9 mb-3">
+              {% if member.avatar %}{{ member.get_thumb }}{% endif %}
               <label for="avatar">Avatar (opzionale)</label>
               {{ form.avatar }}
             </div>
