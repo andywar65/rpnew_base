@@ -118,7 +118,7 @@ class FrontPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 class FrontPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
     template_name = 'users/password_change_done.html'
 
-class ProfileChangeFormView(LoginRequiredMixin, UpdateView):
+class ProfileChangeUpdateView(LoginRequiredMixin, UpdateView):
     model = Member
 
     def get(self, request, *args, **kwargs):
@@ -128,13 +128,13 @@ class ProfileChangeFormView(LoginRequiredMixin, UpdateView):
             target_id = member.parent.pk
         if request.user.id != target_id:
             raise Http404("User is not authorized to manage this profile")
-        return super(ProfileChangeFormView, self).get(request, *args, **kwargs)
+        return super(ProfileChangeUpdateView, self).get(request, *args, **kwargs)
 
     def get_form_class(self):
         member = self.object
         if member.sector == '0-NO':
             return ChangeProfile0Form
-        return super(ProfileChangeFormView, self).get_form_class()
+        return super(ProfileChangeUpdateView, self).get_form_class()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -145,7 +145,7 @@ class ProfileChangeFormView(LoginRequiredMixin, UpdateView):
         member = self.object
         if member.sector == '0-NO':
             return 'users/profile_change_0.html'
-        return super(ProfileChangeFormView, self).get_template_names()
+        return super(ProfileChangeUpdateView, self).get_template_names()
 
     def get_success_url(self):
         member = self.object
