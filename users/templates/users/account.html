@@ -13,7 +13,7 @@
       Il profilo di {{ submitted }} è stato modificato con successo!
     </p>
     {% endif %}
-    <h4><strong>Account</strong></h4>
+    <h4><strong>Account di {{ user.member.get_full_name_reverse }}</strong></h4>
     <p>Da questa pagina si accede ai propri dati personali,
       {% if children %}a quelli dei propri figli,{% endif %}
       si può cambiare la propria password oppure si può effettuare il logout
