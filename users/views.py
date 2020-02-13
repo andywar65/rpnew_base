@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
+from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetView,
     PasswordResetConfirmView, PasswordChangeView, PasswordChangeDoneView)
@@ -72,6 +73,13 @@ class FrontLoginView(LoginView):
     template_name = 'users/front_login.html'
     form_class = FrontAuthenticationForm
 
+    def get_redirect_url(self):
+        """Avoid going from login to logout"""
+        redirect_to = super(FrontLoginView, self).get_redirect_url()
+        if redirect_to == reverse('front_logout'):
+            return ''
+        return redirect_to
+
 class FrontLogoutView(LogoutView):
     template_name = 'users/front_logout.html'
 
@@ -81,6 +89,7 @@ class FrontPasswordResetView(PasswordResetView):
 
     def get_users(self, email):
         """Given an email, return matching user(s) who should receive a reset.
+        I expect problems with that _unicode_ci_compare method.
         """
         #email_field_name = UserModel.get_email_field_name()
         active_users = User.objects.filter(**{
