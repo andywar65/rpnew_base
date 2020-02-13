@@ -5,6 +5,7 @@ from django.contrib.auth.forms import (AuthenticationForm, UsernameField,
 from django.forms import ModelForm
 from captcha.fields import ReCaptchaField
 from users.models import (Member, Applicant, UserMessage, )#User,
+from users.widgets import BootstrapClearableFileInput
 #from .choices import *
 
 class RegistrationForm(ModelForm):
@@ -117,7 +118,7 @@ class ChangeProfile0Form(ModelForm):
         model = Member
         fields = ('avatar', 'first_name', 'last_name', 'email', 'no_spam', )
         widgets = {
-            'avatar' : forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'avatar' : BootstrapClearableFileInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', }),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'autocomplete': 'email',
