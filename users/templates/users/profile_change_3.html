@@ -4,14 +4,14 @@
 
 {% block contact_msg %}
 <h4><strong>Modifica profilo di {{ member.get_full_name_reverse }}</strong></h4>
-<p>{{ member.first_name }}, tu non corri con noi, ma i tuoi figli si.</p>
+<p>Tu non corri con noi, ma i tuoi figli si.</p>
 {% include 'users/form_errors.html' %}
 <form action="" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
           {% include 'users/profile_includes/name.html' %}
           {% include 'users/profile_includes/email.html' %}
           <hr class="mb-4">
-          <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
-          <hr class="mb-4">
+          {% include 'users/profile_includes/address.html' %}
+          {% include 'users/profile_includes/button.html' %}
   {% csrf_token %}
 </form>
 {% endblock contact_msg %}

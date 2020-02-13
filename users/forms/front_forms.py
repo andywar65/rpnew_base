@@ -139,9 +139,9 @@ class ChangeProfile3Form(ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'autocomplete': 'email',
                 'class': 'form-control'}),
-            'address': forms.TextInput(attrs={'class': 'form-control', }),
-            'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'email_2': forms.EmailInput(attrs={'autocomplete': 'email',
                 'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control', }),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'fiscal_code': forms.TextInput(attrs={'class': 'form-control', }),
             }

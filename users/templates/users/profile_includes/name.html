@@ -1,20 +1,20 @@
 <div class="row">
   <div class="col-md-9 mb-3">
     {% if member.avatar %}{{ member.get_thumb }}{% endif %}
-    <label for="avatar">Avatar (opzionale)</label>
+    <label for="avatar">Avatar </label>
     {{ form.avatar }}
   </div>
 </div>
 <div class="row">
   <div class="col-md-6 mb-3">
-    <label for="first-name">Nome</label>
+    <label for="first-name">Nome*</label>
     {{ form.first_name }}
     <div class="invalid-feedback">
       E' necessario inserire il nome.
     </div>
   </div>
   <div class="col-md-6 mb-3">
-    <label for="last-name">Cognome</label>
+    <label for="last-name">Cognome*</label>
     {{ form.last_name }}
     <div class="invalid-feedback">
       E' necessario inserire il cognome.
