@@ -1,12 +1,14 @@
+from datetime import datetime
 from django import forms
 from django.contrib.auth import (password_validation, )
 from django.contrib.auth.forms import (AuthenticationForm, UsernameField,
     PasswordResetForm, SetPasswordForm)
 from django.forms import ModelForm
+from django.forms.widgets import SelectDateWidget
 from captcha.fields import ReCaptchaField
 from users.models import (Member, Applicant, UserMessage, )#User,
 from users.widgets import SmallClearableFileInput
-#from .choices import *
+from users.choices import *
 
 class RegistrationForm(ModelForm):
 
@@ -147,6 +149,12 @@ class ChangeProfile3Form(ModelForm):
             }
 
 class ChangeProfileChildForm(ModelForm):
+    gender = forms.CharField( required=True,
+        widget=forms.Select(choices = GENDER, attrs={'class': 'form-control'}),)
+    date_of_birth = forms.DateField( input_formats=['%d/%m/%Y'], required=False,
+        widget=SelectDateWidget(years=range(datetime.now().year ,
+        1919, -1),
+        attrs={'class': 'form-control', }))
 
     class Meta:
         model = Member
