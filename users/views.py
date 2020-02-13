@@ -7,7 +7,8 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, UpdateView
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
     ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm,
-    FrontSetPasswordForm, FrontPasswordChangeForm, ChangeProfile0Form)
+    FrontSetPasswordForm, FrontPasswordChangeForm, ChangeProfile0Form,
+    ChangeProfile3Form)
 from .models import User, Member
 
 class GetMixin:
@@ -134,6 +135,8 @@ class ProfileChangeUpdateView(LoginRequiredMixin, UpdateView):
         member = self.object
         if member.sector == '0-NO':
             return ChangeProfile0Form
+        elif member.sector == '3-FI':
+            return ChangeProfile3Form
         return super(ProfileChangeUpdateView, self).get_form_class()
 
     def get_context_data(self, **kwargs):
@@ -145,6 +148,8 @@ class ProfileChangeUpdateView(LoginRequiredMixin, UpdateView):
         member = self.object
         if member.sector == '0-NO':
             return 'users/profile_change_0.html'
+        elif member.sector == '3-FI':
+            return 'users/profile_change_3.html'
         return super(ProfileChangeUpdateView, self).get_template_names()
 
     def get_success_url(self):

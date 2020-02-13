@@ -124,3 +124,24 @@ class ChangeProfile0Form(ModelForm):
             'email': forms.EmailInput(attrs={'autocomplete': 'email',
                 'class': 'form-control'}),
             }
+
+class ChangeProfile3Form(ModelForm):
+
+    class Meta:
+        model = Member
+        fields = ('avatar', 'first_name', 'last_name',
+            'email', 'no_spam',
+            'address', 'phone', 'email_2',
+            'fiscal_code')
+        widgets = {
+            'avatar' : SmallClearableFileInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', }),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'autocomplete': 'email',
+                'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control', }),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'email_2': forms.EmailInput(attrs={'autocomplete': 'email',
+                'class': 'form-control'}),
+            'fiscal_code': forms.TextInput(attrs={'class': 'form-control', }),
+            }
