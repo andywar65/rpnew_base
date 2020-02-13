@@ -122,5 +122,4 @@ class ChangeProfile0Form(ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'autocomplete': 'email',
                 'class': 'form-control'}),
-            'no_spam': forms.CheckboxInput(attrs={
-                'help_text': "Vuoi essere inserito nella mailing list?"}), }
+            }
