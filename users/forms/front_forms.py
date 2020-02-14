@@ -120,7 +120,7 @@ class ChangeProfile0Form(ModelForm):
         model = Member
         fields = ('avatar', 'first_name', 'last_name', 'email', 'no_spam', )
         widgets = {
-            'avatar' : SmallClearableFileInput(attrs={'class': 'form-control'}),
+            'avatar' : SmallClearableFileInput(),
             #'first_name': forms.TextInput(attrs={'class': 'form-control', }),
             #'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             #'email': forms.EmailInput(attrs={'autocomplete': 'email',
@@ -136,25 +136,16 @@ class ChangeProfile3Form(ModelForm):
             'address', 'phone', 'email_2',
             'fiscal_code')
         widgets = {
-            'avatar' : SmallClearableFileInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control', }),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'autocomplete': 'email',
-                'class': 'form-control'}),
-            'email_2': forms.EmailInput(attrs={'autocomplete': 'email',
-                'class': 'form-control'}),
-            'address': forms.TextInput(attrs={'class': 'form-control', }),
-            'phone': forms.TextInput(attrs={'class': 'form-control'}),
-            'fiscal_code': forms.TextInput(attrs={'class': 'form-control', }),
+            'avatar' : SmallClearableFileInput(),
             }
 
 class ChangeProfileChildForm(ModelForm):
-    gender = forms.CharField( required=True,
-        widget=forms.Select(choices = GENDER, attrs={'class': 'form-control'}),)
+    gender = forms.CharField( required=True, label='Sesso',
+        widget=forms.Select(choices = GENDER, ),)
     date_of_birth = forms.DateField( input_formats=['%d/%m/%Y'], required=False,
+        label='Data di nascita',
         widget=SelectDateWidget(years=range(datetime.now().year ,
-        1919, -1),
-        attrs={'class': 'form-control', }))
+        datetime.now().year-100, -1),))
 
     class Meta:
         model = Member
@@ -164,10 +155,8 @@ class ChangeProfileChildForm(ModelForm):
             'course', 'course_alt', 'course_membership',
             'sign_up', 'privacy', 'med_cert', )
         widgets = {
-            'avatar' : SmallClearableFileInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control', }),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'place_of_birth': forms.TextInput(attrs={'class': 'form-control'}),
-            'nationality': forms.TextInput(attrs={'class': 'form-control'}),
-            'fiscal_code': forms.TextInput(attrs={'class': 'form-control', }),
+            'avatar' : SmallClearableFileInput(),
+            'sign_up' : SmallClearableFileInput(),
+            'privacy' : SmallClearableFileInput(),
+            'med_cert' : SmallClearableFileInput(),
             }

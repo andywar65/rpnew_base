@@ -1,6 +1,6 @@
 <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
 {% if widget.is_initial %}
-    <small><a href="{{ widget.value.url }}">Vai all'immagine attuale</a></small>
+    <small><a href="{{ widget.value.url }}">Vai al file attuale</a></small>
   {% if not widget.required %}
     <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}">
     <small><label for="{{ widget.checkbox_id }}">oppure elimina</label></small>
