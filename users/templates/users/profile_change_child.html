@@ -8,8 +8,16 @@
   <div class="col-md-2"></div>
   <div class="col-md-8">
     <h4><strong>Modifica il profilo di {{ member.get_full_name_reverse }}</strong></h4>
-    <p>Corre con noi e segue un corso.</p>
-    <p>I dettagli di contatto sono quelli del genitore ({{ user.member.get_full_name_reverse }})</p>
+    <ul>
+      <li>Corre con noi e segue un corso</li>
+      <li>I dettagli di contatto sono quelli del genitore ({{ user.member.get_full_name_reverse }})</li>
+      <li>Tesseramento: {{ member.membership }}</li>
+      <li>Scadenza CM/CMA: {{ member.mc_expiry }} ({{ member.mc_state }})</li>
+      <li>Retta annuale: {{ member.total_amount }}</li>
+      <li>In regola con i pagamenti?: {{ member.settled }}</li>
+    </ul>
+    <p>.</p>
+    <p></p>
     <hr class="mb-4">
     <form action="" method="post" enctype="multipart/form-data" novalidate>
       {% if form.errors %}
