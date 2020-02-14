@@ -12,6 +12,10 @@
     <p>I dettagli di contatto sono quelli del genitore ({{ user.member.get_full_name_reverse }})</p>
     <hr class="mb-4">
     <form action="" method="post" enctype="multipart/form-data" novalidate>
+      {% if form.errors %}
+      <div class="alert alert-danger" role="alert">
+      <p>Ci sono da correggere degli errori di inserimento.</p></div>
+      {% endif %}
               {% if member.avatar %}{{ member.get_thumb }}{% endif %}
               {{ form|crispy }}
               {% include 'users/profile_includes/button.html' %}

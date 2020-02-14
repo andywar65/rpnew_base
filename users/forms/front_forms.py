@@ -147,6 +147,20 @@ class ChangeProfileChildForm(ModelForm):
         widget=SelectDateWidget(years=range(datetime.now().year ,
         datetime.now().year-100, -1),))
 
+    def clean(self):
+        cd = super().clean()
+        try:
+            course = cd.get('course')
+            course_alt = cd.get('course_alt')
+            for sched in course:
+                if sched.full == 'Altro' and course_alt == None:
+                    self.add_error('course_alt', forms.ValidationError(
+                        "Hai scelto 'Altro', quindi scrivi qualcosa!",
+                        code='describe_course_alternative',
+                    ))
+        except:
+            pass
+
     class Meta:
         model = Member
         fields = ('avatar', 'first_name', 'last_name',
