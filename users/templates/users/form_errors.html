@@ -1,5 +1,6 @@
 {% if form.errors %}
-  <p class="alert alert-danger" role="alert">
+<div class="alert alert-danger" role="alert">
+  <p>
     {% if form.errors.items|length == 1 %}Correggi l'errore qui sotto
     {% else %}Correggi gli errori qui sotto{% endif %}
   </p>
@@ -8,4 +9,5 @@
       {{ value }}
     </p>
   {% endfor %}
+</div>
 {% endif %}
