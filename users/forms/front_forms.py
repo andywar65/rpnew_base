@@ -4,7 +4,7 @@ from django.contrib.auth import (password_validation, )
 from django.contrib.auth.forms import (AuthenticationForm, UsernameField,
     PasswordResetForm, SetPasswordForm)
 from django.forms import ModelForm
-from django.forms.widgets import SelectDateWidget
+from django.forms.widgets import SelectDateWidget, CheckboxSelectMultiple
 from captcha.fields import ReCaptchaField
 from users.models import (Member, Applicant, UserMessage, )#User,
 from users.widgets import SmallClearableFileInput
@@ -167,4 +167,5 @@ class ChangeProfileChildForm(ModelForm):
             'sign_up' : SmallClearableFileInput(),
             'privacy' : SmallClearableFileInput(),
             'med_cert' : SmallClearableFileInput(),
+            'course': CheckboxSelectMultiple(),
             }
