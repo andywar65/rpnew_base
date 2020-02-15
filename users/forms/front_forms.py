@@ -119,13 +119,7 @@ class ChangeProfile0Form(ModelForm):
     class Meta:
         model = Member
         fields = ('avatar', 'first_name', 'last_name', 'email', 'no_spam', )
-        widgets = {
-            'avatar' : SmallClearableFileInput(),
-            #'first_name': forms.TextInput(attrs={'class': 'form-control', }),
-            #'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            #'email': forms.EmailInput(attrs={'autocomplete': 'email',
-                #'class': 'form-control'}),
-            }
+        widgets = {'avatar' : SmallClearableFileInput(),}
 
 class ChangeProfile3Form(ModelForm):
 
