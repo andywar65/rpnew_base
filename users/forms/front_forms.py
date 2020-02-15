@@ -143,9 +143,9 @@ class ChangeProfileChildForm(ModelForm):
     gender = forms.CharField( required=True, label='Sesso',
         widget=forms.Select(choices = GENDER, ),)
     date_of_birth = forms.DateField( input_formats=['%d/%m/%Y'], required=False,
-        label='Data di nascita',
+        label='Data di nascita (gg/mm/aaaa)',
         widget=SelectDateWidget(years=range(datetime.now().year ,
-        datetime.now().year-100, -1),))
+        datetime.now().year-100, -1), attrs={'class': 'form-control'}))
 
     def clean(self):
         cd = super().clean()
