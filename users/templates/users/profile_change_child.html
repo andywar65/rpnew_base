@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 
 {% block title %}RP | Modifica profilo{%endblock title %}
 
@@ -20,9 +19,10 @@
     <p></p>
     <hr class="mb-4">
     <form action="" method="post" enctype="multipart/form-data" novalidate>
-              {% include 'users/profile_includes/avatar.html' %}
-              {{ form|crispy }}
-              {% include 'users/profile_includes/button.html' %}
+      <h5>Anagrafica</h5>
+        {% include 'users/profile_includes/avatar.html' %}
+        {% include 'users/profile_includes/name.html' %}
+        {% include 'users/profile_includes/button.html' %}
       {% csrf_token %}
     </form>
   </div>
