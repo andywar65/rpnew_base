@@ -9,6 +9,7 @@ from captcha.fields import ReCaptchaField
 from users.models import (Member, Applicant, UserMessage, )#User,
 from users.widgets import SmallClearableFileInput
 from users.choices import *
+from users.validators import validate_codice_fiscale
 
 class RegistrationForm(ModelForm):
 
@@ -122,6 +123,8 @@ class ChangeProfile0Form(ModelForm):
         widgets = {'avatar' : SmallClearableFileInput(),}
 
 class ChangeProfile3Form(ModelForm):
+    fiscal_code = forms.CharField(required=False, label='Codice fiscale',
+        validators=[validate_codice_fiscale])
 
     class Meta:
         model = Member
