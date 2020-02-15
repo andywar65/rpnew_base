@@ -8,12 +8,21 @@
   <div class="col-md-2"></div>
   <div class="col-md-8">
     <h4><strong>Modifica il tuo profilo, {{ member.get_full_name_reverse }}</strong></h4>
-    <p>Tu non corri con noi.</p>
+    <ul>
+      <li>Tu non corri con noi, pazienza.</li>
+    </ul>
     <hr class="mb-4">
-    <form action="" method="post" enctype="multipart/form-data" novalidate>
-              {% if member.avatar %}{{ member.get_thumb }}{% endif %}
-              {{ form|crispy }}
-              {% include 'users/profile_includes/button.html' %}
+    {% if form.errors %}
+      <p class="alert alert-danger" role="alert">
+        Per favore, correggi gli errori qui sotto.
+      </p>
+    {% endif %}
+    <form action="" method="post" novalidate>
+      <h4>Anagrafica</h4>
+        {% include 'users/profile_includes/avatar.html' %}
+        {% include 'users/profile_includes/name.html' %}
+        {% include 'users/profile_includes/email.html' %}
+        {% include 'users/profile_includes/button.html' %}
       {% csrf_token %}
     </form>
   </div>
