@@ -1,105 +1,60 @@
-{% extends 'contact.html' %}
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}RP | Richiesta di iscrizione{%endblock title %}
 
-{% block contact_msg %}
-<h4><strong>Richiesta di iscrizione</strong></h4>
-  {% if submitted %}
-  <div class="alert alert-success" role="alert">
-    <p><strong>La tua richiesta è stata inoltrata con successo, grazie!</strong></p>
-    <p>A breve riceverai una mail con le credenziali di accesso.
-    Non è un processo automatico, per cui può richiedere tempo, intanto
-    puoi effettuare un'altra iscrizione.</p>
+{% block content %}
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <h4><strong>Richiesta di iscrizione</strong></h4>
+      {% if submitted %}
+      <div class="alert alert-success" role="alert">
+        <p><strong>La tua richiesta è stata inoltrata con successo, grazie!</strong></p>
+        <p>A breve riceverai una mail con le credenziali di accesso.
+        Non è un processo automatico, per cui può richiedere tempo, intanto
+        puoi effettuare un'altra iscrizione.</p>
+      </div>
+      {% endif %}
+      <p>Questo modulo può servire sia per iscriversi a Rifondazione Podistica e
+        correre con noi, sia per iscrivere i propri figli e rimanere a guardare
+        (NON corri con noi ma inserisci i dati dei figli), sia per iscriversi
+        semplicemente al sito (NON corri con noi e basta). Se vuoi semplicemente
+        inviarci un messaggio, usa quest'altro
+        <a href="/contacts/">modulo.</a></p>
+      <p>Se invece sei già registrato, effettua il
+        <a href="/accounts/login/?next=/registration">login.</a></p>
+        {% if form.errors %}
+          <p class="alert alert-danger" role="alert">
+            Per favore, correggi gli errori qui sotto.
+          </p>
+        {% endif %}
+      <form action="" method="post" novalidate>
+                {% include 'users/profile_includes/name.html' %}
+                {% include 'users/profile_includes/email.html' %}
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    {{ form.sector|as_crispy_field }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 mb-3">
+                    {{ form.children_str|as_crispy_field }}
+                  </div>
+                </div>
+                <hr class="mb-4">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                      {{ form.privacy|as_crispy_field }}<br>
+                      <a href="/privacy">Informativa per la privacy</a>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    {{ form.captcha }}
+                  </div>
+                </div>
+                {% include 'users/profile_includes/button.html' %}
+        {% csrf_token %}
+      </form>
   </div>
-  {% endif %}
-
-  {% if user.is_authenticated %}
-  <p>Bentrovato {{ user.member.first_name }}, questo modulo può servire per
-    iscrivere i propri figli. Se vuoi semplicemente
-    inviarci un messaggio, usa quest'altro
-    <a href="/contacts/">modulo.</a></p>
-  <form action="" method="post" class="needs-validation" novalidate>
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="first-name">Nome</label>
-                {{ form.first_name }}
-                <div class="invalid-feedback">
-                  E' necessario inserire il nome.
-                </div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="last-name">Cognome</label>
-                {{ form.last_name }}
-                <div class="invalid-feedback">
-                  E' necessario inserire il cognome.
-                </div>
-              </div>
-            </div>
-            <hr class="mb-4">
-            <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
-            <hr class="mb-4">
-    {% csrf_token %}
-  </form>
-  {% else %}
-  <p>Questo modulo può servire sia per iscriversi a Rifondazione Podistica e
-    correre con noi, sia per iscrivere i propri figli e rimanere a guardare
-    (NON corri con noi ma inserisci i dati dei figli), sia per iscriversi
-    semplicemente al sito (NON corri con noi e basta). Se vuoi semplicemente
-    inviarci un messaggio, usa quest'altro
-    <a href="/contacts/">modulo.</a></p>
-  <p>Se invece sei già registrato, effettua il
-    <a href="/accounts/login/?next=/registration">login.</a></p>
-  <form action="" method="post" class="needs-validation" novalidate>
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="first-name">Nome</label>
-                {{ form.first_name }}
-                <div class="invalid-feedback">
-                  E' necessario inserire il nome.
-                </div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="last-name">Cognome</label>
-                {{ form.last_name }}
-                <div class="invalid-feedback">
-                  E' necessario inserire il cognome.
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="email">Email </label>
-                {{ form.email }}
-                <div class="invalid-feedback">
-                  Inserisci una email valida.
-                </div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="sector">Corri con noi? </label>
-                {{ form.sector }}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12 mb-3">
-                <label for="childen-str">Figli <span class="text-muted">(opzionale)</span></label>
-                {{ form.children_str }}
-              </div>
-            </div>
-            <hr class="mb-4">
-            <div class="row">
-              <div class="col-md-6 mb-3 custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="privacy" required>
-                <label class="custom-control-label" for="privacy">
-                  Ho letto <a href="/privacy/">l'Informativa sulla Privacy.</a></label>
-              </div>
-              <div class="col-md-6 mb-3">
-              {{ form.captcha }}
-              </div>
-            </div>
-            <hr class="mb-4">
-            <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
-            <hr class="mb-4">
-    {% csrf_token %}
-  </form>
-  {% endif %}
-{% endblock contact_msg %}
+</div>
+{% endblock content %}

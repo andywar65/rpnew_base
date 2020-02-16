@@ -12,21 +12,23 @@ from users.choices import *
 from users.validators import validate_codice_fiscale
 
 class RegistrationForm(ModelForm):
-
+    email = forms.EmailField(label = 'Email', required = True,
+        widget=forms.EmailInput(attrs={'autocomplete': 'email',
+            'placeholder': 'you@example.com'}))
+    sector = forms.CharField( required=True, label='Corri con noi?',
+        widget=forms.Select(choices = SECTOR, ),)
+    privacy = forms.BooleanField(label="Ho letto l'informativa sulla privacy",
+        required=True)
     captcha = ReCaptchaField()
 
     class Meta:
         model = Applicant
-        fields = ('first_name', 'last_name', 'email', 'sector', 'children_str')
+        fields = ('first_name', 'last_name', 'email', 'no_spam', 'sector',
+            'children_str', 'privacy')
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control',
-                'placeholder': "Nome del genitore"}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control',
-                'placeholder': "Cognome del genitore"}),
-            'email': forms.TextInput(attrs={'class': 'form-control',
-                'placeholder': "you@example.com"}),
-            'sector': forms.Select(attrs={'class': 'form-control',}),
-            'children_str': forms.TextInput(attrs={'class': 'form-control',
+            'first_name': forms.TextInput(attrs={'placeholder': "Nome del genitore"}),
+            'last_name': forms.TextInput(attrs={'placeholder': "Cognome del genitore"}),
+            'children_str': forms.TextInput(attrs={
                 'placeholder': "Nome e cognome figlio 1, nome e cognome figlio 2, ..."}),}
 
 class RegistrationLogForm(ModelForm):
@@ -35,10 +37,8 @@ class RegistrationLogForm(ModelForm):
         model = Applicant
         fields = ('first_name', 'last_name', )
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control',
-                'placeholder': "Nome del figlio"}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control',
-                'placeholder': "Cognome del figlio"}), }
+            'first_name': forms.TextInput(attrs={'placeholder': "Nome del figlio"}),
+            'last_name': forms.TextInput(attrs={'placeholder': "Cognome del figlio"}), }
 
 class ContactLogForm(ModelForm):
 
