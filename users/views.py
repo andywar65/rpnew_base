@@ -22,14 +22,19 @@ class GetMixin:
         return self.render_to_response(context)
 
 class RegistrationFormView(GetMixin, FormView):
+    form_class = RegistrationForm
     template_name = 'users/registration.html'
     success_url = '/registration?submitted=True'
 
     def get_form_class(self):
         if self.request.user.is_authenticated:
             return RegistrationLogForm
-        else:
-            return RegistrationForm
+        return super(RegistrationFormView, self).get_form_class()
+
+    def get_template_names(self):
+        if self.request.user.is_authenticated:
+            return 'users/registration_log.html'
+        return super(RegistrationFormView, self).get_template_names()
 
     def form_valid(self, form):
         applicant = form.save(commit=False)
