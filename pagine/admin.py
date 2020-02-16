@@ -24,7 +24,7 @@ class UserUploadInline(admin.TabularInline):
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = ('title', 'date', 'location', 'notice')
-    inlines = [ EventUpgradeInline, UserUploadInline ]
+    inlines = [ UserUploadInline ]
     search_fields = ('title', 'date', 'intro', )
     form = EventForm
     actions = ['send_notice', ]

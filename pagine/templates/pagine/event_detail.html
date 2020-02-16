@@ -106,22 +106,6 @@
             <hr class="mb-4">
           {% endif %}
         {% else %}
-          {% if event.get_upgrades %}
-            {% for upgrade in event.get_upgrades %}
-            <div class="row">
-              <p class="alert alert-warning" role="alert"><strong>
-                <i class="fa fa-hand-o-right" aria-hidden="true"></i>
-                &nbsp;{{ upgrade.date|date:"d M" }} - {{ upgrade.title }}
-              </strong></p>
-            </div>
-            <div class="row">
-              {{ upgrade.body|safe }}
-            </div>
-            <hr class="mb-4">
-            {% endfor %}
-            <div class="row">
-            <h4><strong>Articolo originale</strong></h4></div>
-          {% endif %}
           <div class="row">
             {{ event.stream.render }}
           </div>
