@@ -152,32 +152,6 @@ class ChangeProfileChildForm(ModelForm):
             'course': CheckboxSelectMultiple(),
             }
 
-class ChangeProfileForm(ModelForm):
-    gender = forms.CharField( required=True, label='Sesso',
-        widget=forms.Select(choices = GENDER, ),)
-    date_of_birth = forms.DateField( input_formats=['%d/%m/%Y'], required=False,
-        label='Data di nascita (gg/mm/aaaa)',
-        widget=SelectDateWidget(years=range(datetime.now().year ,
-        datetime.now().year-100, -1), attrs={'class': 'form-control'}))
-
-    class Meta:
-        model = Member
-        fields = ('avatar', 'first_name', 'last_name',
-            'gender', 'date_of_birth', 'place_of_birth', 'nationality',
-            'fiscal_code',
-            'email', 'no_spam',
-            'address', 'phone', 'email_2',
-            'course', 'course_alt', 'course_membership',
-            'no_course_membership',
-            'sign_up', 'privacy', 'med_cert', )
-        widgets = {
-            'avatar' : SmallClearableFileInput(),
-            'sign_up' : SmallClearableFileInput(),
-            'privacy' : SmallClearableFileInput(),
-            'med_cert' : SmallClearableFileInput(),
-            'course': CheckboxSelectMultiple(),
-            }
-
 class ChangeProfile0Form(ModelForm):
 
     class Meta:
