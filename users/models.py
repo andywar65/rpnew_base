@@ -254,6 +254,7 @@ class UserMessage(models.Model):
         )
     notice = models.CharField(max_length = 4, choices = NOTICE,
         default = 'SPAM', verbose_name = 'Notifica via email')
+    privacy = models.BooleanField( default=False )
 
     def get_full_name(self):
         if self.user:

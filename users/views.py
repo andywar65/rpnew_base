@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetView,
     PasswordResetConfirmView, PasswordChangeView, PasswordChangeDoneView)
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.edit import FormView, UpdateView, CreateView
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
     ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm,
     FrontSetPasswordForm, FrontPasswordChangeForm, ChangeProfileChildForm,
