@@ -103,18 +103,18 @@ class FrontSetPasswordForm(SetPasswordForm):
     new_password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password',
             'class': 'form-control'}),
-        strip=False,
+        strip=False, label='Nuova password',
         help_text=password_validation.password_validators_help_text_html(),
     )
     new_password2 = forms.CharField(
-        strip=False,
+        strip=False, label='Ripeti la nuova password',
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password',
             'class': 'form-control'}),
     )
 
 class FrontPasswordChangeForm(FrontSetPasswordForm):
     old_password = forms.CharField(
-        strip=False,
+        strip=False, label='Vecchia password',
         widget=forms.PasswordInput(attrs={'autocomplete': 'current-password',
             'autofocus': True, 'class': 'form-control'}),
     )
