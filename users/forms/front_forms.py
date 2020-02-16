@@ -94,7 +94,7 @@ class FrontAuthenticationForm(AuthenticationForm):
 
 class FrontPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
-        max_length=254,
+        max_length=254, label='Email di registrazione', 
         widget=forms.EmailInput(attrs={'autocomplete': 'email',
             'class': 'form-control'})
     )
