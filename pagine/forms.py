@@ -4,8 +4,8 @@ from .models import UserUpload, Event, Blog
 from users.models import User
 
 class UserUploadForm(ModelForm):
-    body = forms.CharField(widget=forms.Textarea(attrs={'class': "form-control",
-        'placeholder': "Scrivi qui il messaggio"}))
+    body = forms.CharField(label = 'Testo',
+        widget=forms.Textarea(attrs={'placeholder': "Scrivi qui il messaggio"}))
     class Meta:
         model = UserUpload
         fields = ('image', 'body',)
