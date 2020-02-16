@@ -79,10 +79,6 @@ class ApplicantAdmin(admin.ModelAdmin):
             if not applicant.parent:
                 usr = User.objects.create(username = username,
                     password = hash_password, is_staff = False, )
-                #perm_1 = Permission.objects.get(codename='view_member')
-                #perm_2 = Permission.objects.get(codename='change_member')
-                #perm_3 = Permission.objects.get(codename='view_memberpayment')
-                #usr.user_permissions.add(perm_1, perm_2, perm_3)
             else:
                 password = 'rifondazionepodistica'
                 hash_password = make_password( password )
@@ -98,6 +94,10 @@ class ApplicantAdmin(admin.ModelAdmin):
                 member.parent = applicant.parent
                 member.sector = '1-YC'
                 member.email = applicant.parent.member.email
+                if member.parent.member.sector == '0-NO':
+                    parent = Member.objects.get(pk=member.parent.id)
+                    parent.sector = '3-FI'
+                    parent.save()
             children = ApplicantChild.objects.filter(parent=applicant.id)
             if children and member.sector == '0-NO':
                 member.sector = '3-FI'
