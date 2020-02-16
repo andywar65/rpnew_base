@@ -10,7 +10,7 @@ from filebrowser.fields import FileBrowseField
 from taggit.managers import TaggableManager
 from streamfield.fields import StreamField
 from streamblocks.models import (IndexedParagraph, CaptionedImage,
-    DownloadableFile, LinkableList, BoxedText)
+    DownloadableFile, LinkableList, BoxedText, EventUpgrade)
 from .choices import *
 from users.models import User, Member
 
@@ -111,7 +111,7 @@ class Event(models.Model):
     intro = models.CharField('Introduzione',
         default = 'Un altro appuntamento con RP!', max_length = 100)
     stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
-        DownloadableFile, LinkableList, BoxedText],
+        DownloadableFile, LinkableList, BoxedText, EventUpgrade],
         verbose_name="Lancio")
     chron_stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
         DownloadableFile, LinkableList, BoxedText],
