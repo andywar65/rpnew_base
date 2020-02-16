@@ -1,30 +1,22 @@
+{% load crispy_forms_tags %}
 <div class="row">
   <div class="col-md-6 mb-3">
-    <label for="gender">Sesso*</label>
-    {{ form.gender }}
-    <div class="invalid-feedback">
-      E' necessario inserire il sesso.
-    </div>
+    {{ form.gender|as_crispy_field }}
   </div>
   <div class="col-sm-6">
     <div class="form-group">
       <label for="date_of_birth">Data di nascita</label>
         <div class="input-group date" >
             {{ form.date_of_birth }}
-            <div class="input-group-append">
-                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-            </div>
         </div>
     </div>
   </div>
 </div>
 <div class="row">
   <div class="col-md-6 mb-3">
-    <label for="place_of_birth">Luogo di nascita</label>
-    {{ form.place_of_birth }}
+    {{ form.place_of_birth|as_crispy_field }}
   </div>
   <div class="col-md-6 mb-3">
-    <label for="nationality">Nazionalità</label>
-    {{ form.nationality }}
+    {{ form.nationality|as_crispy_field }}
   </div>
 </div>

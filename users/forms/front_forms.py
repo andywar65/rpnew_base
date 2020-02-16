@@ -4,11 +4,12 @@ from django.contrib.auth import (password_validation, )
 from django.contrib.auth.forms import (AuthenticationForm, UsernameField,
     PasswordResetForm, SetPasswordForm)
 from django.forms import ModelForm
-from django.forms.widgets import SelectDateWidget
+from django.forms.widgets import SelectDateWidget, CheckboxSelectMultiple
 from captcha.fields import ReCaptchaField
 from users.models import (Member, Applicant, UserMessage, )#User,
 from users.widgets import SmallClearableFileInput
 from users.choices import *
+from users.validators import validate_codice_fiscale
 
 class RegistrationForm(ModelForm):
 
@@ -114,47 +115,27 @@ class FrontPasswordChangeForm(FrontSetPasswordForm):
             'autofocus': True, 'class': 'form-control'}),
     )
 
-class ChangeProfile0Form(ModelForm):
-
-    class Meta:
-        model = Member
-        fields = ('avatar', 'first_name', 'last_name', 'email', 'no_spam', )
-        widgets = {
-            'avatar' : SmallClearableFileInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control', }),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'autocomplete': 'email',
-                'class': 'form-control'}),
-            }
-
-class ChangeProfile3Form(ModelForm):
-
-    class Meta:
-        model = Member
-        fields = ('avatar', 'first_name', 'last_name',
-            'email', 'no_spam',
-            'address', 'phone', 'email_2',
-            'fiscal_code')
-        widgets = {
-            'avatar' : SmallClearableFileInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control', }),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'autocomplete': 'email',
-                'class': 'form-control'}),
-            'email_2': forms.EmailInput(attrs={'autocomplete': 'email',
-                'class': 'form-control'}),
-            'address': forms.TextInput(attrs={'class': 'form-control', }),
-            'phone': forms.TextInput(attrs={'class': 'form-control'}),
-            'fiscal_code': forms.TextInput(attrs={'class': 'form-control', }),
-            }
-
 class ChangeProfileChildForm(ModelForm):
-    gender = forms.CharField( required=True,
-        widget=forms.Select(choices = GENDER, attrs={'class': 'form-control'}),)
+    gender = forms.CharField( required=True, label='Sesso',
+        widget=forms.Select(choices = GENDER, ),)
     date_of_birth = forms.DateField( input_formats=['%d/%m/%Y'], required=False,
+        label='Data di nascita (gg/mm/aaaa)',
         widget=SelectDateWidget(years=range(datetime.now().year ,
-        1919, -1),
-        attrs={'class': 'form-control', }))
+        datetime.now().year-100, -1), attrs={'class': 'form-control'}))
+
+    def clean(self):
+        cd = super().clean()
+        try:
+            course = cd.get('course')
+            course_alt = cd.get('course_alt')
+            for sched in course:
+                if sched.full == 'Altro' and course_alt == None:
+                    self.add_error('course_alt', forms.ValidationError(
+                        "Hai scelto 'Altro', quindi scrivi qualcosa!",
+                        code='describe_course_alternative',
+                    ))
+        except:
+            pass
 
     class Meta:
         model = Member
@@ -164,10 +145,93 @@ class ChangeProfileChildForm(ModelForm):
             'course', 'course_alt', 'course_membership',
             'sign_up', 'privacy', 'med_cert', )
         widgets = {
-            'avatar' : SmallClearableFileInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control', }),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'place_of_birth': forms.TextInput(attrs={'class': 'form-control'}),
-            'nationality': forms.TextInput(attrs={'class': 'form-control'}),
-            'fiscal_code': forms.TextInput(attrs={'class': 'form-control', }),
+            'avatar' : SmallClearableFileInput(),
+            'sign_up' : SmallClearableFileInput(),
+            'privacy' : SmallClearableFileInput(),
+            'med_cert' : SmallClearableFileInput(),
+            'course': CheckboxSelectMultiple(),
+            }
+
+class ChangeProfile0Form(ModelForm):
+
+    class Meta:
+        model = Member
+        fields = ('avatar', 'first_name', 'last_name', 'email', 'no_spam', )
+        widgets = {'avatar' : SmallClearableFileInput(),}
+
+class ChangeProfile1Form(ModelForm):
+    gender = forms.CharField( required=True, label='Sesso',
+        widget=forms.Select(choices = GENDER, ),)
+    date_of_birth = forms.DateField( input_formats=['%d/%m/%Y'], required=False,
+        label='Data di nascita (gg/mm/aaaa)',
+        widget=SelectDateWidget(years=range(datetime.now().year ,
+        datetime.now().year-100, -1), attrs={'class': 'form-control'}))
+
+    def clean(self):
+        cd = super().clean()
+        try:
+            course = cd.get('course')
+            course_alt = cd.get('course_alt')
+            for sched in course:
+                if sched.full == 'Altro' and course_alt == None:
+                    self.add_error('course_alt', forms.ValidationError(
+                        "Hai scelto 'Altro', quindi scrivi qualcosa!",
+                        code='describe_course_alternative',
+                    ))
+        except:
+            pass
+
+    class Meta:
+        model = Member
+        fields = ('avatar', 'first_name', 'last_name',
+            'gender', 'date_of_birth', 'place_of_birth', 'nationality',
+            'fiscal_code',
+            'email', 'no_spam',
+            'address', 'phone', 'email_2',
+            'course', 'course_alt', 'course_membership',
+            'sign_up', 'privacy', 'med_cert', )
+        widgets = {
+            'avatar' : SmallClearableFileInput(),
+            'sign_up' : SmallClearableFileInput(),
+            'privacy' : SmallClearableFileInput(),
+            'med_cert' : SmallClearableFileInput(),
+            'course': CheckboxSelectMultiple(),
+            }
+
+class ChangeProfile2Form(ModelForm):
+    gender = forms.CharField( required=True, label='Sesso',
+        widget=forms.Select(choices = GENDER, ),)
+    date_of_birth = forms.DateField( input_formats=['%d/%m/%Y'], required=False,
+        label='Data di nascita (gg/mm/aaaa)',
+        widget=SelectDateWidget(years=range(datetime.now().year ,
+        datetime.now().year-100, -1), attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Member
+        fields = ('avatar', 'first_name', 'last_name',
+            'gender', 'date_of_birth', 'place_of_birth', 'nationality',
+            'fiscal_code',
+            'email', 'no_spam',
+            'address', 'phone', 'email_2',
+            'no_course_membership',
+            'sign_up', 'privacy', 'med_cert', )
+        widgets = {
+            'avatar' : SmallClearableFileInput(),
+            'sign_up' : SmallClearableFileInput(),
+            'privacy' : SmallClearableFileInput(),
+            'med_cert' : SmallClearableFileInput(),
+            }
+
+class ChangeProfile3Form(ModelForm):
+    fiscal_code = forms.CharField(required=False, label='Codice fiscale',
+        validators=[validate_codice_fiscale])
+
+    class Meta:
+        model = Member
+        fields = ('avatar', 'first_name', 'last_name',
+            'email', 'no_spam',
+            'address', 'phone', 'email_2',
+            'fiscal_code')
+        widgets = {
+            'avatar' : SmallClearableFileInput(),
             }

@@ -1,10 +1,8 @@
+<input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
 {% if widget.is_initial %}
-    <br>
-    <small>{{ widget.initial_text }}: <a href="{{ widget.value.url }}">{{ widget.value }}</a></small>
+    <small>Scarica: <a href="{{ widget.value.url }}">{{ widget.value }}</a></small>
   {% if not widget.required %}
     <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}">
-    <small><label for="{{ widget.checkbox_id }}">Elimina</label></small>
+    <small><label for="{{ widget.checkbox_id }}">oppure elimina</label></small>
   {% endif %}<br>
-  {{ widget.input_text }}:
 {% endif %}
-<input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>

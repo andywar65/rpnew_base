@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'streamfield',
     'captcha',
     'taggit',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,8 @@ TEMPLATES = [
         },
     },
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 # Password validation

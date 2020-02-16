@@ -1,23 +1,9 @@
-<div class="row">
-  <div class="col-md-9 mb-3">
-    {% if member.avatar %}{{ member.get_thumb }}{% endif %}
-    <label for="avatar">Avatar </label>
-    {{ form.avatar }}
-  </div>
-</div>
+{% load crispy_forms_tags %}
 <div class="row">
   <div class="col-md-6 mb-3">
-    <label for="first-name">Nome*</label>
-    {{ form.first_name }}
-    <div class="invalid-feedback">
-      E' necessario inserire il nome.
-    </div>
+    {{ form.first_name|as_crispy_field }}
   </div>
   <div class="col-md-6 mb-3">
-    <label for="last-name">Cognome*</label>
-    {{ form.last_name }}
-    <div class="invalid-feedback">
-      E' necessario inserire il cognome.
-    </div>
+    {{ form.last_name|as_crispy_field }}
   </div>
 </div>

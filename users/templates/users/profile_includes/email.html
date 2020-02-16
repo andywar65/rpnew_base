@@ -1,15 +1,9 @@
+{% load crispy_forms_tags %}
 <div class="row">
   <div class="col-md-6 mb-3">
-    <label for="email">Email* </label>
-    {{ form.email }}
-    <div class="invalid-feedback">
-      Inserisci una email valida.
-    </div>
+    {{ form.email|as_crispy_field }}
   </div>
   <div class="col-md-6 mb-3">
-    <label for="no_spam">Mailing list </label>
-    {{ form.no_spam }}
-    <small id="no-spam-help" class="form-text text-muted">
-      {{ form.no_spam.help_text }}</small>
+      {{ form.no_spam|as_crispy_field }}
   </div>
 </div>
