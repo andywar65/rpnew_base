@@ -211,6 +211,7 @@ class Applicant(models.Model):
         blank = True, null = True, related_name = 'applicant_parent',
         verbose_name = 'Genitore',
         help_text = 'Solo se minore')
+    privacy = models.BooleanField( default=False )
 
     def get_full_name(self):
         full_name = '%s %s' % (self.last_name, self.first_name)
