@@ -202,6 +202,9 @@ class Applicant(models.Model):
         verbose_name = 'Cognome',)
     email = models.EmailField(verbose_name = 'Indirizzo email', null = True,
         blank = True, )
+    no_spam = models.BooleanField(default = True,
+        verbose_name = 'Mailing list',
+        help_text = 'Vuoi ricevere notifiche sugli eventi?',)
     sector = models.CharField(max_length = 4, choices = SECTOR,
         default = '0-NO', verbose_name = 'Vuoi correre con noi?')
     children_str = models.TextField(max_length = 200,
