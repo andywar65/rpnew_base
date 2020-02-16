@@ -1,105 +1,61 @@
-{% extends 'contact.html' %}
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
-{% block contact_msg %}
-<h4><strong>Contatto</strong></h4>
-  {% if submitted %}
-  <div class="alert alert-success" role="alert">
-    <p><strong>Il tuo messaggio è stato inoltrato con successo, grazie!</strong></p>
-    <p>A breve riceverai una risposta via mail.
-    Non è un processo automatico, per cui può richiedere tempo. Nel frattempo
-    ne puoi inviare un altro</p>
+{% block content %}
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <h4><strong>Contatto</strong></h4>
+      {% if submitted %}
+      <div class="alert alert-success" role="alert">
+        <p><strong>Il tuo messaggio è stato inoltrato con successo, grazie!</strong></p>
+        <p>A breve riceverai una risposta via mail.
+        Non è un processo automatico, per cui può richiedere tempo. Nel frattempo
+        ne puoi inviare un altro</p>
+      </div>
+      {% endif %}
+      <p>Non sei un utente riconosciuto. Ti puoi
+        <a href="/registration/">iscrivere </a>
+        al sito oppure effettuare il
+        <a href="/accounts/login/?next=/contacts/">login </a>
+        se sei già registrato. In alternativa riempi il modulo qui sotto e invia.
+      </p>
+      {% if form.errors %}
+        <p class="alert alert-danger" role="alert">
+          Per favore, correggi gli errori qui sotto.
+        </p>
+      {% endif %}
+      <form action="" method="post" novalidate>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    {{ form.nickname|as_crispy_field }}
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    {{ form.email|as_crispy_field }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-9 mb-3">
+                    {{ form.subject|as_crispy_field }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 mb-3">
+                    {{ form.body|as_crispy_field }}
+                  </div>
+                </div>
+                <hr class="mb-4">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                      {{ form.privacy|as_crispy_field }}
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    {{ form.captcha }}
+                  </div>
+                </div>
+                {% include 'users/profile_includes/button.html' %}
+        {% csrf_token %}
+      </form>
   </div>
-
-  {% endif %}
-  {% if user.is_authenticated %}
-  <p>Ciao {{ user.member.first_name }}, scrivi qui sotto il tuo messaggio e poi invia.</p>
-  <form action="" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
-            <div class="row">
-              <div class="col-md-9 mb-3">
-                <label for="subject">Soggetto</label>
-                {{ form.subject }}
-                <div class="invalid-feedback">
-                  E' necessario inserire il soggetto.
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-9 mb-3">
-                <label for="message">Messaggio </label>
-                {{ form.body }}
-                <div class="invalid-feedback">
-                  E' necessario inserire il messaggio.
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-9 mb-3">
-                <label for="attachment">Allegato (opzionale)</label>
-                {{ form.attachment }}
-              </div>
-            </div>
-            <hr class="mb-4">
-            <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
-            <hr class="mb-4">
-    {% csrf_token %}
-  </form>
-  {% else %}
-  <p>Non sei un utente riconosciuto. Ti puoi
-    <a href="/registration/" style="color: #24890d;">iscrivere </a>
-    al sito oppure effettuare il
-    <a href="/accounts/login/?next=/contacts/" style="color: #24890d;">login </a>
-    se sei già registrato. In alternativa riempi il modulo qui sotto e invia.
-  </p>
-  <form action="" method="post" class="needs-validation" novalidate>
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="first-name">Nome</label>
-                {{ form.nickname }}
-                <div class="invalid-feedback">
-                  E' necessario inserire il nome.
-                </div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="email">Email </label>
-                {{ form.email }}
-                <div class="invalid-feedback">
-                  Inserisci una email valida.
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-9 mb-3">
-                <label for="subject">Soggetto</label>
-                {{ form.subject }}
-                <div class="invalid-feedback">
-                  E' necessario inserire il soggetto.
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-9 mb-3">
-                <label for="message">Messaggio </label>
-                {{ form.body }}
-                <div class="invalid-feedback">
-                  E' necessario inserire il messaggio.
-                </div>
-              </div>
-            </div>
-            <hr class="mb-4">
-            <div class="row">
-              <div class="col-md-6 mb-3 custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="privacy" required>
-                <label class="custom-control-label" for="privacy">
-                  Ho letto <a href="/privacy/">l'Informativa sulla Privacy.</a></label>
-              </div>
-              <div class="col-md-6 mb-3">
-              {{ form.captcha }}
-              </div>
-            </div>
-            <hr class="mb-4">
-            <button class="btn btn-success btn-lg btn-block" type="submit">Invia</button>
-            <hr class="mb-4">
-    {% csrf_token %}
-  </form>
-  {% endif %}
-{% endblock contact_msg %}
+</div>
+{% endblock content %}
