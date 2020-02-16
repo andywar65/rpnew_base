@@ -46,9 +46,9 @@ class ContactLogForm(ModelForm):
         model = UserMessage
         fields = ('user', 'email', 'subject', 'body', 'attachment', 'recipient')
         widgets = {
-            'subject': forms.TextInput(attrs={'class': 'form-control'}),
-            'body': forms.Textarea(attrs={'class': 'form-control',
-                'placeholder': "Scrivi qui il messaggio"}), }
+            'subject': forms.TextInput(attrs={'placeholder': "Scrivi qui il soggetto"}),
+            'body': forms.Textarea(attrs={'placeholder': "Scrivi qui il messaggio"}),
+            'attachment' : SmallClearableFileInput(),}
 
 class ContactForm(ModelForm):
 

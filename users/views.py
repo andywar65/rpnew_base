@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetView,
     PasswordResetConfirmView, PasswordChangeView, PasswordChangeDoneView)
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView, UpdateView, CreateView
+from django.views.generic.edit import FormView, UpdateView
 from .forms import (RegistrationForm, RegistrationLogForm, ContactForm,
     ContactLogForm, FrontAuthenticationForm, FrontPasswordResetForm,
     FrontSetPasswordForm, FrontPasswordChangeForm, ChangeProfileChildForm,
@@ -41,6 +41,7 @@ class RegistrationFormView(GetMixin, FormView):
         return super(RegistrationFormView, self).form_valid(form)
 
 class ContactFormView(GetMixin, FormView):
+    form_class = ContactForm
     template_name = 'users/message.html'
     success_url = '/contacts?submitted=True'
 
@@ -53,8 +54,12 @@ class ContactFormView(GetMixin, FormView):
     def get_form_class(self):
         if self.request.user.is_authenticated:
             return ContactLogForm
-        else:
-            return ContactForm
+        return super(ContactFormView, self).get_form_class()
+
+    def get_template_names(self):
+        if self.request.user.is_authenticated:
+            return 'users/message_log.html'
+        return super(ContactFormView, self).get_template_names()
 
     def form_valid(self, form):
         message = form.save(commit=False)
