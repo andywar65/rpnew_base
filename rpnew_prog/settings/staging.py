@@ -49,8 +49,8 @@ EMAIL_PORT = get_secret('EMAIL_PORT')
 EMAIL_HOST_USER = get_secret('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = get_secret('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
-SERVER_EMAIL = 'rifondazione.podistica@apperilli.opalstacked.com'
-DEFAULT_FROM_EMAIL = 'rifondazione.podistica@apperilli.opalstacked.com'
+SERVER_EMAIL = 'no_reply@rifondazionepodistica.it'
+DEFAULT_FROM_EMAIL = 'no_reply@rifondazionepodistica.it'
 DEFAULT_RECIPIENT = 'rifondazionepodistica96@gmail.com'
 
 STATIC_ROOT = '/home/andywar65/apps/rpnew_static'# no trailing slash
