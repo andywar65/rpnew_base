@@ -114,10 +114,10 @@ class Event(models.Model):
         Gallery, DownloadableFile, LinkableList, BoxedText, EventUpgrade],
         verbose_name="Lancio")
     chron_stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
-        DownloadableFile, LinkableList, BoxedText],
+        Gallery, DownloadableFile, LinkableList, BoxedText],
         verbose_name="Cronaca")
     restr_stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
-        DownloadableFile, LinkableList, BoxedText],
+        Gallery, DownloadableFile, LinkableList, BoxedText],
         verbose_name="Area riservata",
         help_text="Inserisci qui materiale riservato ai soci",)
     manager = models.ForeignKey(User, on_delete=models.SET_NULL,
