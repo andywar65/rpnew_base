@@ -111,7 +111,7 @@ class Event(models.Model):
     intro = models.CharField('Introduzione',
         default = 'Un altro appuntamento con RP!', max_length = 100)
     stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
-        DownloadableFile, LinkableList, BoxedText, EventUpgrade],
+        Gallery, DownloadableFile, LinkableList, BoxedText, EventUpgrade],
         verbose_name="Lancio")
     chron_stream = StreamField(model_list=[ IndexedParagraph, CaptionedImage,
         DownloadableFile, LinkableList, BoxedText],
