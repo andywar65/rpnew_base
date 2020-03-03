@@ -1,0 +1,8 @@
+<div>
+  {% for image in block_content %}
+  <figure class="figure">
+    <img src="{{ image.fb_image.url }}" class="figure-img img-fluid rounded" alt="{{ image.caption }}">
+    <figcaption class="figure-caption">{{ image.caption }}</figcaption>
+  </figure>
+  {% endfor %}
+</div>
