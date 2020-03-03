@@ -39,6 +39,11 @@ class Gallery(models.Model):
 
     as_list = True
 
+    def get_caption(self):
+        if self.caption:
+            return self.caption
+        return self.fb_image.filename
+
     class Meta:
         verbose_name="Galleria di immagini"
         verbose_name_plural="Galleria di immagini"

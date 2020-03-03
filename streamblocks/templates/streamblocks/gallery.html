@@ -1,8 +1,11 @@
+{% load fb_versions %}
 <div>
   {% for image in block_content %}
-  <figure class="figure">
-    <img src="{{ image.fb_image.url }}" class="figure-img img-fluid rounded" alt="{{ image.caption }}">
-    <figcaption class="figure-caption">{{ image.caption }}</figcaption>
-  </figure>
+  <a href="{{ image.fb_image.url }}" title="{{ image.get_caption }}">
+    <figure class="figure">
+      <img src="{% version image.fb_image 'small' %}" class="figure-img img-fluid rounded"
+      alt="{{ image.caption }}">
+    </figure>
+  </a>
   {% endfor %}
 </div>
