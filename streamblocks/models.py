@@ -41,7 +41,7 @@ class Gallery(models.Model):
 
     class Meta:
         verbose_name="Galleria di immagini"
-        verbose_name_plural="Gallerie di immagini"
+        verbose_name_plural="Galleria di immagini"
 
 class DownloadableFile(models.Model):
     fb_file = FileBrowseField("File", max_length=200, directory="documents/",
@@ -79,7 +79,7 @@ class LinkableList(models.Model):
 
     class Meta:
         verbose_name="Lista con link"
-        verbose_name_plural="Liste con link"
+        verbose_name_plural="Lista con link"
 
 class BoxedText(models.Model):
     color = models.CharField('Colore', max_length=10, choices = COLOR,

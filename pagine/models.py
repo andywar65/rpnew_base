@@ -9,7 +9,7 @@ from django.utils.text import slugify
 from filebrowser.fields import FileBrowseField
 from taggit.managers import TaggableManager
 from streamfield.fields import StreamField
-from streamblocks.models import (IndexedParagraph, CaptionedImage,
+from streamblocks.models import (IndexedParagraph, CaptionedImage, Gallery,
     DownloadableFile, LinkableList, BoxedText, EventUpgrade)
 from .choices import *
 from users.models import User, Member
@@ -209,7 +209,8 @@ class Blog(models.Model):
     intro = models.CharField('Introduzione',
         default = 'Un altro articolo di approfondimento da RP!', max_length = 100)
     stream = StreamField( model_list=[ IndexedParagraph, CaptionedImage,
-            DownloadableFile, LinkableList, BoxedText], verbose_name="Testo" )
+            Gallery, DownloadableFile, LinkableList, BoxedText],
+            verbose_name="Testo" )
     author = models.ForeignKey(User, on_delete=models.SET_NULL,
         blank= True, null=True, verbose_name = 'Autore')
     tags = TaggableManager(verbose_name="Categorie",
