@@ -4,6 +4,6 @@
     &nbsp;{{ block_content.date|date:"d M" }} - {{ block_content.title }}
   </strong></p>
   <p>
-    {{ block_content.body }}
+    {{ block_content.body|safe }}
   </p>
 </div>
