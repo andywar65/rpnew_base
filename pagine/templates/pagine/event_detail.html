@@ -105,11 +105,21 @@
             </div>
             <hr class="mb-4">
           {% endif %}
-        {% else %}
+        {% endif %}
+          {% if event.upgrade_stream.render %}
+            <div class="row">
+              <h4><strong>Aggiornamenti</strong></h4>
+            </div>
+            <div class="row">
+              {{ event.upgrade_stream.render }}
+            </div>
+            <div class="row">
+              <h4><strong>Articolo originale</strong></h4>
+            </div>
+          {% endif %}
           <div class="row">
             {{ event.stream.render }}
           </div>
-        {% endif %}
         </div>
       </div>
 {% endblock content %}
