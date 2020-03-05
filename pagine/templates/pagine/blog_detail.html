@@ -55,8 +55,8 @@
               <a href="/articoli/contributi/?post_id={{ post.id }}">
               Aggiungi un contributo</a>
             </div>
-            <hr class="mb-4">
             {% if post.get_uploads %}
+            <hr class="mb-4">
             <div class="card-deck">
               {% for upload in post.get_uploads %}
                 {% include 'pagine/uploads.html' %}

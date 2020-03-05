@@ -86,8 +86,8 @@
               <a href="/calendario/contributi/?event_id={{ event.id }}">
               Aggiungi un contributo</a>
             </div>
-            <hr class="mb-4">
             {% if event.get_uploads %}
+            <hr class="mb-4">
             <div class="card-deck">
               {% for upload in event.get_uploads %}
                 {% include 'pagine/uploads.html' %}
