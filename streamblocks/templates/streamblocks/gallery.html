@@ -1,4 +1,5 @@
 {% load random_string %}
+{% load fb_versions %}
 {% randomString as gallery_id %}
 <div id="{{ gallery_id }}" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
@@ -10,7 +11,10 @@
   <div class="carousel-inner">
     {% for image in block_content %}
       <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <img src="{{ image.fb_image.url }}" class="d-block w-100" alt="{{ image.get_caption }}">
+        <img src="{% if options.aspect == 'portrait' %}{% version image.fb_image 'portrait' %}
+          {% elif options.aspect == 'square' %}{% version image.fb_image 'square' %}
+          {% else %}{% version image.fb_image 'landscape' %}
+          {% endif %}" class="d-block w-100" alt="{{ image.get_caption }}">
         <div class="carousel-caption d-none d-md-block">
           <p>{{ image.get_caption }}</p>
         </div>

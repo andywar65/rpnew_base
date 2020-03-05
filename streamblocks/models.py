@@ -44,6 +44,19 @@ class Gallery(models.Model):
             return self.caption
         return self.fb_image.filename
 
+    options = {
+        'aspect': {
+            'label': 'Formato',
+            'type': 'select',
+            'default': 'landscape',
+            'options': [
+                {'value': 'landscape', 'name': 'Orizzontale'},
+                {'value': 'portrait', 'name': 'Verticale'},
+                {'value': 'square', 'name': 'Quadrato'},
+            ]
+        }
+    }
+
     class Meta:
         verbose_name="Galleria di immagini"
         verbose_name_plural="Galleria di immagini"
