@@ -65,28 +65,24 @@
           <div class="row">
             <h4><strong>Cronaca</strong></h4>
           </div>
-          <div class="row">
           {% if event.chron_stream.render %}
             {{ event.chron_stream.render }}
           {% else %}
           <p>Ci stiamo lavorando! intanto aggiungete qualche contributo.</p>
           {% endif %}
-          </div>
           <hr class="mb-4">
           {% if user.is_authenticated %}
             {% if event.restr_stream.render %}
             <div class="row">
               <h4><strong>Area riservata</strong></h4>
             </div>
-            <div class="row">
               {{ event.restr_stream.render }}
-            </div>
             <hr class="mb-4">
             {% endif %}
             <div class="row">
               <h4 id="upload-anchor"><strong>Contributi</strong></h4>
             </div>
-            <div class="row">
+            <div>
               <a href="/calendario/contributi/?event_id={{ event.id }}">
               Aggiungi un contributo</a>
             </div>
@@ -99,27 +95,23 @@
             </div>
             {% endif %}
           {% else %}
-            <div class="row">
+            <div>
               <p>Esegui il <a href="/login/?next={{ request.get_full_path }}">&nbsp;login&nbsp;</a>
                 se vuoi visitare l'area riservata ed aggiungere un contributo</p>
             </div>
-            <hr class="mb-4">
           {% endif %}
+          <hr class="mb-4">
         {% endif %}
           {% if event.upgrade_stream.render %}
             <div class="row">
               <h4><strong>Aggiornamenti</strong></h4>
             </div>
-            <div class="row">
               {{ event.upgrade_stream.render }}
-            </div>
             <div class="row">
               <h4><strong>Articolo originale</strong></h4>
             </div>
           {% endif %}
-          <div class="row">
             {{ event.stream.render }}
-          </div>
         </div>
       </div>
 {% endblock content %}
