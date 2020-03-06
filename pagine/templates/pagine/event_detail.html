@@ -2,7 +2,11 @@
 
 {% block title %}RP | {{ event.title }}{% endblock title %}
 {% block content %}
-      {% if event.get_image %}
+      {% if event.carousel.render %}
+        <div class="row">
+          {{ event.carousel.render }}
+        </div>
+      {% elif event.get_image %}
         <div class="row">
           <img src="{{ event.get_image.url }}" width="100%" alt="{{ event.intro }}" />
         </div>
