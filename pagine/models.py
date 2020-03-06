@@ -102,7 +102,8 @@ class Event(models.Model):
         extensions=[".jpg", ".png", ".jpeg", ".gif", ".tif", ".tiff"],
         null=True, blank=True)
     carousel = StreamField(model_list=[ LandscapeGallery, ],
-        null=True, blank=True, verbose_name="Galleria")
+        null=True, blank=True, verbose_name="Galleria",
+        help_text="Una sola galleria, per favore, larghezza minima immagini 2048px")
     title = models.CharField('Titolo',
         help_text="Il titolo dell'evento",
         max_length = 50)
