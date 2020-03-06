@@ -86,4 +86,20 @@ class BlogAdmin(admin.ModelAdmin):
     search_fields = ('title', 'date', 'intro', )
     inlines = [ UserUploadInline,  ]
     form = BlogForm
-    #autocomplete_fields = ['image', ]
+    
+    fieldsets = (
+        ('Galleria', {
+            'classes': ('collapse',),
+            'fields': ('carousel', ),
+        }),
+        (None, {
+            'fields': ('fb_image', 'title', 'date', 'intro')
+        }),
+        ('Testo', {
+            'classes': ('collapse',),
+            'fields': ('stream', ),
+        }),
+        (None, {
+            'fields': ('author', 'tags')
+        }),
+    )

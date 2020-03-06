@@ -3,7 +3,11 @@
 {% block title %}RP | {{ post.title }}{% endblock title %}
 
 {% block content %}
-      {% if post.fb_image %}
+      {% if post.carousel.render %}
+        <div class="row">
+          {{ post.carousel.render }}
+        </div>
+      {% elif post.fb_image %}
         <div class="row">
           <img src="{{ post.fb_image.url }}" width="100%" alt="{{ post.intro }}" />
         </div>
