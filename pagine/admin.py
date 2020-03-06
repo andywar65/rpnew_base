@@ -31,6 +31,10 @@ class EventAdmin(admin.ModelAdmin):
     autocomplete_fields = ['location', ]
 
     fieldsets = (
+        ('Galleria', {
+            'classes': ('collapse',),
+            'fields': ('carousel', ),
+        }),
         (None, {
             'fields': ('fb_image', 'title', 'date', 'location', 'intro')
         }),

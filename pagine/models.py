@@ -10,7 +10,7 @@ from filebrowser.fields import FileBrowseField
 from taggit.managers import TaggableManager
 from streamfield.fields import StreamField
 from streamblocks.models import (IndexedParagraph, CaptionedImage, Gallery,
-    DownloadableFile, LinkableList, BoxedText, EventUpgrade)
+    LandscapeGallery, DownloadableFile, LinkableList, BoxedText, EventUpgrade)
 from .choices import *
 from users.models import User, Member
 
@@ -101,6 +101,8 @@ class Event(models.Model):
     fb_image = FileBrowseField("Immagine", max_length=200, directory="events/",
         extensions=[".jpg", ".png", ".jpeg", ".gif", ".tif", ".tiff"],
         null=True, blank=True)
+    carousel = StreamField(model_list=[ LandscapeGallery, ],
+        null=True, blank=True, verbose_name="Galleria")
     title = models.CharField('Titolo',
         help_text="Il titolo dell'evento",
         max_length = 50)

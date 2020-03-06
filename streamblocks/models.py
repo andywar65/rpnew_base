@@ -76,8 +76,8 @@ class LandscapeGallery(models.Model):
         return self.fb_image.filename
 
     class Meta:
-        verbose_name="Galleria di immagini orizzontale"
-        verbose_name_plural="Galleria di immagini orizzontale"
+        verbose_name="Galleria di immagini orizzontali"
+        verbose_name_plural="Galleria di immagini orizzontali"
 
 class DownloadableFile(models.Model):
     fb_file = FileBrowseField("File", max_length=200, directory="documents/",
