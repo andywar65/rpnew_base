@@ -30,13 +30,38 @@ class EventAdmin(admin.ModelAdmin):
     actions = ['send_notice', ]
     autocomplete_fields = ['location', ]
 
+    fieldsets = (
+        (None, {
+            'fields': ('fb_image', 'title', 'date', 'location', 'intro')
+        }),
+        ('Lancio', {
+            'classes': ('collapse',),
+            'fields': ('stream', ),
+        }),
+        ('Aggiornamenti', {
+            'classes': ('collapse',),
+            'fields': ('upgrade_stream', ),
+        }),
+        ('Cronaca', {
+            'classes': ('collapse',),
+            'fields': ('chron_stream', ),
+        }),
+        ('Area riservata', {
+            'classes': ('collapse',),
+            'fields': ('restr_stream', ),
+        }),
+        (None, {
+            'fields': ('manager', 'tags', 'notice')
+        }),
+    )
+
     def send_notice(self, request, queryset):
         for event in queryset:
             message = event.title + '\n'
-            upgrades = EventUpgrade.objects.filter(event_id=event.id)
-            if upgrades:
-                upgrade = upgrades[0]
-                message += upgrade.body + '\n'
+            #upgrades = EventUpgrade.objects.filter(event_id=event.id)
+            #if upgrades:
+                #upgrade = upgrades[0]
+                #message += upgrade.body + '\n'
             message += event.intro + '\n'
             url = settings.BASE_URL + event.get_path()
             message += 'Fai click su questo link: ' + url + '\n'
