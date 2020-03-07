@@ -117,6 +117,7 @@ class Event(models.Model):
         max_length = 50)
     slug = models.SlugField(max_length=50, editable=False, null=True)
     date = models.DateTimeField('Quando', default = now)
+    last_updated = models.DateTimeField(editable=False, null=True)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL,
         null = True, verbose_name = 'Dove', )
     intro = models.CharField('Introduzione',
@@ -183,6 +184,7 @@ class Event(models.Model):
             self.slug = generate_unique_slug(Event, self.title)
         if not self.notice:
             self.notice = 'SPAM'
+        self.last_updated = now
         super(Event, self).save(*args, **kwargs)
         #update parent_type end parent_id in IndexedParagraph streamblocks
         type = ContentType.objects.get(app_label='pagine', model='event').id
@@ -234,6 +236,7 @@ class Blog(models.Model):
         max_length = 50)
     slug = models.SlugField(max_length=50, editable=False, null=True)
     date = models.DateTimeField('Data', default = now)
+    last_updated = models.DateTimeField(editable=False, null=True)
     intro = models.CharField('Introduzione',
         default = 'Un altro articolo di approfondimento da RP!', max_length = 100)
     stream = StreamField( model_list=[ IndexedParagraph, CaptionedImage,
@@ -257,6 +260,7 @@ class Blog(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = generate_unique_slug(Blog, self.title)
+        self.last_updated = now
         super(Blog, self).save(*args, **kwargs)
         #update parent_type end parent_id in IndexedParagraph streamblocks
         type = ContentType.objects.get(app_label='pagine', model='blog').id
