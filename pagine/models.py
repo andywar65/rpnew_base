@@ -258,6 +258,11 @@ class Blog(models.Model):
         if not self.slug:
             self.slug = generate_unique_slug(Blog, self.title)
         super(Blog, self).save(*args, **kwargs)
+        #update parent_type end parent_id in IndexedParagraph streamblocks
+        type = ContentType.objects.get(app_label='pagine', model='blog').id
+        id = self.id
+        stream_list = self.stream.from_json()
+        update_indexed_paragraphs(stream_list, type, id)
 
     def __str__(self):
         return self.title
