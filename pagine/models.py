@@ -184,7 +184,7 @@ class Event(models.Model):
             self.slug = generate_unique_slug(Event, self.title)
         if not self.notice:
             self.notice = 'SPAM'
-        self.last_updated = now
+        self.last_updated = now()
         super(Event, self).save(*args, **kwargs)
         #update parent_type end parent_id in IndexedParagraph streamblocks
         type = ContentType.objects.get(app_label='pagine', model='event').id
