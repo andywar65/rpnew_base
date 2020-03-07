@@ -2,7 +2,7 @@ from django import forms
 from django.shortcuts import render
 from django.db.models import Q
 from pagine.models import (Event, Blog, UserUpload)
-from streamblocks import (IndexedParagraph, )
+from streamblocks.models import (IndexedParagraph, )
 
 class ValidateForm(forms.Form):
     q = forms.CharField(max_length=100)
