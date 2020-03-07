@@ -2,6 +2,7 @@ import os
 import re
 from PIL import Image
 from datetime import datetime
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.timezone import now
 from django.utils.html import format_html
@@ -96,6 +97,13 @@ class Location(models.Model):
         verbose_name_plural = 'Luoghi'
         ordering = ('id', )
 
+def update_indexed_paragraphs(stream_list, type, id):
+    for block in stream_list:
+        if block['model_name'] == 'IndexedParagraph':
+            par = IndexedParagraph.objects.get(id = block['id'])
+            par.parent_type = type
+            par.parent_id = id
+            par.save()
 
 class Event(models.Model):
     fb_image = FileBrowseField("Immagine", max_length=200, directory="events/",
@@ -176,6 +184,17 @@ class Event(models.Model):
         if not self.notice:
             self.notice = 'SPAM'
         super(Event, self).save(*args, **kwargs)
+        #update parent_type end parent_id in IndexedParagraph streamblocks
+        type = ContentType.objects.get(app_label='pagine', model='event').id
+        id = self.id
+        stream_list = self.stream.from_json()
+        update_indexed_paragraphs(stream_list, type, id)
+        stream_list = self.upgrade_stream.from_json()
+        update_indexed_paragraphs(stream_list, type, id)
+        stream_list = self.chron_stream.from_json()
+        update_indexed_paragraphs(stream_list, type, id)
+        stream_list = self.restr_stream.from_json()
+        update_indexed_paragraphs(stream_list, type, id)
 
     def __str__(self):
         return self.title

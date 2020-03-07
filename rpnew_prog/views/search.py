@@ -1,6 +1,7 @@
 from django import forms
 from django.shortcuts import render
 from django.db.models import Q
+from django.contrib.contenttypes.models import ContentType
 from pagine.models import (Event, Blog, UserUpload)
 from streamblocks.models import (IndexedParagraph, )
 
@@ -12,15 +13,20 @@ def search_results(request):
     form = ValidateForm(request.GET)
     if form.is_valid():
         q = request.GET['q']
-        #prepare list of indexed paragraphs
-        paragraphs = IndexedParagraph.objects.filter(body__icontains = q,
-            title__icontains = q)
-        par_list = paragraphs.values_list('id', flat = True)
+        #event content type
+        ev_type = ContentType.objects.get(app_label='pagine', model='event').id
+        #prepare list of indexed paragraphs containing query
+        paragraphs = IndexedParagraph.objects.filter(Q(body__icontains = q)|
+            Q(title__icontains = q))
+        #filter them by event type
+        ev_paragraphs = paragraphs.filter( parent_type = ev_type )
+        #extract list of events
+        ev_list = ev_paragraphs.values_list('parent_id', flat = True)
         #prepare list of user uploads referenced by events
         uploads = UserUpload.objects.filter(body__icontains = q)
         up_list = uploads.values_list('event_id', flat = True)
         events = Event.objects.filter(Q(title__icontains=q)|
-            Q(intro__icontains=q)|Q(id__in = up_list))
+            Q(intro__icontains=q)|Q(id__in = up_list)|Q(id__in = ev_list))
         if events:
             success = True
         #prepare list of user uploads referenced by blog posts
