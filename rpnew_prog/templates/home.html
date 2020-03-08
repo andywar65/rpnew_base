@@ -52,7 +52,9 @@
         <h4 class="card-title">{{ event.title }}</h4>
       </a>
       <em class="card-text">{{ event.intro }}</em>
-      {% include 'pagine/event_list_inline.html'%}
+      <ul class="list-inline">
+        {% include 'pagine/event_list_inline.html'%}
+      </ul>
     </div>
   </div>
 {% endfor %}
