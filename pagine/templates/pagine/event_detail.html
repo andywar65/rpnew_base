@@ -19,7 +19,10 @@
         <div class="col-md-10">
           <h3 class="text-uppercase"><strong>{{ event.title }}</strong></h3>
           <p>{{ event.intro }}</p>
-          {% include 'pagine/event_list_inline.html'%}
+          <ul class="list-inline">
+            {% include 'pagine/event_list_inline.html'%}
+            {% include 'pagine/event_list_inline_2.html'%}
+          </ul>
         </div>
       </div>
       <div class="row">
